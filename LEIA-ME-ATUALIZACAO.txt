@@ -1,0 +1,25 @@
+# Nova identidade — ficha de atendimento
+
+Conceito: ordem de serviço. Tipografia Barlow Condensed e IBM Plex Sans, campos monoespaçados, linhas e numeração. Papel claro, tinta azul e marcação vinho; tema escuro preservado.
+
+Mudanças:
+- WhatsApp direto em destaque no início.
+- Oferta explícita de suporte a computadores e redes em Salvador.
+- Seis serviços em linhas numeradas, sem grade de cards.
+- Conversa inicial de 15 minutos explicada, com link Cal.com.
+- Apresentação em primeira pessoa, como profissional autônomo.
+- Formulário de orçamento e dados dos seis serviços preservados.
+- Navegação Serviços, Ferramentas, GitHub e Pedir orçamento preservada.
+- Ferramentas existentes mantidas; estilo atualizado.
+- Avisos das calculadoras e do formulário esclarecidos.
+- Sem depoimentos, estatísticas, foto inventada ou serviços adicionais.
+
+Publicação: extraia o ZIP e envie TODOS os arquivos e a pasta assets para a raiz do repositório pelo Add file > Upload files > Commit changes. Não envie a pasta que contém o site nem o ZIP em si.
+
+Não publicado automaticamente. Foto pessoal não incluída: não foi fornecida. A localização/modalidade da conversa deve ser conferida na configuração do evento Cal.com; não foi presumida.
+
+Verificação: sintaxe JavaScript, caminhos, âncoras, montagem do pedido de orçamento, seleção dos serviços e validação do GitHub. Conferência visual no navegador não concluída por falha de sessão da ferramenta.
+
+Compatibilidade: HTML/CSS/JS estáticos, sem instalação, frameworks ou compilação. Google Fonts tem fontes alternativas locais. Respeita preferência por movimento reduzido.
+
+Mantém a observação do README sobre regras de uso comercial da hospedagem GitHub Pages.

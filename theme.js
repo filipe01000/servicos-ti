@@ -10,12 +10,12 @@
     const button = document.getElementById('theme-toggle');
     if (button) {
       button.hidden = false;
-      button.textContent = dark ? '☀ Tema claro' : '☾ Tema escuro';
+      button.textContent = dark ? 'Tema claro' : 'Tema escuro';
       button.setAttribute('aria-label', dark ? 'Ativar tema claro' : 'Ativar tema escuro');
       button.setAttribute('aria-pressed', String(dark));
     }
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = dark ? '#091321' : '#ffffff';
+    if (meta) meta.content = dark ? '#111b26' : '#f5f2e9';
   }
   apply(manual ? saved : preference.matches ? 'dark' : 'light');
   document.addEventListener('DOMContentLoaded', () => {
