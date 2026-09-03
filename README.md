@@ -26,3 +26,16 @@ O formulário prepara uma mensagem no WhatsApp. O visitante precisa confirmar o 
 Título e descrição já estão configurados. Depois de saber o endereço publicado, é possível adicionar `og:url` e uma `og:image` com endereço absoluto.
 
 Fontes do Google Fonts com alternativas locais. A página continua funcionando caso as fontes externas não carreguem.
+
+## Ferramentas adicionadas
+A página recursos.html inclui triagem, calculadoras de cópias completas e pontos de rede, checklist local com exportação, quatro desafios, biblioteca com busca e categorias, portfólio configurável e cartão vCard.
+
+O QR usa api.qrserver.com para codificar apenas o endereço público do site. Há alternativa por compartilhamento de link quando o serviço falha.
+
+Agenda e portal: configure bookingUrl e clientPortalUrl em config.js apenas após criar os serviços externos. Sem configuração, há consulta de disponibilidade por WhatsApp e aviso de portal indisponível. Não há reservas, autenticação, histórico ou banco de clientes nesta entrega.
+
+Portfólio: acrescente somente trabalhos reais e fotos autorizadas ao array portfolio em config.js. Copie as fotos para assets. Cada item pode conter title, description, before e after.
+
+Para atualizar: envie o conteúdo inteiro desta pasta ao repositório, mantendo assets. Esta entrega é local, não foi enviada automaticamente ao GitHub.
+
+Hospedagem: GitHub Pages restringe sites voltados principalmente a facilitar transações comerciais. Avalie hospedagem apropriada para a parte comercial antes de ampliar o uso. Referência: https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits
