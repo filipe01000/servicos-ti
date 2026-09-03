@@ -13,6 +13,7 @@
  function open(){invite.hidden=true;dialog.showModal();dialog.querySelector('iframe').src='jogo.html';dialog.querySelector('button').focus();}
  invite.querySelector('[data-play]').onclick=open;invite.querySelector('[data-dismiss]').onclick=()=>invite.hidden=true;
  const play=document.createElement('button');play.className='game-launch';play.type='button';play.textContent='Jogar Cobrinha';document.querySelector('footer')?.append(play);play.onclick=open;
- dialog.querySelector('button').onclick=()=>dialog.close();dialog.addEventListener('close',()=>{dialog.querySelector('iframe').src='about:blank';play.focus();});
+ dialog.querySelector('button').onclick=()=>dialog.close();dialog.addEventListener('close',()=>{dialog.querySelector('iframe').src='about:blank';play.focus({preventScroll:true});});
  });
 })();
+
