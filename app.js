@@ -2,7 +2,7 @@
   const config = window.SITE_CONFIG || {};
   const number = /^\d{10,15}$/.test(config.whatsapp || '') ? config.whatsapp : '5571992984439';
   const makeUrl = message => `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
-  document.getElementById('direct-whatsapp').href = makeUrl('Olá, Filipe! Vim pelo seu site e gostaria de conversar sobre um serviço de TI.');
+  document.getElementById('direct-whatsapp').href = makeUrl('Oi, Filipe! Vim pelo seu site e preciso de ajuda com um serviço de TI.');
   try {
     const github = new URL(config.githubUrl);
     if (github.protocol === 'https:' && github.hostname === 'github.com' && github.pathname !== '/' && !github.username && !github.password) {
@@ -25,13 +25,13 @@
       return;
     }
     const message = [
-      'Olá, Filipe! Gostaria de solicitar um orçamento pelo site.',
+      'Oi, Filipe! Preenchi o formulário do site e queria um orçamento.',
       '', `Nome: ${name}`, `Serviço: ${form.elements.service.value}`,
       `Atendimento: ${form.elements.type.value}`,
       `Local: ${form.elements.location.value.trim() || 'A combinar'}`,
       '', `Descrição: ${details}`
     ].join('\n');
-    document.getElementById('form-status').textContent = 'Pedido preparado. Confirme o envio no WhatsApp.';
+    document.getElementById('form-status').textContent = 'Tudo pronto. Agora é só conferir e enviar no WhatsApp.';
     window.location.assign(makeUrl(message));
   });
 })();
