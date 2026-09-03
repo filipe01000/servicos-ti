@@ -16,3 +16,6 @@ html[data-theme=dark]{color-scheme:dark;--navy:#ecede5;--blue:#9ed4e9;--pink:#ff
 .brand{isolation:isolate}
 .brand img{background:transparent;mix-blend-mode:multiply}
 html[data-theme=dark] .brand img{filter:invert(1) hue-rotate(180deg);mix-blend-mode:screen}
+
+/* Fundo explícito dentro do grupo de mistura da marca. */
+.brand{background:var(--bg)}
