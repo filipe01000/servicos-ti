@@ -19,3 +19,8 @@ html[data-theme=dark] .brand img{filter:invert(1) hue-rotate(180deg);mix-blend-m
 
 /* Fundo explícito dentro do grupo de mistura da marca. */
 .brand{background:var(--bg)}
+
+/* Serviços sem a coluna de rótulos. */
+.card{grid-template-columns:1fr 1.4fr 160px}
+@media(max-width:1000px){.card{grid-template-columns:1fr 1.4fr}.card a{grid-column:1/-1}}
+@media(max-width:700px){.card{grid-template-columns:1fr}.card a{grid-column:auto}}
