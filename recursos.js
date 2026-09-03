@@ -4,8 +4,8 @@
  const site = 'https://filipe01000.github.io/servicos-ti/';
  const phone = /^\d{10,15}$/.test(config.whatsapp || '') ? config.whatsapp : '5571992984439';
  const wa = text => `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
- const read = key => { try { return JSON.parse(localStorage.getItem(key)); } catch (_) { return null; } };
- const save = (key,value) => { try { localStorage.setItem(key,JSON.stringify(value)); } catch (_) {} };
+ const read = key => { try { return JSON.parse(window.SITE_STORAGE.getItem(key)); } catch (_) { return null; } };
+ const save = (key,value) => { try { window.SITE_STORAGE.setItem(key,JSON.stringify(value)); } catch (_) {} };
  const download = (name,text) => { const url = URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000); };
  async function share(text,url,status) {
    try { if(navigator.share) { await navigator.share({title:'Filipe Augusto TI',text,url});status.textContent=''; }

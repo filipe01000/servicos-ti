@@ -2,7 +2,7 @@
   const root = document.documentElement;
   const preference = window.matchMedia('(prefers-color-scheme: dark)');
   let saved;
-  try { saved = localStorage.getItem('fa-theme'); } catch (_) {}
+  try { saved = window.SITE_STORAGE.getItem('fa-theme'); } catch (_) {}
   let manual = saved === 'dark' || saved === 'light';
   function apply(theme) {
     root.dataset.theme = theme;
@@ -24,7 +24,7 @@
       manual = true;
       const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
       apply(next);
-      try { localStorage.setItem('fa-theme', next); } catch (_) {}
+      try { window.SITE_STORAGE.setItem('fa-theme', next); } catch (_) {}
     });
   });
   preference.addEventListener('change', event => {
