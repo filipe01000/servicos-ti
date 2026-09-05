@@ -1,6 +1,5 @@
 (() => {
   const root = document.documentElement;
-  const preference = window.matchMedia('(prefers-color-scheme: dark)');
   let saved;
   try { saved = window.SITE_STORAGE.getItem('fa-theme'); } catch (_) {}
   let manual = saved === 'dark' || saved === 'light';
@@ -15,9 +14,9 @@
       button.setAttribute('aria-pressed', String(dark));
     }
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = dark ? '#111b26' : '#f5f2e9';
+    if (meta) meta.content = dark ? '#101e32' : '#e9f1fa';
   }
-  apply(manual ? saved : preference.matches ? 'dark' : 'light');
+  apply(manual ? saved : 'light');
   document.addEventListener('DOMContentLoaded', () => {
     apply(root.dataset.theme);
     document.getElementById('theme-toggle').addEventListener('click', () => {
@@ -26,8 +25,5 @@
       apply(next);
       try { window.SITE_STORAGE.setItem('fa-theme', next); } catch (_) {}
     });
-  });
-  preference.addEventListener('change', event => {
-    if (!manual) apply(event.matches ? 'dark' : 'light');
   });
 })();

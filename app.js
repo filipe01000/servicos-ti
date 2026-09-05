@@ -2,7 +2,10 @@
   const config = window.SITE_CONFIG || {};
   const number = /^\d{10,15}$/.test(config.whatsapp || '') ? config.whatsapp : '5571992984439';
   const makeUrl = message => `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
-  document.getElementById('direct-whatsapp').href = makeUrl('Oi, Filipe! Vim pelo seu site e preciso de ajuda com um serviço de TI.');
+  const greeting = 'Oi, Filipe! Vim pelo seu site e gostaria de um orçamento. Pode me ajudar?';
+  document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
+    link.href = makeUrl(greeting);
+  });
   try {
     const github = new URL(config.githubUrl);
     if (github.protocol === 'https:' && github.hostname === 'github.com' && github.pathname !== '/' && !github.username && !github.password) {

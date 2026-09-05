@@ -21,10 +21,10 @@
  }
  document.addEventListener('DOMContentLoaded',()=>{
  const banner=document.createElement('aside');banner.className='privacy-box';banner.setAttribute('aria-label','Preferências de privacidade');
- banner.innerHTML='<strong>Preferências do navegador</strong><p>O site mede automaticamente visualizações e visitantes únicos estimados com o Umami Cloud. O formulário de orçamento não é enviado ao Umami.</p><label class="check"><input type="checkbox" id="allow-preferences">Lembrar tema, checklist e recorde neste navegador</label><p>Essa escolha se aplica apenas às preferências acima, não à contagem de visitas. Links externos têm suas próprias políticas.</p><button type="button" data-save>Salvar preferência</button><button type="button" data-reject>Não salvar preferências</button>';
+ banner.innerHTML='<strong>Preferências do navegador</strong><label class="check"><input type="checkbox" id="allow-preferences">Lembrar tema, checklist e recorde neste navegador</label><button type="button" data-save>Salvar preferência</button><button type="button" data-reject>Não salvar preferências</button>';
  const prefs=banner.querySelector('#allow-preferences');prefs.checked=consent==='yes';
- banner.hidden=consent!==null;document.body.append(banner);
- const privacy=document.createElement('button');privacy.type='button';privacy.className='privacy-settings';privacy.textContent='Privacidade e preferências';document.querySelector('footer')?.append(privacy);
+ banner.hidden=true;document.body.append(banner);
+ const privacy=document.createElement('button');privacy.type='button';privacy.className='privacy-settings';privacy.textContent='Preferências';document.querySelector('footer')?.append(privacy);
  privacy.onclick=()=>{banner.hidden=false;prefs.checked=consent==='yes';prefs.focus({preventScroll:true});};
  function saveChoices(reject){consent=!reject&&prefs.checked?'yes':'no';try{localStorage.setItem(key,consent);if(consent==='no')['fa-theme','fa-check-v1','fa-snake-best'].forEach(k=>localStorage.removeItem(k));}catch(_){}banner.hidden=true;}
  banner.querySelector('[data-save]').onclick=()=>saveChoices(false);
@@ -38,4 +38,5 @@
  dialog.querySelector('button').onclick=()=>dialog.close();dialog.addEventListener('close',()=>{dialog.querySelector('iframe').src='about:blank';play.focus({preventScroll:true});});
  });
 })();
+
 
