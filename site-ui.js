@@ -10,11 +10,12 @@
    return payload;
  };
  function loadAnalytics(){
-   if(loaded||location.hostname!=='filipe01000.github.io')return;
+   const allowedDomains=['filipeti.com.br','www.filipeti.com.br'];
+   if(loaded||!allowedDomains.includes(location.hostname))return;
    loaded=true;const script=document.createElement('script');script.defer=true;
    script.src='https://cloud.umami.is/script.js';
    script.dataset.websiteId='aad63029-7de7-486c-9284-3e1353de2a70';
-   script.dataset.domains='filipe01000.github.io';
+   script.dataset.domains=allowedDomains.join(',');
    script.dataset.excludeSearch='true';script.dataset.excludeHash='true';
    script.dataset.beforeSend='faAnalyticsBeforeSend';
    script.onerror=()=>{loaded=false;script.remove();};document.head.append(script);
