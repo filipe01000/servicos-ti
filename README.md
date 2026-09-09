@@ -39,3 +39,13 @@ Portfólio: acrescente somente trabalhos reais e fotos autorizadas ao array port
 Para atualizar: envie o conteúdo inteiro desta pasta ao repositório, mantendo assets. Esta entrega é local, não foi enviada automaticamente ao GitHub.
 
 Hospedagem: GitHub Pages restringe sites voltados principalmente a facilitar transações comerciais. Avalie hospedagem apropriada para a parte comercial antes de ampliar o uso. Referência: https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits
+
+## Páginas públicas do FA Prospector
+
+Rotas estáticas em português: `/politica-de-privacidade/`, `/termos-de-servico/` e `/exclusao-de-dados/`. Cada pasta contém um `index.html`, servido diretamente pelo GitHub Pages, sem login ou dependência de JavaScript para ler o conteúdo. URLs sem a barra final são redirecionadas pelo Pages.
+
+As páginas reutilizam `style.css`, `theme.js` e o logo; `legal.css` ajusta a leitura e os links no rodapé. Não carregam os scripts de analytics ou jogos. O tema pode ser alternado durante a visita, sem gravar preferências nessas páginas.
+
+Contato de privacidade: filipe01000@gmail.com. Ao mudar o contato ou as práticas do aplicativo, atualize os três documentos e sua data. A exclusão por e-mail exige atendimento pelo responsável; estas páginas não implementam exclusão automática no aplicativo.
+
+Não há build ou lint configurados: o site usa HTML/CSS estáticos. A publicação no domínio ocorre após integrar a branch à branch configurada no GitHub Pages (`main`, conforme a configuração descrita acima).
