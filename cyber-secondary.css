@@ -1,0 +1,2 @@
+html[data-theme=dark]{--bg:#05070c;--paper:#0a1424;--white:#0c1424;--navy:#eef4ff;--text:#eef4ff;--muted:#a8b8cc;--line:#26394d;--accent:#57baf5;--pink:#57baf5;background:#05070c}
+body{background-image:none!important}.header{border-bottom-color:#267fb0}.tool,.legal article{border-radius:16px}html[data-theme=dark] .tool{background:#0c1424;border-color:#26394d}.button,.theme-toggle,input,select,textarea{border-radius:9px}.game-invite[hidden]{display:none}.game-dialog{margin:auto}.privacy-box,.game-dialog{border-radius:14px}.header .brand{color:var(--navy)}

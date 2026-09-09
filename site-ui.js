@@ -32,7 +32,7 @@
  banner.querySelector('[data-reject]').onclick=()=>saveChoices(true);
  loadAnalytics();
  const dialog=document.createElement('dialog');dialog.className='game-dialog';dialog.setAttribute('aria-label','Jogo da Cobrinha');dialog.innerHTML='<div class="game-dialog-top"><strong>Pausa pro café</strong><button type="button" aria-label="Fechar jogo">Fechar ×</button></div><iframe title="Jogo da Cobrinha" src="about:blank"></iframe>';document.body.append(dialog);
- const invite=document.createElement('aside');invite.className='game-invite';invite.setAttribute('aria-label','Convite para jogar');invite.innerHTML='<strong>Uma partida de Cobrinha?</strong><p>Se quiser fazer uma pausa, o jogo está por aqui.</p><button type="button" data-play>Quero jogar</button><button type="button" data-dismiss>Agora não</button>';document.body.append(invite);
+ const invite=document.createElement('aside');invite.className='game-invite';invite.setAttribute('aria-label','Convite para jogar');invite.innerHTML='<strong>Uma partida de Cobrinha?</strong><p>Se quiser fazer uma pausa, o jogo está por aqui.</p><button type="button" data-play>Quero jogar</button><button type="button" data-dismiss>Agora não</button>';invite.hidden=true;document.body.append(invite);
  function open(){invite.hidden=true;dialog.showModal();dialog.querySelector('iframe').src='jogo.html';dialog.querySelector('button').focus();}
  invite.querySelector('[data-play]').onclick=open;invite.querySelector('[data-dismiss]').onclick=()=>invite.hidden=true;
  const play=document.createElement('button');play.className='game-launch';play.type='button';play.textContent='Jogar Cobrinha';document.querySelector('footer')?.append(play);play.onclick=open;

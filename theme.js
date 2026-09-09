@@ -16,10 +16,10 @@
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.content = dark ? '#101e32' : '#e9f1fa';
   }
-  apply(manual ? saved : 'light');
+  apply(manual ? saved : 'dark');
   document.addEventListener('DOMContentLoaded', () => {
     apply(root.dataset.theme);
-    document.getElementById('theme-toggle').addEventListener('click', () => {
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
       manual = true;
       const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
       apply(next);
