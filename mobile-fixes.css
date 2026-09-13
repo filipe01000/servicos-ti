@@ -1,0 +1,32 @@
+/* Correções sobre a identidade visual existente. */
+html[data-theme=light]{--bg-card:#fff;--line:#c0cddd;--line-strong:#7b99b9}
+[data-theme=light] body{background:#f5f8fd;color:#14253f}
+[data-theme=light] .scene-wrap{background:radial-gradient(ellipse at 60% 40%,#d4e7fa,transparent 70%)}
+[data-theme=light] #hero-canvas{opacity:.12}
+[data-theme=light] .hero-veil{background:linear-gradient(90deg,#f5f8fd, #f5f8fdbb 55%,#f5f8fd55);opacity:1}
+[data-theme=light] .hud-card,[data-theme=light] .card{background:#fff}
+[data-theme=light] .metric{background:#eef4fb}
+[data-theme=light] .nav,[data-theme=light] .nav.open .nav-links{background:#f5f8fd}
+[data-theme=light] .nav-links a:hover:not(.nav-cta),[data-theme=light] .nav-links a.active:not(.nav-cta){background:#e2ecf8;color:#14253f}
+[data-theme=light] .btn-ghost{background:#fff;color:#14253f}
+.btn-primary,.nav-cta{background:#2155c9;color:#fff}
+.nav-links .nav-cta:hover{background:#1946ab;color:#fff}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
+.study-topics{list-style:none;margin:15px 0 25px}
+.hero-content>* ,.about-grid>*,.contact-grid>*,.metric,.nav-inner>*{min-width:0}
+.hero h1{letter-spacing:-.04em}
+.btn{white-space:normal;text-align:center;padding-block:12px;max-width:100%}
+.theme-toggle,.menu-toggle{min-height:44px;min-width:44px;flex-shrink:0}
+.nav-links{max-height:calc(100dvh - var(--nav-h) - 16px);overflow-y:auto}
+.quote-form input,.quote-form select,.quote-form textarea{scroll-margin-block:100px}
+::selection{background:#2155c9;color:#fff}
+@media(max-width:640px){
+ .nav-inner{width:calc(100% - 24px)}.nav-controls{gap:5px}.logo{font-size:15px;gap:6px}.logo img{width:30px;height:30px}.logo small{letter-spacing:.08em}
+ .theme-toggle{font-size:11px;padding:6px}.hero h1{font-size:clamp(34px,10vw,56px)}
+ .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.metric strong{font-size:13px;overflow-wrap:anywhere}
+ .hud-main{padding:18px}.panel-top{gap:8px;flex-wrap:wrap}.quote-form{padding:18px}
+ .booking-inner>a{white-space:normal}.booking-inner>a span{margin-left:8px}
+ .footer{padding-bottom:112px}.footer-links{overflow-wrap:anywhere}.footer>.privacy-settings,.footer>.game-launch{left:0;margin-left:20px}
+}
+@media(max-width:360px){.nav .logo img{display:none}.metric-grid{grid-template-columns:1fr}.contact-note a{font-size:23px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
