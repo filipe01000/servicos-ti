@@ -1,0 +1,1661 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>FA Estudos | Trilha FortiSIEM</title>
+<meta name="description" content="Área de estudos de Filipe Augusto: trilha FortiSIEM com módulos, exercícios, quizzes e glossário.">
+<link rel="canonical" href="https://filipeti.com.br/estudos/">
+<link rel="icon" href="/assets/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: console de SOC em papel claro. Sidebar fixa com a trilha + coluna de leitura de ~68ch. */
+:root{
+  --bg:#F2F4F6; --surface:#FFFFFF; --ink:#17202B; --muted:#586473; --line:#D8DEE5;
+  --accent:#0D6C76; --accent-ink:#FFFFFF; --accent-soft:#DDEEEF;
+  --warn:#9A5408; --warn-soft:#FBEFDD; --tip:#2F5E2F; --tip-soft:#E5F1E3;
+  --high:#B8322A; --med:#C26F0E; --low:#2C7F49;
+  --code-bg:#EBEFF3; --chip:#E6EAEF;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E141B; --surface:#151F29; --ink:#E3E9EF; --muted:#97A3B0; --line:#273443;
+    --accent:#52BEC7; --accent-ink:#06262A; --accent-soft:#15353A;
+    --warn:#F0A64C; --warn-soft:#382813; --tip:#8FD18C; --tip-soft:#18301A;
+    --high:#F2695E; --med:#F2A33D; --low:#5FC480;
+    --code-bg:#1A2633; --chip:#1F2C3A; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E141B; --surface:#151F29; --ink:#E3E9EF; --muted:#97A3B0; --line:#273443;
+  --accent:#52BEC7; --accent-ink:#06262A; --accent-soft:#15353A;
+  --warn:#F0A64C; --warn-soft:#382813; --tip:#8FD18C; --tip-soft:#18301A;
+  --high:#F2695E; --med:#F2A33D; --low:#5FC480;
+  --code-bg:#1A2633; --chip:#1F2C3A; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible,dd:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.shell{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:270px minmax(0,1fr);gap:40px;padding-block:28px 64px}
+@media (max-width:900px){.shell{grid-template-columns:minmax(0,1fr);gap:20px;padding-block:16px 48px}}
+
+/* ---------- Sidebar ---------- */
+.side{position:sticky;top:max(16px, env(safe-area-inset-top, 0px));align-self:start;max-height:calc(100vh - 32px);overflow:auto;padding-right:4px}
+@media (max-width:900px){.side{position:static;max-height:none;overflow:visible}}
+.brand{font-family:var(--f-display);font-weight:700;font-size:1.35rem;line-height:1.15;letter-spacing:.01em;margin:0 0 4px}
+.brand small{display:block;font-family:var(--f-mono);font-weight:400;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.progress{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:14px 0;display:grid;gap:8px}
+.progress .row{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.progress .row b{color:var(--ink);font-weight:600}
+.bar{height:6px;border-radius:3px;background:var(--chip);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.reset{justify-self:start;font:inherit;font-size:.78rem;color:var(--muted);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+.toc summary{display:none}
+@media (max-width:900px){
+  .toc{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+  .toc summary{display:block;cursor:pointer;padding:10px 14px;font-weight:600;font-size:.95rem}
+  .toc ol{padding:0 14px 12px 14px !important}
+}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:grid;grid-template-columns:28px 1fr;gap:6px;align-items:baseline;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:.9rem;line-height:1.35}
+.toc a span.n{font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.toc a:hover{background:var(--chip)}
+.toc a.on{background:var(--accent-soft);color:var(--ink)}
+.toc a.on span.n{color:var(--accent)}
+.toc .sep{height:1px;background:var(--line);margin:6px 8px}
+
+/* ---------- Main ---------- */
+main{min-width:0;max-width:800px}
+.hero{padding-block:8px 8px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,4.5vw,2.9rem);font-weight:700;margin:6px 0 12px}
+h2{font-size:1.85rem;font-weight:700;margin:0 0 6px}
+h3{font-size:1.25rem;font-weight:600;margin:28px 0 8px}
+h4{font-size:1.02rem;font-weight:600;margin:18px 0 6px;font-family:var(--f-body)}
+p{margin:0 0 12px}
+.lede{font-size:1.08rem;color:var(--muted);max-width:66ch}
+section.mod{padding-block:44px 8px;border-bottom:1px solid var(--line)}
+section.mod > .head{display:grid;gap:4px;margin-bottom:14px}
+.modnum{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.role{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.role.a{border-color:var(--accent);color:var(--accent)}
+.goal{color:var(--muted);margin-bottom:10px}
+ul,ol{margin:0 0 14px;padding-left:1.3em}
+li{margin:3px 0}
+li::marker{color:var(--muted)}
+strong{font-weight:600}
+
+/* menu path chips: o vocabulário da própria ferramenta */
+.path{font-family:var(--f-mono);font-size:.82em;background:var(--chip);color:var(--ink);padding:1px 6px;border-radius:4px;white-space:nowrap}
+@media (max-width:520px){.path{white-space:normal}}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--code-bg);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+pre{font-family:var(--f-mono);font-size:.83rem;line-height:1.55;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:14px 16px;overflow-x:auto;margin:0 0 6px;tab-size:2}
+pre code{background:none;padding:0;font-size:inherit;overflow-wrap:normal}
+.codewrap{position:relative;margin:0 0 16px}
+.copy{position:absolute;top:8px;right:8px;font:500 .72rem var(--f-mono);background:var(--surface);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:3px 8px;cursor:pointer}
+.copy:hover{color:var(--ink)}
+.caption{font-size:.84rem;color:var(--muted);margin:-2px 0 16px}
+
+.tbl{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;line-height:1.45}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-body);font-weight:600;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:500}
+
+.note{border-radius:8px;padding:12px 14px;margin:0 0 16px;font-size:.94rem;display:grid;gap:4px}
+.note > b{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;font-weight:500}
+.note p:last-child,.note ul:last-child{margin-bottom:0}
+.note.warn{background:var(--warn-soft)} .note.warn > b{color:var(--warn)}
+.note.tip{background:var(--tip-soft)} .note.tip > b{color:var(--tip)}
+.note.info{background:var(--accent-soft)} .note.info > b{color:var(--accent)}
+
+.sev{display:inline-block;font:600 .72rem var(--f-mono);letter-spacing:.05em;padding:1px 7px;border-radius:4px;color:#fff;vertical-align:1px}
+.sev.h{background:var(--high)} .sev.m{background:var(--med)} .sev.l{background:var(--low)}
+:root[data-theme="dark"] .sev{color:#111}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sev{color:#111}}
+
+/* fluxo do evento */
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin:8px 0 6px;counter-reset:f}
+.flow > div{position:relative;background:var(--surface);border:1px solid var(--line);padding:12px 12px 12px;font-size:.84rem;line-height:1.4;min-width:0}
+.flow > div:first-child{border-radius:8px 0 0 8px} .flow > div:last-child{border-radius:0 8px 8px 0}
+.flow > div + div{border-left:0}
+.flow > div:not(:last-child)::after{content:"";position:absolute;right:-7px;top:50%;width:12px;height:12px;background:var(--surface);border-top:1px solid var(--line);border-right:1px solid var(--line);transform:translateY(-50%) rotate(45deg);z-index:1}
+.flow h5{font:600 .95rem var(--f-display);margin:0 0 4px;color:var(--accent)}
+.flow .who{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+@media (max-width:700px){
+  .flow{grid-template-columns:minmax(0,1fr)}
+  .flow > div{border-radius:0 !important;border-left:1px solid var(--line) !important}
+  .flow > div + div{border-top:0}
+  .flow > div:first-child{border-radius:8px 8px 0 0 !important} .flow > div:last-child{border-radius:0 0 8px 8px !important}
+  .flow > div:not(:last-child)::after{right:auto;left:50%;top:auto;bottom:-7px;transform:translateX(-50%) rotate(135deg)}
+}
+
+.nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:0 0 18px}
+.node{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0}
+.node h4{margin:0 0 4px;font-family:var(--f-display);font-size:1.08rem}
+.node p{font-size:.9rem;margin:0;color:var(--muted)}
+
+/* exercícios */
+.lab{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px 8px;margin:22px 0 18px}
+.lab > .t{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lab > .t span:last-child{color:var(--muted);font-variant-numeric:tabular-nums}
+.lab label{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start;padding:6px 0;border-top:1px dashed var(--line);cursor:pointer;font-size:.93rem}
+.lab label:first-of-type{border-top:0}
+.lab input{margin:4px 0 0;width:16px;height:16px;accent-color:var(--accent)}
+.lab label.done .txt{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.lab .txt em{display:block;font-style:normal;color:var(--muted);font-size:.86rem}
+
+/* quiz */
+.quiz{margin:22px 0 10px;display:grid;gap:14px}
+.quiz > .t{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.quiz > .t span:last-child{font-variant-numeric:tabular-nums}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:600;padding:0;margin-bottom:8px;font-size:.96rem}
+.q label{display:grid;grid-template-columns:20px 1fr;gap:8px;align-items:start;padding:6px 8px;margin:0 -8px;border-radius:6px;cursor:pointer;font-size:.92rem}
+.q label:hover{background:var(--bg)}
+.q input{margin:4px 0 0;accent-color:var(--accent)}
+.q label.right{background:var(--tip-soft)}
+.q label.wrong{background:var(--warn-soft)}
+.q .exp{margin-top:8px;font-size:.88rem;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+.q .exp b{color:var(--ink)}
+
+/* plano */
+.weeks{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:0 0 18px}
+.week{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.week b{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.week p{margin:4px 0 0;font-size:.9rem}
+
+/* glossário */
+.gtools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:0 0 12px}
+.gtools input[type=search]{flex:1 1 220px;min-width:0;font:inherit;font-size:.95rem;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.gtools label{font-size:.88rem;color:var(--muted);display:flex;gap:6px;align-items:center;cursor:pointer}
+dl.gloss{display:grid;grid-template-columns:minmax(0,1fr);margin:0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+dl.gloss > div{padding:10px 14px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:200px minmax(0,1fr);gap:12px}
+dl.gloss > div:last-child{border-bottom:0}
+@media (max-width:560px){dl.gloss > div{grid-template-columns:minmax(0,1fr);gap:2px}}
+dl.gloss dt{font-weight:600;font-family:var(--f-display);font-size:1rem}
+dl.gloss dd{margin:0;font-size:.92rem;color:var(--muted)}
+.review dl.gloss dd{filter:blur(5px);cursor:pointer;user-select:none;transition:filter .15s}
+.review dl.gloss dd.shown{filter:none;user-select:auto}
+@media (prefers-reduced-motion: reduce){.review dl.gloss dd{transition:none}}
+.empty{padding:14px;color:var(--muted);font-size:.92rem}
+footer{padding-block:28px 0;color:var(--muted);font-size:.84rem}
+
+/* ---------- versões ---------- */
+:root[data-ver="742"] .v751, :root[data-ver="751"] .v742{display:none !important}
+.verswitch{display:grid;grid-template-columns:1fr 1fr;background:var(--chip);border-radius:8px;padding:3px;gap:3px;margin:12px 0 0}
+.verswitch button{font:600 .9rem var(--f-mono);border:0;border-radius:6px;padding:7px 0;background:none;color:var(--muted);cursor:pointer}
+.verswitch button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.verlabel{font-size:.78rem;color:var(--muted);margin:6px 0 0}
+.chg{display:inline-block;font:500 .66rem var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--warn);background:var(--warn-soft);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.note.v75{background:var(--warn-soft)} .note.v75 > b{color:var(--warn)}
+.diffgrid td:nth-child(2),.diffgrid td:nth-child(3){font-weight:400}
+.diffgrid td:first-child{white-space:nowrap}
+@media (max-width:560px){.diffgrid td:first-child{white-space:normal}}
+</style>
+<script>
+(function(){ var v = '742'; try { var p = JSON.parse(localStorage.getItem('trilha-fortisiem-742') || '{}'); if (p.ver === '751') v = '751'; } catch(e) {} document.documentElement.setAttribute('data-ver', v); })();
+</script>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="side">
+    <a href="/" style="display:inline-block;margin-bottom:16px;font-size:.85rem;text-decoration:none">← Filipe Augusto · Site principal</a>
+    <p class="brand"><small>FA Estudos · pt-BR</small>Trilha FortiSIEM <span id="brandVer">7.4.2</span></p>
+    <div class="verswitch" role="group" aria-label="Versão do FortiSIEM">
+      <button type="button" data-setver="742" aria-pressed="true">7.4.2</button>
+      <button type="button" data-setver="751" aria-pressed="false">7.5.1</button>
+    </div>
+    <p class="verlabel"><span class="v742">Mostrando o conteúdo da 7.4.2.</span><span class="v751">Mostrando o conteúdo da 7.5.1. Trechos que mudaram têm o selo <span class="chg">Mudou na 7.5</span>.</span></p>
+    <div class="progress" aria-live="polite">
+      <div class="row"><span>Exercícios práticos</span><b id="labCount">0/0</b></div>
+      <div class="bar"><i id="labBar"></i></div>
+      <div class="row"><span>Questões acertadas</span><b id="quizCount">0/0</b></div>
+      <div class="bar"><i id="quizBar"></i></div>
+      <button class="reset" id="resetBtn" type="button">Zerar progresso</button>
+    </div>
+    <details class="toc" id="toc" open>
+      <summary>Módulos</summary>
+      <ol>
+        <li><a href="#comecar"><span class="n">00</span>Como usar este guia</a></li>
+        <li><a href="#arquitetura"><span class="n">01</span>Arquitetura e conceitos</a></li>
+        <li><a href="#interface"><span class="n">02</span>Navegando na interface</a></li>
+        <li><a href="#coleta"><span class="n">03</span>Coleta de dados</a></li>
+        <li><a href="#cmdb"><span class="n">04</span>CMDB</a></li>
+        <li><a href="#busca"><span class="n">05</span>Analytics: busca</a></li>
+        <li><a href="#sql"><span class="n">06</span>Advanced Search (SQL)</a></li>
+        <li><a href="#incidentes"><span class="n">07</span>Incidentes</a></li>
+        <li><a href="#regras"><span class="n">08</span>Regras de correlação</a></li>
+        <li><a href="#automacao"><span class="n">09</span>Automação e casos</a></li>
+        <li><a href="#dashboards"><span class="n">10</span>Dashboards e relatórios</a></li>
+        <li><a href="#admin"><span class="n">11</span>Administração e saúde</a></li>
+        <li><a href="#novidades"><span class="n">12</span><span><span class="v742">Novidades da 7.4.x</span><span class="v751">Novidades da 7.5.x</span></span></a></li>
+        <li class="sep" aria-hidden="true"></li>
+        <li><a href="#diferencas"><span class="n">±</span>Diferenças 7.4.2 × 7.5.1</a></li>
+        <li><a href="#cola"><span class="n">⌘</span>Cola rápida</a></li>
+        <li><a href="#glossario"><span class="n">Aa</span>Glossário</a></li>
+      </ol>
+    </details>
+  </aside>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Baseado no User Guide, External Systems Configuration Guide e Release Notes <span class="v742">7.4.2</span><span class="v751">7.5.1</span></div>
+      <h1>Aprenda a operar o FortiSIEM no dia a dia</h1>
+      <p class="lede">Doze módulos que seguem o caminho de um log: do dispositivo até virar incidente, caso e relatório. Cada módulo traz os conceitos, onde clicar, um exercício para fazer no seu ambiente e um quiz curto. Use o seletor no topo da barra lateral para alternar entre a 7.4.2 e a 7.5.1, e veja a aba <a href="#diferencas">Diferenças</a> para o que mudou entre elas.</p>
+    </header>
+
+    <!-- 00 -->
+    <section class="mod" id="comecar">
+      <div class="head"><div class="modnum">Módulo 00</div><h2>Como usar este guia</h2></div>
+      <p>Os nomes de menus e botões ficam em inglês, como aparecem na tela do FortiSIEM. Um caminho de menu aparece assim: <span class="path">ADMIN › Setup › Credentials</span>. O progresso dos exercícios e quizzes fica salvo neste navegador, separado por versão.</p>
+      <p class="v751">Na versão 7.5.1, os caminhos de menu deste guia já aparecem com os nomes novos. Quando um caminho mudou em relação à 7.4.2, ele ganha o selo <span class="chg">Mudou na 7.5</span>, e os trechos novos aparecem em caixas como a de baixo.</p>
+      <div class="note v75 v751"><b>Mudou na 7.5 · como ler</b><p>A 7.5.1 inclui tudo o que veio na 7.5.0. Por isso os selos dizem "7.5", e não "7.5.1": muitas mudanças, como a navegação lateral, chegaram na 7.5.0.</p></div>
+      <h3>Plano sugerido de 4 semanas</h3>
+      <p>Cerca de 3 a 4 horas por semana. Faça a leitura e depois o exercício no ambiente.</p>
+      <div class="weeks">
+        <div class="week"><b>Semana 1</b><p>01 Arquitetura · 02 Interface · 03 Coleta de dados</p></div>
+        <div class="week"><b>Semana 2</b><p>04 CMDB · 05 Busca · 06 Advanced Search</p></div>
+        <div class="week"><b>Semana 3</b><p>07 Incidentes · 08 Regras · 09 Automação e casos</p></div>
+        <div class="week"><b>Semana 4</b><p>10 Dashboards · 11 Administração · 12 Novidades · revisão com a cola e o glossário</p></div>
+      </div>
+      <h3>Escolha a sua trilha</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Perfil</th><th>Foque em</th><th>Pode ler por cima</th></tr></thead>
+        <tbody>
+          <tr><td>Analista (investiga e responde)</td><td>02, 05, 06, 07, 08, 09, 10</td><td>03, 11</td></tr>
+          <tr><td>Administrador (configura e mantém)</td><td>01, 03, 04, 08, 09, 11, 12</td><td>06, 10</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note warn"><b>Antes dos exercícios</b><p>Prefira um ambiente de laboratório. Em produção, só faça o que mexe na configuração (discovery, regras de descarte, ativar regras e políticas) com autorização. Os exercícios avisam quando algo altera o ambiente.</p></div>
+    </section>
+
+    <!-- 01 -->
+    <section class="mod" id="arquitetura">
+      <div class="head"><div class="modnum">Módulo 01 <span class="role">Ambos</span></div><h2>Arquitetura e conceitos</h2></div>
+      <p class="goal">Objetivo: entender quais peças existem, por onde o log passa e como a licença é contada.</p>
+      <p>O FortiSIEM junta análise de logs e de tráfego com monitoramento de desempenho e disponibilidade, detecção de mudanças e um inventário (CMDB) descoberto automaticamente. Com isso, ele detecta ameaças, responde a incidentes e gera relatórios de compliance. Ele roda como appliance de hardware, appliance virtual ou cluster de VMs.</p>
+
+      <h3>Os tipos de nó</h3>
+      <div class="nodes">
+        <div class="node"><h4>Supervisor</h4><p>O cérebro e a interface: GUI, App Server (lógica de negócio) e o banco relacional PostgreSQL (CMDB e estado da aplicação). Mantém o estado global das regras e é ele que cria o incidente. Numa instalação pequena, é o único nó (all-in-one).</p></div>
+        <div class="node"><h4>Worker</h4><p>Faz o trabalho pesado: indexa e grava eventos, roda buscas distribuídas e avalia as regras sobre os eventos que recebe, enviando resultados parciais ao Supervisor. Para escalar, adicione Workers. Não é possível adicionar Workers em appliances de hardware.</p></div>
+        <div class="node"><h4>Collector</h4><p>Fica perto dos dispositivos, inclusive atrás de firewalls ou em locais remotos. Coleta, faz o parse, comprime e envia os eventos por HTTPS aos Workers. Também executa discovery e monitoramento dos ativos do seu segmento.</p></div>
+        <div class="node"><h4><span class="v742">Agentes Windows / Linux</span><span class="v751">Host Collectors (agentes)</span></h4><p>Leves (até cerca de 5% de CPU e memória). Coletam o que o modo sem agente não pega bem: Sysmon, FIM, registro, mídia removível e saída de PowerShell. Enviam aos Collectors em round robin, com failover.<span class="v751"> Na documentação da 7.5.1, eles passam a se chamar <strong>Windows Collector</strong> e <strong>Linux Collector</strong>.<span class="chg">Mudou na 7.5</span></span></p></div>
+        <div class="node"><h4>FortiSIEM Manager</h4><p>Produto licenciado à parte que monitora várias instâncias de FortiSIEM. Recebe incidentes, licença e saúde de cada instância por API REST/HTTPS.</p></div>
+      </div>
+
+      <h3>O caminho de um log</h3>
+      <div class="flow" role="list">
+        <div role="listitem"><span class="who">Origem</span><h5>Dispositivo</h5>Envia (syslog, NetFlow, webhook) ou é consultado (WMI/OMI, API REST, SNMP).</div>
+        <div role="listitem"><span class="who">Collector / Worker</span><h5>Parse</h5>O parser XML transforma o texto em atributos: Event Type, Source IP, User…</div>
+        <div role="listitem"><span class="who">Worker</span><h5>Grava</h5>O evento vai para o banco de eventos (ClickHouse, EventDB ou Elasticsearch).</div>
+        <div role="listitem"><span class="who">Worker → Supervisor</span><h5>Correlaciona</h5>As regras rodam em memória, em streaming. O Supervisor junta os resultados e decide.</div>
+        <div role="listitem"><span class="who">Supervisor</span><h5>Incidente</h5>Uma Automation Policy pode notificar, remediar, abrir caso ou ticket.</div>
+      </div>
+      <p class="caption">Busca, regra e relatório usam a mesma linguagem e os mesmos atributos. Por isso uma busca pode virar regra, e uma regra pode virar relatório.</p>
+
+      <h3>Onde os eventos ficam</h3>
+      <ul>
+        <li><strong>ClickHouse</strong>: a opção recomendada para a maioria das implantações. Tem camadas Hot, Warm e Cold e permite a Advanced Search com SQL.</li>
+        <li><strong>EventDB</strong>: o banco NoSQL próprio do FortiSIEM, local ou em NFS. Depende de rede rápida e de muito IOPS no NFS.</li>
+        <li><strong>Elasticsearch</strong>: banco distribuído e redundante, que ocupa mais armazenamento.</li>
+      </ul>
+      <p>Já o CMDB, os incidentes e as configurações ficam no PostgreSQL do Supervisor.</p>
+      <div class="note v75 v751"><b>Mudou na 7.5 · arquitetura</b><ul>
+        <li><strong>ClickHouse Storage Regions:</strong> dá para separar o armazenamento, gravando os eventos de certos Collectors ou dispositivos apenas em certos nós de dados do ClickHouse. Cada região tem seus próprios Event Upload Workers e shards, sem sobreposição com outras regiões.</li>
+        <li><strong>Alta disponibilidade:</strong> a HA entre data centers, que chegou na 7.4.1, permite Supervisors em data centers diferentes, desde que a latência entre eles fique abaixo de 30 ms. Não precisa de VIP nem de DNS.</li>
+        <li><strong>O Disaster Recovery (DR) foi descontinuado</strong> a partir da 7.5.0. Quem usa DR precisa remover o nó de DR e passar a usar a HA entre data centers.</li>
+        <li>Mudanças de plataforma: Rocky Linux 9.7, PostgreSQL 16.11, JDK 21, GlassFish 7 e Redis 8.6.2. Os processos do Supervisor e dos Workers passaram a se autenticar entre si com certificados de cliente.</li>
+      </ul></div>
+
+      <h3>Licenciamento</h3>
+      <ul>
+        <li>A licença conta <strong>dispositivos</strong> (monitorados ou que enviam logs), <strong>agentes</strong> Windows/Linux e <strong>EPS</strong> (eventos por segundo). Armazenamento não entra na conta.</li>
+        <li>O CMDB aceita dispositivos ilimitados. Os que cabem na licença são <strong>Managed</strong>. Os que excedem viram <strong>Unmanaged</strong>: o FortiSIEM não recebe logs deles nem os monitora. Dá para trocar um Unmanaged por um Managed.</li>
+        <li><strong>Cálculo do EPS:</strong> total de eventos em 3 minutos dividido por 180. A cada 3 minutos, o Supervisor redistribui o EPS permitido entre os nós.</li>
+        <li><strong>EPS não usado</strong> se acumula ao longo do dia, até 5 vezes o EPS licenciado, e serve de reserva para picos, como durante um ataque. À meia-noite, metade do saldo do dia anterior passa para o dia seguinte. Cada Collector tem um EPS garantido.</li>
+        <li class="v751"><strong>Licença com certificado:</strong> desde a 7.5.0, uma licença nova traz o próprio certificado, usado para autenticar no FortiGuard e na adição de nós. Logo depois de atualizar de uma versão anterior à 7.5.0, baixe o novo arquivo de licença no FortiCare (não o "Legacy License Key") e envie em <span class="path">ADMIN › License › Upload License</span>.<span class="chg">Mudou na 7.5</span></li>
+      </ul>
+
+      <h3>Multi-tenancy e papéis</h3>
+      <ul>
+        <li>Na instalação Service Provider existem <strong>Organizations</strong> isoladas entre si. A <strong>Super/Global</strong> enxerga todas. A <strong>Super/Local</strong> representa a rede do próprio provedor.</li>
+        <li>Um dispositivo entra numa organização pelo Collector que o atende ou pela faixa de IP da organização. Se nem todos os IPs dele estiverem dentro da faixa, ele vai para a Super/Local.</li>
+        <li>As regras podem ser globais ou por organização, e os incidentes disparam separadamente em cada organização.</li>
+        <li><strong>RBAC:</strong> um papel define o que o usuário vê (abas, organizações, filtros de dados) e o que ele pode fazer (escrita, aba ADMIN). Há papéis prontos que podem ser clonados.</li>
+      </ul>
+
+      <div class="lab" data-lab-group="m1">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m1a"><span class="txt">Abra <span class="path">ADMIN › License › Nodes</span> e anote quais nós existem: Supervisor, Workers e Collectors.<em>Desenhe o fluxo de log do seu ambiente com esses nomes.</em></span></label>
+        <label><input type="checkbox" data-lab="m1b"><span class="txt">Em <span class="path">ADMIN › License › Usage</span>, compare o EPS atual com o licenciado e conte os dispositivos Managed e Unmanaged.</span></label>
+        <label><input type="checkbox" data-lab="m1c"><span class="txt">Descubra qual banco de eventos seu ambiente usa em <span class="path">ADMIN › Setup › Storage</span>.</span></label>
+      </div>
+      <div class="quiz" data-quiz="m1"></div>
+    </section>
+
+    <!-- 02 -->
+    <section class="mod" id="interface">
+      <div class="head"><div class="modnum">Módulo 02 <span class="role a">Analista</span></div><h2>Navegando na interface</h2></div>
+      <p class="goal">Objetivo: saber em qual aba cada tarefa vive e deixar a interface do seu jeito.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Aba</th><th>Para que serve</th></tr></thead>
+        <tbody>
+          <tr><td>DASHBOARD</td><td>Painéis prontos e personalizados. Inclui o dashboard Global do FortiSIEM (risco e fontes de dados), Summary, Widget, Business Service, Identity &amp; Location e outros.</td></tr>
+          <tr><td>ANALYTICS</td><td>Busca (Search), Advanced Search em SQL, Investigation (grafo de um incidente) e Machine Learning.</td></tr>
+          <tr><td>INCIDENTS</td><td>Overview, List (por tempo, dispositivo, regra e categoria FortiAI), Risk, Explorer, MITRE ATT&amp;CK e UEBA.</td></tr>
+          <tr><td>CASES</td><td>Casos de investigação (ticketing interno), com equipes, SLA, evidências e dashboards de casos.</td></tr>
+          <tr><td>CMDB</td><td>Inventário: dispositivos, aplicações, usuários, Business Services e relatórios de CMDB.</td></tr>
+          <tr><td>RESOURCES</td><td>Conteúdo: Reports, Rules, Watch Lists, Lookup Tables, listas de malware (IP, domínio, hash, URL), Country Groups, Event Types, Playbooks e Remediations.</td></tr>
+          <tr><td>ADMIN</td><td>Setup (Credentials, Discovery, Pull Events, Monitor Performance, Agentes, STM, Maintenance), Device Support (Parsers, Event Types, Custom Property), Health, License e Settings.</td></tr>
+          <tr><td>TASKS</td><td>Pedidos e aprovações de fluxos de trabalho (ativar regra, remediação, agendar relatório) e tarefas em segundo plano.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note v75 v751"><b>Mudou na 7.5 · nova navegação</b><ul>
+        <li>As abas saíram do topo e foram para uma <strong>barra lateral à esquerda</strong>, com os nomes em Title Case: Dashboard, Analytics, Incidents, Cases, CMDB, Resources e Admin. Passe o mouse sobre um item para abrir os submenus; em Incidents, por exemplo, você passa o mouse sobre List e escolhe List by Time.</li>
+        <li>Os botões de texto viraram <strong>ícones</strong> em posições padronizadas: <strong>+</strong> no lugar de New, lápis para Edit, lixeira para Delete e um menu <strong>Actions</strong> no lugar de More. Salvar como relatório, exportar, agendar, clonar e aplicar também viraram ícones.</li>
+        <li>Em Analytics, a lista de relatórios prontos agora abre pelo botão <strong>Load Report</strong>.</li>
+        <li>Em Resources surgiram <strong>Saved Report Results</strong>, que reúne os resultados salvos de buscas e relatórios agendados; <strong>ReportAI</strong>, com mais de 100 perguntas prontas para o FortiAI; e <strong>External Datasets</strong>, usado pela Federated Search.</li>
+      </ul></div>
+      <h3>Ícones do canto superior direito</h3>
+      <ul>
+        <li class="v751"><strong>Ícone do usuário</strong>: clique nele e depois em <strong>User Profile</strong>.<span class="chg">Mudou na 7.5</span></li>
+        <li><strong>User Profile</strong>: troca de senha, contato e <strong>UI Settings</strong>, onde você escolhe a tela inicial (Incidents, Cases ou Dashboard), o idioma, o tema (claro, escuro ou automático) e o formato de data.</li>
+        <li><strong>Jobs/Errors</strong>: erros do sistema na aba Error.</li>
+        <li><strong>User Activity</strong>: usuários logados, usuários bloqueados (com opção de desbloquear), <strong>Query Status</strong> (onde dá para parar uma consulta) e Query Workload.</li>
+        <li><strong>Online Documentation</strong> e <strong>FortiAI</strong>: perguntas em linguagem natural. <span class="v742">Quando a pergunta pede um relatório, o FortiAI devolve a consulta pronta, e <em>Run on Analytics</em> a executa.</span><span class="v751">O FortiAI Chat agora é um agente conversacional: aceita perguntas de continuação, transforma a pergunta em SQL pelo serviço MCP e responde em streaming. O botão <strong>+</strong> da janela traz perguntas prontas. A opção <em>Optimize</em> vem ligada e envia ao modelo só o contexto relevante, o que reduz o uso de tokens.<span class="chg">Mudou na 7.5</span></span></li>
+      </ul>
+      <div class="note warn v751"><b>FortiAI na 7.5.1</b><ul>
+        <li>Por padrão, só usuários Admin podem usar o FortiAI. Para liberar outros usuários, marque <em>FortiAI: Run</em> no papel, em <span class="path">ADMIN › Settings › Role › Role Management</span>.</li>
+        <li>O FortiAI só considera a <strong>organização</strong> do usuário e ignora as outras restrições de dados do papel. Um Network Admin, por exemplo, recebe as mesmas respostas que um Full Admin daquela organização. Isso vale também para o serviço MCP.</li>
+        <li>Há restrições de segurança: acesso somente leitura a tabelas específicas, algumas funções SQL bloqueadas, só perguntas de segurança e nenhuma consulta SQL direta.</li>
+        <li>No Azure OpenAI, a 7.5.1 usa os modelos GPT-4.1 e text-embedding-3-large, que precisam estar instalados lá.</li>
+      </ul></div>
+      <div class="note tip"><b>Dica</b><p>Muitas listas têm um acento circunflexo (caret) ao passar o mouse sobre um valor. Ele abre ações rápidas como <em>Add to Filter</em>, <em>Quick Info</em>, <em>Device Health</em> e <em>Related Historical Events</em>. É o jeito mais rápido de pular de um incidente para os eventos.</p></div>
+      <div class="lab" data-lab-group="m2">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m2a"><span class="txt">Em <span class="path">User Profile › UI Settings</span>, defina INCIDENTS › Overview como tela inicial e escolha o tema que preferir.</span></label>
+        <label><input type="checkbox" data-lab="m2b"><span class="txt">Passe por cada aba da tabela acima e escreva em uma frase o que viu em cada uma.<em class="v751">Na 7.5.1, as abas ficam na barra lateral: passe o mouse sobre cada uma para ver os submenus.</em></span></label>
+        <label><input type="checkbox" data-lab="m2c"><span class="txt">Abra <strong>User Activity › Query Status</strong> e veja quem está rodando consultas agora.</span></label>
+      </div>
+      <div class="quiz" data-quiz="m2"></div>
+    </section>
+
+    <!-- 03 -->
+    <section class="mod" id="coleta">
+      <div class="head"><div class="modnum">Módulo 03 <span class="role">Admin</span></div><h2>Coleta de dados</h2></div>
+      <p class="goal">Objetivo: fazer um dispositivo aparecer no CMDB e ter seus logs interpretados corretamente.</p>
+
+      <h3>Duas formas de "conhecer" um dispositivo</h3>
+      <ul>
+        <li><strong>Descoberta por log:</strong> quando chega um log que casa com um parser, o FortiSIEM cria o dispositivo no CMDB com fabricante e modelo (Cisco IOS, FortiGate, Windows, Linux genérico). É básica.</li>
+        <li><strong>Discovery detalhado:</strong> com credenciais (SNMP, SSH, WMI/OMI, API), ele descobre versão do SO, hardware, software instalado, processos, interfaces, patches, relações (VM ↔ host, AP ↔ controladora) e quais métricas podem ser monitoradas. Depois disso, já começa a monitorar e a puxar eventos.</li>
+      </ul>
+
+      <h3>Passo a passo do discovery</h3>
+      <ol>
+        <li><strong>Criar a credencial</strong> em <span class="path">ADMIN › Setup › Credentials</span>, no Step 1: nome, Device Type, Access Protocol e porta. A senha pode ficar no FortiSIEM ou vir do CyberArk.</li>
+        <li><strong>Associar a credencial a IPs</strong> no Step 2. Aceita IP único, faixa, CIDR ou lista: <code>10.1.1.1, 20.1.1.0/24, 30.1.1.1-30.1.1.10</code>. A associação vale por Collector.</li>
+        <li><strong>Testar</strong> com <em>Test Connectivity</em>, que faz ping antes, ou <em>Test Connectivity without Ping</em>. Em várias integrações de API, esse teste já inicia a coleta de eventos.</li>
+        <li><strong>Criar a entrada de discovery</strong> em <span class="path">ADMIN › Setup › Discovery › New</span> e rodar com <em>Discover</em>. Pode rodar em segundo plano e acompanhar em Tasks.</li>
+        <li><strong>Conferir</strong> as abas Results e Errors, o CMDB e as abas <span class="path">ADMIN › Setup › Pull Events</span> e <span class="path">Monitor Performance</span>.</li>
+      </ol>
+      <div class="tbl"><table>
+        <thead><tr><th>Tipo de discovery</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr><td>Range Scan</td><td>Varre IPs, faixas e sub-redes em sequência. É o mais comum.</td></tr>
+          <tr><td>Smart Scan</td><td>Parte de um Root IP (um roteador, por exemplo) e segue os vizinhos que cada dispositivo conhece.</td></tr>
+          <tr><td>L2 Scan</td><td>Descobre só a conectividade de camada 2.</td></tr>
+          <tr><td>AWS / Azure Scan</td><td>Nuvem, via SDK. Exige uma credencial mapeada para aws.com/amazon.com ou azure.com.</td></tr>
+          <tr><td>Nozomi Scan</td><td>Ativos OT via API do Nozomi.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note warn"><b>Atenção</b><ul>
+        <li>Para servidores Linux, que têm logs genéricos, faça discovery por SNMP ou SSH para identificar o SO com precisão. Para Windows com coleta WMI, o discovery precisa ser por WMI (ou SNMP e WMI).</li>
+        <li>Dispositivos com IPs sobrepostos são mesclados. Procure o incidente <code>PH_RULE_DEVICE_MERGED_OVERLAP_IP</code>. Se o IP for virtual (VIP), cadastre-o na lista de VIPs em <span class="path">ADMIN › Settings › Discovery</span> e rediscubra.</li>
+        <li>Na instalação Service Provider com Collectors, faça o discovery a partir de cada organização.</li>
+        <li>Se uma credencial mudar no equipamento, atualize em Credentials e rediscubra.</li>
+      </ul></div>
+
+      <h3>Logs que chegam por conta própria (push)</h3>
+      <p>Configure o dispositivo para mandar syslog ao Collector, se houver um, ou a um Worker. A lista de dispositivos com parser pronto está em <span class="path">ADMIN › Device Support › Parsers</span> e no External Systems Configuration Guide, que tem um capítulo por fabricante. NetFlow é recebido automaticamente nas portas conhecidas.</p>
+      <h4>Destino de upload dos Collectors</h4>
+      <p>Em <span class="path">ADMIN › Settings › System › Cluster Config › Event Upload Workers</span> você define para onde os Collectors mandam os eventos. O recomendado é uma <strong>lista de Workers</strong>: os Collectors balanceiam a carga entre eles. Usar só o Supervisor sobrecarrega o nó em ambientes maiores.</p>
+
+      <h3>Exemplo real: FortiGate (External Systems Guide)</h3>
+      <ul>
+        <li>O recomendado é <strong>API REST + Syslog</strong>. A API traz desempenho, configuração e topologia do Security Fabric. O syslog traz tráfego, IPS, web filter e eventos de sistema.</li>
+        <li>No FortiGate, crie um admin profile, que pode ser somente leitura. Ele só precisa de escrita em <em>User &amp; Device</em> (para remediação por quarentena) e em <em>Administrator Users</em> (para backup de configuração). Depois, crie um <em>REST API Admin</em> com Trusted Host igual ao IP do Collector e guarde o token, que só aparece uma vez.</li>
+        <li>No FortiSIEM: crie uma credencial com Device Type <code>Fortinet FortiOS</code>, protocolo <code>FORTIOS_REST_API</code> e o token, associe ao IP, rode Test Connectivity e faça um discovery do tipo Range Scan.</li>
+        <li>No syslog, não use formato CSV. Se o tráfego passar por VPN, ajuste o <code>source-ip</code>.</li>
+        <li><strong>Não</strong> envie logs do FortiGate e do FortiAnalyzer ao mesmo tempo, porque os eventos ficam duplicados. Escolha uma das duas origens.</li>
+      </ul>
+
+      <div class="note v75 v751"><b>Mudou na 7.5 · coleta</b><ul>
+        <li><strong>Windows OMI sem NTLM:</strong> o discovery e a coleta de logs por OMI não aceitam mais autenticação NTLM, que a Microsoft descontinuou. Use Kerberos.</li>
+        <li><strong>Webhook:</strong> o FortiSIEM recebe eventos de aplicações e SaaS por webhook num Collector, como na 7.4.2. O guia de integrações da 7.5.1 inclui Corelight, Sectona PAM, Kubernetes (audit), Thinkst Canary, WALLIX Bastion, Huawei VRP e Azure Monitor, entre outros.</li>
+        <li>Na 7.5.1, a <strong>Google Threat Intelligence (GTI)</strong> passou a estar disponível como fonte de inteligência externa.</li>
+      </ul></div>
+      <h3>Agente ou sem agente (Windows)?</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Recurso</th><th>Windows Agent</th><th>OMI/WMI (sem agente)</th></tr></thead>
+        <tbody>
+          <tr><td>Logs Security, System, Application</td><td>Sim</td><td>Sim</td></tr>
+          <tr><td>Sysmon, IIS, logs genéricos de aplicação</td><td>Sim</td><td>Não</td></tr>
+          <tr><td>DNS e DHCP</td><td>Sim</td><td>Limitado</td></tr>
+          <tr><td>FIM, registro, mudança de software instalado</td><td>Sim</td><td>Limitado ou não</td></tr>
+          <tr><td>Saída de PowerShell/WMI, osquery, telemetria UEBA</td><td>Sim</td><td>Não</td></tr>
+          <tr><td>Alto volume de logs</td><td>Sim</td><td>Não (o WMI pesa no servidor)</td></tr>
+        </tbody>
+      </table></div>
+      <p>A recomendação do guia é usar o Windows Agent 5.0.0 ou mais novo para coleta, discovery e desempenho. A configuração é por templates em <span class="path">ADMIN › Setup › Windows Agent</span>, associando hosts a templates. Os agentes Linux ficam em <span class="path">ADMIN › Setup › Linux Agent</span> e servem principalmente para FIM com contexto de usuário.</p>
+      <div class="note v75 v751"><b>Mudou na 7.5 · Host Collectors</b><ul>
+        <li>Na 7.5.1, os agentes aparecem como <strong>Windows Collector</strong> e <strong>Linux Collector</strong>, nas abas <span class="path">ADMIN › Setup › Windows Collector</span> e <span class="path">ADMIN › Setup › Linux Collector</span>. A configuração continua por templates de monitoramento, e agora há <strong>templates prontos</strong>, identificados por Scope = System. Também há atribuição de template por <strong>ranking</strong>.</li>
+        <li><strong>Agente Windows headless:</strong> é configurado localmente e não se registra no Supervisor. Não consome licença de agente, mas consome licença de dispositivo, e os eventos contam no EPS ou no GB/dia. Por enquanto, envia só logs Security e arquivos de log definidos pelo usuário.</li>
+        <li><strong>osquery no Linux Collector</strong>, como já existia no Windows. Há consultas prontas em <span class="path">RESOURCES › Osquery › Linux</span>.</li>
+        <li>O Linux Collector passou a rodar em <strong>AlmaLinux 8, 9 e 10</strong> e em <strong>Amazon Linux 2023</strong>. Antes de atualizar o agente Linux para a 7.5.0, instale os pacotes <code>patchelf</code> e <code>acl</code> (que traz o <code>getfacl</code>); sem eles, o upgrade falha.</li>
+      </ul></div>
+
+      <div class="lab" data-lab-group="m3">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m3a"><span class="txt">Em <span class="path">ANALYTICS › Search</span>, abra a pasta Shortcuts<span class="v751"> (pelo botão Load Report)</span> e rode <em>Top Reporting Devices</em> e <em>Top Event Types</em>. Quem mais manda log no seu ambiente?</span></label>
+        <label><input type="checkbox" data-lab="m3b"><span class="txt">Em <span class="path">ADMIN › Device Support › Parsers</span>, encontre o parser do seu firewall e veja a posição dele na lista.</span></label>
+        <label><input type="checkbox" data-lab="m3c"><span class="txt">Em <span class="path">ADMIN › Setup › Credentials</span>, escolha uma associação existente e rode <em>Test Connectivity</em>.<em>Só leitura: o teste não altera a configuração.</em></span></label>
+        <label><input type="checkbox" data-lab="m3d"><span class="txt">Veja os erros em <span class="path">ADMIN › Setup › Monitor Performance › More › Errors</span> e em <span class="path">Pull Events</span>. Anote um erro e a causa provável: rede, credencial ou desempenho do equipamento.</span></label>
+      </div>
+      <div class="quiz" data-quiz="m3"></div>
+    </section>
+
+    <!-- 04 -->
+    <section class="mod" id="cmdb">
+      <div class="head"><div class="modnum">Módulo 04 <span class="role">Ambos</span></div><h2>CMDB: o inventário que alimenta tudo</h2></div>
+      <p class="goal">Objetivo: usar grupos do CMDB para que regras e relatórios se mantenham sozinhos.</p>
+      <p>O CMDB guarda <strong>Devices</strong>, <strong>Applications</strong>, <strong>Users</strong> e <strong>Business Services</strong>. O discovery preenche os grupos nativos (Firewall, Windows Server e outros). Os grupos que você cria e os Business Services, não.</p>
+      <h3>Por que grupos importam</h3>
+      <p>Uma regra escrita como "Source IP IN CMDB › Network Device › Firewall" dispensa listas de IPs e continua valendo quando um firewall entra ou sai. Grupos também aparecem em buscas, relatórios e Automation Policies (Affected Items).</p>
+      <h3>Tarefas comuns</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Tarefa</th><th>Onde</th></tr></thead>
+        <tbody>
+          <tr><td>Colocar dispositivos em grupos ou Business Services automaticamente, por fabricante, modelo, nome ou faixa de IP</td><td><span class="path">ADMIN › Settings › Discovery › CMDB Group</span> e depois <em>Apply</em>. O discovery passa a respeitar a regra.</td></tr>
+          <tr><td>Dar localização a IPs privados</td><td><span class="path">ADMIN › Settings › Discovery › Location</span></td></tr>
+          <tr><td>Importar usuários do AD</td><td>Credencial LDAP (Used For: Microsoft Active Directory), discovery do controlador de domínio e depois <span class="path">CMDB › Users</span> › Refresh</td></tr>
+          <tr><td>Ver a saúde de um dispositivo</td><td><span class="path">CMDB</span> › selecione o dispositivo › <em>Device Health</em> ou <em>Real time performance</em></td></tr>
+          <tr><td>Relatório do inventário (PDF/CSV)</td><td><span class="path">CMDB › CMDB Reports</span></td></tr>
+          <tr><td>Ajustar o limiar de alerta de um único dispositivo</td><td><span class="path">CMDB</span> › Edit › aba Properties</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Business Service</h3>
+      <p>É um contêiner com os dispositivos e aplicações de um mesmo serviço de negócio, como o "Portal do cliente". A função principal é ajudar na triagem: todo incidente passa a mostrar quais serviços ele afeta, e existe um dashboard próprio para isso.</p>
+      <div class="lab" data-lab-group="m4">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m4a"><span class="txt">No CMDB, encontre um servidor importante e abra <em>Device Health</em>. Confira a coluna Monitor Status.</span></label>
+        <label><input type="checkbox" data-lab="m4b"><span class="txt">Liste três grupos do CMDB que você usaria em regras do seu ambiente, como servidores DNS, controladores de domínio e firewalls de borda.</span></label>
+        <label><input type="checkbox" data-lab="m4c"><span class="txt">Esboce no papel um Business Service crítico do seu ambiente: quais servidores, aplicações e equipamentos de rede ele inclui?</span></label>
+      </div>
+      <div class="quiz" data-quiz="m4"></div>
+    </section>
+
+    <!-- 05 -->
+    <section class="mod" id="busca">
+      <div class="head"><div class="modnum">Módulo 05 <span class="role a">Analista</span></div><h2>Analytics: busca de eventos</h2></div>
+      <p class="goal">Objetivo: montar uma busca do zero, investigar a partir do resultado e reaproveitar o trabalho.</p>
+      <h3>Tempo real ou histórica</h3>
+      <ul>
+        <li><strong>Real-time</strong>: mostra os eventos conforme chegam, antes de serem gravados. <strong>Não</strong> permite Group By. Tem Pause, Resume, Fast forward e Clear.</li>
+        <li><strong>Histórica</strong>: consulta o banco num intervalo relativo (últimos N minutos, horas ou dias) ou absoluto (De/Até, ou <em>Always prior</em>, como "semana anterior"). É a que permite agregação.</li>
+      </ul>
+      <h3>A busca pensada como SQL</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Passo na tela</th><th>Equivale a</th><th>O que você define</th></tr></thead>
+        <tbody>
+          <tr><td>Edit Filters and Time Range</td><td>WHERE</td><td>Filtros, intervalo, Trend Interval, origem (Online/Archive), limite de linhas</td></tr>
+          <tr><td>Group By and Display Fields</td><td>SELECT … GROUP BY</td><td>Atributos, funções (COUNT, AVG, SUM…), ordem e nomes de coluna</td></tr>
+          <tr><td>Display Conditions</td><td>HAVING</td><td>Corte sobre agregados, como <code>COUNT(Matched Events) &gt; 20</code></td></tr>
+        </tbody>
+      </table></div>
+      <h3>Três jeitos de filtrar</h3>
+      <ul>
+        <li><strong>Event Keyword</strong>: expressão booleana sobre o log bruto. <code>(TCP OR UDP) AND 514</code> vira <code>Raw Event Log CONTAINS "(TCP OR UDP) AND 514"</code>.</li>
+        <li><strong>Event Attribute</strong>: tuplas no formato atributo, operador e valor, combinadas com AND e OR.</li>
+        <li><strong>CMDB Attribute</strong>: consulta o CMDB escolhendo um Target: DEVICE, USER, RULE, REPORT, MONITOR, TASK, IDENTITY, INCIDENT, EVENT_PULLING ou CASE.</li>
+      </ul>
+      <div class="tbl"><table>
+        <thead><tr><th>Operadores</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td><code>= != &lt; &lt;= &gt; &gt;=</code></td><td><code>Source IP = 10.1.1.1</code></td></tr>
+          <tr><td><code>BETWEEN</code>, <code>NOT_BETWEEN</code></td><td><code>Source IP BETWEEN (10.1.1.1, 10.1.1.3)</code></td></tr>
+          <tr><td><code>CONTAIN</code>, <code>NOT_CONTAIN</code>, <code>REGEXP</code>, <code>NOT_REGEXP</code></td><td><code>Event Type CONTAIN PH_DEV_MON</code></td></tr>
+          <tr><td><code>STARTS_WITH</code>, <code>NOT STARTS_WITH</code> (novos na 7.4.0, só ClickHouse)</td><td><code>Host Name STARTS_WITH srv-</code></td></tr>
+          <tr><td><code>IN</code>, <code>NOT IN</code> (lista ou objeto do CMDB)</td><td><code>Source IP IN CMDB › Network Device › Firewall</code></td></tr>
+          <tr><td><code>IS NULL</code>, <code>IS NOT NULL</code></td><td><code>User IS NOT NULL</code></td></tr>
+        </tbody>
+      </table></div>
+      <div class="note warn"><b>Pegadinhas</b><ul>
+        <li>IP é armazenado como número inteiro, então <strong>não</strong> aceita REGEXP. Use BETWEEN, IN ou grupos de rede.</li>
+        <li>Os valores com IN precisam combinar com o tipo do atributo. <code>User IN CMDB › Users</code> funciona, mas <code>User IN CMDB › Firewall</code> não.</li>
+        <li>O limite de linhas sem agregação é de 100 mil no EventDB e no Elasticsearch, e de 1 milhão no ClickHouse. Para chegar a 1 milhão, o guia recomenda 32 vCPU e 32 GB de RAM nos nós.</li>
+      </ul></div>
+      <p>Funções úteis: agregação (<code>COUNT</code>, <code>COUNT DISTINCT</code>, <code>AVG</code>, <code>SUM</code>, <code>MAX</code>, <code>PCTILE</code>, <code>STDDEV</code>), texto (<code>TO_LOWER</code>, <code>SUB_STR</code>, <code>LEN</code>), data (<code>HourOfDay</code>, <code>DayOfWeek</code>), CMDB (<code>DeviceToCMDBAttr</code>), lookup (<code>LookupTableHas</code>) e <code>IF</code>. As funções podem ser aninhadas: <code>COUNT DISTINCT (TO_LOWER(User))</code>.</p>
+
+      <h3>Investigando a partir do resultado</h3>
+      <ul>
+        <li><strong>Clique numa barra</strong> do gráfico para abrir uma nova aba já filtrada naquele intervalo. Com <strong>Shift + arrastar</strong>, você ajusta o intervalo na aba atual.</li>
+        <li>No ClickHouse, o painel <strong>Result Filter</strong> à esquerda mostra a distribuição de valores de cada coluna. Clique para filtrar.</li>
+        <li>Em uma célula de <em>Raw Event Log</em>, use <strong>Show Details</strong> para ver como o evento foi interpretado e mandar qualquer atributo para o filtro ou para as colunas.</li>
+        <li>Na coluna, <em>Add to Filter</em> refina a busca sem reabrir o editor.</li>
+      </ul>
+      <h3>Reaproveitando</h3>
+      <ul>
+        <li><strong>Actions › Save as Report</strong>: com <em>Save Definition</em> salva a busca em <span class="path">RESOURCES › Reports</span>. Com <em>Save Results</em> salva o resultado.</li>
+        <li><strong>Save/Load</strong> dentro dos editores de filtro e de colunas guarda blocos para reutilizar.</li>
+        <li><strong>Export Result</strong> (PDF, RTF, CSV; use CSV para resultados grandes) e <strong>Email Result</strong>.</li>
+        <li><strong>Create Rule</strong>: transforma a busca em regra. Exige pelo menos um filtro com <strong>Event Type</strong>. A regra nasce inativa, na pasta Ungrouped, com limiar <code>COUNT &gt;= 1</code>.</li>
+        <li>No ClickHouse, <strong>FortiAI › Summarize</strong> analisa o resultado (colunas, estatística, anomalias). Em logs suspeitos, <strong>FortiAI › Analyze Raw Message</strong> sugere uma ação e anonimiza alguns campos antes de enviar.</li>
+        <li>Em um log bruto, também dá para usar <strong>Create Case</strong> ou <strong>Add to Case</strong>.</li>
+      </ul>
+      <div class="note v75 v751"><b>Mudou na 7.5 · na tela de busca</b><ul>
+        <li>Os relatórios prontos e os Shortcuts abrem pelo botão <strong>Load Report</strong>.</li>
+        <li>Save as Report, Export Result e Email Result viraram <strong>ícones</strong>. O guia da 7.5.1 cita PDF e CSV como formatos de exportação.</li>
+        <li>Os resultados salvos de buscas, da Advanced Search e de relatórios agendados ficam reunidos em <span class="path">RESOURCES › Saved Report Results</span>.</li>
+        <li>Na 7.5.1 você pode aplicar filtros sob demanda na página de filtros da busca, e usuários com papel somente leitura também podem fazer buscas.</li>
+        <li>No log bruto, a opção agora se chama <em>Show Detail</em>.</li>
+      </ul></div>
+      <h4>Busca aninhada</h4>
+      <p>Uma consulta pode usar o resultado de outra (<em>Select from Report</em>), como em "servidores Windows do CMDB que <strong>não</strong> reportaram na última hora" (CMDB por fora, eventos por dentro, com NOT IN). O tipo do atributo de fora precisa casar com uma coluna da consulta de dentro.</p>
+      <div class="v751">
+        <h4>Federated Search <span class="chg">Novo na 7.5</span></h4>
+        <p>Disponível só no ClickHouse, em <span class="path">ANALYTICS › Federated Search</span>. Ela procura <strong>observáveis</strong> (IP, host, hash, processo, URL) em bases externas: AWS Security Lake, buckets do AWS S3, FortiEDR, PostgreSQL, MySQL e Snowflake.</p>
+        <ol>
+          <li>Cadastre um <strong>Provider</strong> com as credenciais de acesso e os <strong>datasets</strong> (tabelas) desse Provider em External Datasets.</li>
+          <li>Mapeie os atributos do FortiSIEM para as colunas da base externa.</li>
+          <li>Rode a busca, ou parta direto de um incidente ou de um resultado do Analytics.</li>
+        </ol>
+        <p>Os resultados ficam gravados no ClickHouse, então dá para refiná-los depois com a Advanced Search. Eles também podem ser exportados em PDF, enviados por e-mail ou anexados a casos.</p>
+      </div>
+
+      <div class="lab" data-lab-group="m5">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m5a"><span class="txt">Crie uma busca histórica das últimas 24h com <code>Event Type = Win-Security-4625</code> (logon com falha no Windows). Agrupe por <em>User</em> e <em>Source IP</em>, mostre <code>COUNT(Matched Events)</code> em ordem decrescente e acrescente a Display Condition <code>COUNT &gt; 10</code>.<em>Se o seu ambiente não tem Windows, use um evento de falha de login do seu firewall ou VPN.</em></span></label>
+        <label><input type="checkbox" data-lab="m5b"><span class="txt">Clique na barra mais alta do gráfico e veja a nova aba aberta naquele intervalo.</span></label>
+        <label><input type="checkbox" data-lab="m5c"><span class="txt">Mude para uma busca sem agregação com <em>Raw Event Log</em>, abra <strong>Show Details</strong> em um evento e mande o atributo <em>Destination IP</em> para as colunas.</span></label>
+        <label><input type="checkbox" data-lab="m5d"><span class="txt">Salve a busca como relatório numa pasta sua e exporte o resultado em CSV.<em class="v751">Na 7.5.1, os dois comandos são ícones na barra de resultados.</em></span></label>
+        <label><input type="checkbox" data-lab="m5e"><span class="txt">Rode a mesma busca em Real-time por 5 minutos e repare que o Group By não está disponível.</span></label>
+      </div>
+      <div class="quiz" data-quiz="m5"></div>
+    </section>
+
+    <!-- 06 -->
+    <section class="mod" id="sql">
+      <div class="head"><div class="modnum">Módulo 06 <span class="role a">Analista</span></div><h2>Advanced Search: SQL no ClickHouse</h2></div>
+      <p class="goal">Objetivo: escrever consultas SELECT eficientes e saber quando elas compensam mais do que a busca comum.</p>
+      <p>Só existe em implantações com <strong>ClickHouse</strong> e aceita apenas <code>SELECT</code>. Fica em <span class="path">ANALYTICS › Advanced Search</span>. Há mais de 30 consultas prontas em <span class="path">RESOURCES › Reports › Advanced Search</span>; abra o <em>Report Summary</em> de uma delas para copiar o SQL e adaptar.</p>
+      <h3>O essencial do esquema</h3>
+      <ul>
+        <li>Todos os eventos ficam na tabela <code>fsiem.events</code>.</li>
+        <li>Colunas frequentes aparecem no painel <em>Database Schema</em>: <code>phRecvTime</code> (hora de recebimento), <code>reptDevName</code>, <code>reptDevIpAddr</code>, <code>reptVendor</code>, <code>reptModel</code>, <code>eventType</code>, <code>phEventCategory</code>, <code>eventParsedOk</code>, <code>phCustId</code>.</li>
+        <li>Para qualquer outro atributo, selecione-o antes em <strong>Attributes used</strong>. Se aparecer o erro <code>Missing columns</code>, foi isso que faltou.</li>
+        <li>Para usar grupos do CMDB, use o <strong>CMDB Group Converter</strong>. Ele gera a condição com <code>dictHas(...)</code> para você colar no WHERE.</li>
+        <li>Use aspas simples para strings (<code>'WIN-ABC'</code>) e crase ou aspas duplas para alias.</li>
+      </ul>
+      <div class="note info"><b>Regras de desempenho</b><ol>
+        <li>Sempre limite o tempo no WHERE. Por exemplo, a última hora é <code>phRecvTime &gt; now() - 3600</code>.</li>
+        <li>Sempre teste primeiro com <code>LIMIT</code>.</li>
+        <li>Use o filtro mais estreito possível, aproveitando os índices primários e de skipping do ClickHouse.</li>
+      </ol></div>
+
+      <h3>Consultas para praticar</h3>
+      <p>Os alias abaixo usam só letras, para que a consulta possa virar regra depois. A Release Note 7.4.2 exige que alias usados em regras comecem com letra e tenham apenas caracteres alfanuméricos.</p>
+      <h4>1. Quem mais envia eventos na última hora</h4>
+      <div class="codewrap"><button class="copy" type="button">Copiar</button><pre><code>SELECT reptDevName AS Dispositivo,
+       reptVendor  AS Fabricante,
+       COUNT(*)    AS TotalEventos,
+       MAX(phRecvTime) AS UltimoEvento
+FROM fsiem.events
+WHERE phRecvTime &gt; now() - 3600
+  AND eventParsedOk = 1
+GROUP BY reptDevName, reptVendor
+ORDER BY TotalEventos DESC
+LIMIT 10</code></pre></div>
+      <h4>2. Tipos de evento por dispositivo nas últimas 24h</h4>
+      <div class="codewrap"><button class="copy" type="button">Copiar</button><pre><code>SELECT reptDevName, eventType, COUNT(*) AS Total
+FROM fsiem.events
+WHERE phRecvTime &gt; now() - 86400
+GROUP BY reptDevName, eventType
+ORDER BY Total DESC
+LIMIT 20</code></pre></div>
+      <h4>3. Usuários com mais falhas de logon no Windows</h4>
+      <div class="codewrap"><button class="copy" type="button">Copiar</button><pre><code>-- antes de rodar: selecione "user" em Attributes used
+SELECT user, COUNT(*) AS Falhas
+FROM fsiem.events
+WHERE phRecvTime &gt; now() - 86400
+  AND eventType = 'Win-Security-4625'
+GROUP BY user
+ORDER BY Falhas DESC
+LIMIT 10</code></pre></div>
+      <h4>4. Dispositivos que reportaram ontem e ficaram mudos hoje</h4>
+      <div class="codewrap"><button class="copy" type="button">Copiar</button><pre><code>WITH ontem AS (
+  SELECT DISTINCT reptDevName
+  FROM fsiem.events
+  WHERE phRecvTime &gt;= toStartOfDay(now()) - 86400
+    AND phRecvTime &lt;  toStartOfDay(now())
+)
+SELECT reptDevName AS Silencioso
+FROM ontem
+WHERE reptDevName NOT IN (
+  SELECT DISTINCT reptDevName
+  FROM fsiem.events
+  WHERE phRecvTime &gt;= toStartOfDay(now())
+)
+ORDER BY Silencioso</code></pre></div>
+      <h4>5. Os 5 tipos de evento mais comuns de cada dispositivo (função de janela)</h4>
+      <div class="codewrap"><button class="copy" type="button">Copiar</button><pre><code>WITH base AS (
+  SELECT reptDevName, eventType, count() AS Total,
+         rank() OVER (PARTITION BY reptDevName ORDER BY Total DESC) AS Posicao
+  FROM fsiem.events
+  WHERE phRecvTime &gt; now() - 3600
+  GROUP BY reptDevName, eventType
+)
+SELECT reptDevName, eventType, Total
+FROM base
+WHERE Posicao &lt;= 5</code></pre></div>
+      <p class="caption">Use <em>Format</em> para indentar e pegar erros de sintaxe. A tela permite até 10 abas de consulta.</p>
+
+      <h3>FortiAI na Advanced Search</h3>
+      <ul>
+        <li><strong>Generate SQL</strong>: escreva o pedido em inglês, como "top event types by count in the last hour", e depois use <em>Replace Original Query</em> › Run. Revise sempre, porque o resultado nem sempre está correto.</li>
+        <li><strong>Fix Errors</strong>: aparece quando o Format ou o Run falha. Exige a chave da API configurada em <span class="path">ADMIN › Settings › Analytics › ML/AI</span>.</li>
+        <li><strong>Summarize Results</strong>: faz análise estatística do resultado.</li>
+      </ul>
+      <div class="note warn"><b>Atenção</b><p>Os resultados da Advanced Search <strong>não são anonimizados</strong> ao ir para o FortiAI. Pense antes de enviar dados sensíveis.</p></div>
+      <div class="note v75 v751"><b>Mudou na 7.5 · Advanced Search</b><ul>
+        <li>Os comandos de FortiAI, Replace Original Query, Copy, Export e Import viraram ícones. O esquema do banco abre pelo ícone <em>Database Schema</em>, e as consultas prontas pelo botão Load Report.</li>
+        <li>Resultados salvos ficam em <span class="path">RESOURCES › Saved Report Results</span>.</li>
+        <li>Na 7.5.1, o <strong>serviço MCP</strong> deixa agentes de IA externos consultarem o ClickHouse e o PostgreSQL do FortiSIEM, só em leitura. Veja o módulo 09.</li>
+        <li>A 7.5.1 inclui regras novas de <strong>movimento lateral</strong> feitas com Advanced Search e regras agendadas.</li>
+      </ul></div>
+      <p>Pelo menu Actions, uma consulta pode virar uma <strong>regra agendada</strong> (<em>Create a Rule</em>, modo Scheduled via SQL; veja o módulo 08) e pode ser salva, exportada em PDF/CSV ou importada/exportada como XML.</p>
+      <div class="lab" data-lab-group="m6">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m6a"><span class="txt">Rode a consulta 1 e depois mude para as últimas 24h.</span></label>
+        <label><input type="checkbox" data-lab="m6b"><span class="txt">Com o CMDB Group Converter, restrinja a consulta 1 a <em>Devices › Server › Windows</em> (Reporting IP IN o grupo).</span></label>
+        <label><input type="checkbox" data-lab="m6c"><span class="txt">Rode a consulta 4. Algum dispositivo importante parou de reportar? Confira em <span class="path">ADMIN › Health</span> ou no CMDB.</span></label>
+        <label><input type="checkbox" data-lab="m6d"><span class="txt">Abra uma consulta pronta em <span class="path">RESOURCES › Reports › Advanced Search</span>, copie o SQL pelo Report Summary e altere um filtro.</span></label>
+      </div>
+      <div class="quiz" data-quiz="m6"></div>
+    </section>
+
+    <!-- 07 -->
+    <section class="mod" id="incidentes">
+      <div class="head"><div class="modnum">Módulo 07 <span class="role a">Analista</span></div><h2>Incidentes: triagem, investigação e ajuste fino</h2></div>
+      <p class="goal">Objetivo: trabalhar a fila de incidentes do início ao fim e reduzir falsos positivos do jeito certo.</p>
+      <h3>As visões da aba INCIDENTS</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Visão</th><th>Use para</th></tr></thead>
+        <tbody>
+          <tr><td>Overview</td><td>Panorama: incidentes por categoria (Security, Performance, Availability, Change), principais incidentes e hosts mais afetados, por severidade ou por risco.</td></tr>
+          <tr><td>List by Time / Device / Rule</td><td>A fila de trabalho. Por padrão mostra as últimas 2 horas e atualiza a cada minuto. É onde ficam as ações.</td></tr>
+          <tr><td>List by Category (FortiAI)</td><td>Agrupa incidentes parecidos (por exemplo, problemas de CPU, memória e disco viram "Resource"). Milhares de incidentes viram dezenas de grupos, cada um com seu risco.</td></tr>
+          <tr><td>Risk</td><td>Dispositivos e usuários ordenados por risco, com tendência de 24h e linha do tempo.</td></tr>
+          <tr><td>Explorer</td><td>Cruza atores (IP, host, usuário) entre vários incidentes numa só tela.</td></tr>
+          <tr><td>MITRE ATT&amp;CK</td><td>Cobertura de regras e incidentes por tática e técnica (IT ou ICS).</td></tr>
+          <tr><td>UEBA</td><td>Alertas de IA vindos do FortiInsight.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Severidade: <span class="sev h">HIGH</span> <span class="sev m">MEDIUM</span> <span class="sev l">LOW</span>. No Overview, a cor do risco segue: 80 ou mais é vermelho, de 50 a 79 é amarelo e abaixo de 50 é verde.</p>
+
+      <h3>Status e resolução</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Status</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td>Active</td><td>Em andamento.</td></tr>
+          <tr><td>Manually Cleared</td><td>Fechado por um usuário.</td></tr>
+          <tr><td>Auto Cleared</td><td>A condição de limpeza da regra foi atendida.</td></tr>
+          <tr><td>System Cleared</td><td>Incidentes que <strong>não</strong> são de segurança são limpos todo dia à meia-noite (hora local).</td></tr>
+          <tr><td>Externally Cleared</td><td>Fechado no sistema de tickets externo.</td></tr>
+        </tbody>
+      </table></div>
+      <p>A <strong>resolução</strong> pode ser Open, In Progress, True Positive ou False Positive. Enquanto o incidente está Active, ela fica Open. Para marcar <strong>False Positive</strong>, é preciso limpar (Clear) o incidente.</p>
+
+      <h3>O que olhar dentro de um incidente</h3>
+      <ul>
+        <li><strong>Incident Details</strong>: todos os atributos (origem, alvo, contagem, primeira e última ocorrência, organização, Business Service, tags).</li>
+        <li><strong>Rule Summary</strong>: a lógica da regra que disparou.</li>
+        <li><strong>Triggering Events</strong>: os eventos que causaram o disparo, com o log bruto e os campos interpretados. Também tem análise por FortiAI.</li>
+        <li><strong>Related Active Incidents</strong>, <strong>Threat</strong> (geolocalização FortiGuard, Whois, watch lists, VirusTotal), <strong>Context</strong>, <strong>FortiAI Analysis</strong>, <strong>Comments</strong> e <strong>Action History</strong>.</li>
+        <li><strong>Investigate</strong> abre <span class="path">ANALYTICS › Investigation</span>: um grafo com o incidente e as entidades envolvidas (host, IP, usuário, processo, arquivo), linha do tempo com "play", incidentes relacionados e relatórios por entidade.</li>
+      </ul>
+
+      <div class="note v75 v751"><b>Mudou na 7.5 · incidentes</b><ul>
+        <li>Para chegar às visões, passe o mouse sobre <strong>Incidents</strong> na barra lateral. Em <em>List</em>, escolha By Time, Device, Rule ou Category.</li>
+        <li><strong>Investigação agêntica (Agentic Incident Analysis):</strong> você fornece prompts, e o FortiAI monta um plano e o executa passo a passo, rodando consultas para concluir se o incidente é verdadeiro ou falso positivo e qual é a causa raiz. Os prompts podem ficar salvos na regra, para os próximos incidentes, e há prompts prontos. Existe o mesmo recurso para casos.</li>
+        <li>O menu do caret em Source e Target ganhou atalhos como <em>Risk</em>, <em>Check Reputation</em>, <em>Real-time Performance</em>, <em>Add to WatchList</em> e <em>Add to Application Group</em>.</li>
+        <li>Na 7.5.1, os eventos gatilho de um incidente podem ser exportados em <strong>CSV</strong>, além de PDF, direto da página do incidente.</li>
+        <li>A partir de um incidente, dá para abrir uma <strong>Federated Search</strong> com os observáveis dele (veja o módulo 05).</li>
+      </ul></div>
+      <h3>Roteiro de triagem</h3>
+      <div class="note tip"><b>Prática recomendada</b><p>Este roteiro organiza as ações do manual numa sequência de trabalho. Adapte ao processo do seu SOC.</p></div>
+      <ol>
+        <li><strong>Priorize:</strong> comece pelo Overview ou pelo List by Time filtrado por <span class="sev h">HIGH</span>. Considere o risco do host e os Business Services afetados.</li>
+        <li><strong>Entenda:</strong> leia o Rule Summary e os Triggering Events. O que exatamente disparou, e quantas vezes?</li>
+        <li><strong>Contextualize:</strong> veja Threat (reputação), Related Incidents, o histórico do host no Risk e os <em>Related Historical Events</em>.</li>
+        <li><strong>Aprofunde:</strong> use Investigate, ou faça uma busca no Analytics a partir dos IPs e usuários envolvidos.<span class="v751"> Na 7.5.1, rode também a investigação agêntica do FortiAI e confira cada passo do plano antes de aceitar a conclusão.</span></li>
+        <li><strong>Decida:</strong> se for verdadeiro, marque <em>In Progress</em>, comente e crie um caso, uma remediação ou um playbook. Se for falso positivo, use <em>Clear</em> com resolução False Positive e um motivo, e faça o ajuste fino.</li>
+        <li><strong>Registre:</strong> deixe comentários claros. Eles aparecem no Action History e nos relatórios.</li>
+      </ol>
+
+      <h3>Ajuste fino: escolha a ferramenta certa</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Situação</th><th>Ajuste</th><th>Como</th></tr></thead>
+        <tbody>
+          <tr><td>Um host, usuário ou horário específico é legítimo</td><td>Exceção da regra</td><td>Incidente › Actions › <em>Edit Rule Exception</em>, por atributo ou por horário</td></tr>
+          <tr><td>A regra não faz sentido para uma classe de ativos, como servidores DNS</td><td>Editar a regra</td><td>Actions › <em>Edit Rule</em>, acrescentando algo como "Source IP NOT IN servidores DNS". Regra de sistema: salve como User Rule, desative a original e ative a nova.</td></tr>
+          <tr><td>Evento ruidoso e sem valor</td><td>Event Dropping</td><td>Actions › <em>Event Dropping Rule</em>: descartar de vez (não conta no EPS) ou gravar sem disparar regras</td></tr>
+          <tr><td>Alerta de desempenho com limiar inadequado</td><td>Ajustar o limiar</td><td>Global: <span class="path">ADMIN › Device Support › Custom Property</span>. Por dispositivo: CMDB › Edit › Properties.</td></tr>
+          <tr><td>Janela de manutenção planejada</td><td>Maintenance Calendar</td><td><span class="path">ADMIN › Setup › Maintenance</span></td></tr>
+          <tr><td>A regra não serve para o ambiente</td><td>Desativar</td><td>Actions › <em>Disable Rule</em>, escolhendo as organizações</td></tr>
+        </tbody>
+      </table></div>
+      <p>Outras ações do menu: Change Severity, Notify via Email, Remediate Incident, Execute Playbook, Run Connector, Check Reputation, Export (PDF/CSV), Create Case e Add to Case. Para selecionar vários incidentes, use Shift ou Ctrl.</p>
+      <div class="lab" data-lab-group="m7">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m7a"><span class="txt">No Overview, clique no número de incidentes Security de severidade HIGH e chegue a uma lista filtrada.</span></label>
+        <label><input type="checkbox" data-lab="m7b"><span class="txt">Abra um incidente e leia, nesta ordem, Rule Summary, Triggering Events e Threat. Escreva em duas frases o que aconteceu.</span></label>
+        <label><input type="checkbox" data-lab="m7c"><span class="txt">Use Actions › Investigate e adicione ao grafo os <em>Related Incidents</em> de um host.</span></label>
+        <label><input type="checkbox" data-lab="m7d"><span class="txt">Escolha um incidente recorrente que você considera falso positivo e decida, pela tabela acima, qual ajuste aplicaria e por quê.<em>Só aplique o ajuste com autorização: ele muda a detecção.</em></span></label>
+      </div>
+      <div class="quiz" data-quiz="m7"></div>
+    </section>
+
+    <!-- 08 -->
+    <section class="mod" id="regras">
+      <div class="head"><div class="modnum">Módulo 08 <span class="role">Ambos</span></div><h2>Regras de correlação</h2></div>
+      <p class="goal">Objetivo: ler qualquer regra pronta e criar a sua, testando antes de ativar.</p>
+      <p>Há mais de 500 regras de sistema em <span class="path">RESOURCES › Rules</span>, organizadas em grupos (Availability, Performance, Change, Security e outros). Elas já vêm ativas. Uma regra é como uma consulta SQL avaliada continuamente sobre o fluxo de eventos.</p>
+      <h3>Os 3 passos do editor</h3>
+      <h4>Step 1 · General</h4>
+      <ul>
+        <li>Nome, descrição, Data Source, Detection Technology (Correlation, Correlation Using Lookup Table, Machine Learning, Profiling) e Remediation Note, que é o texto de orientação para quem recebe o incidente.</li>
+        <li><strong>Evaluation Mode</strong>:
+          <ul>
+            <li><strong>Streaming</strong>: tempo real, em memória, o mais escalável. É o padrão.</li>
+            <li><strong>Scheduled</strong>: só no ClickHouse. Roda em agenda, permite funções analíticas complexas e janelas longas.</li>
+            <li><strong>Scheduled via SQL</strong>: só no ClickHouse e só em Super/Global. A condição é uma consulta da Advanced Search.</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="note warn"><b>Limites dos modos agendados</b><p>No máximo 100 incidentes por execução, condição de limpeza apenas por tempo, e não dá para testar como uma regra Streaming. No Scheduled via SQL, o incidente não mostra os eventos que o dispararam, e as exceções só funcionam pelo atributo-chave.</p></div>
+      <h4>Step 2 · Define Condition</h4>
+      <p>Uma regra tem um ou mais <strong>subpatterns</strong>. Cada um tem filtros de evento (o WHERE), <strong>Group By</strong> e <strong>Aggregate Conditions</strong> (o limiar).</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Cenário</th><th>Group By</th><th>Condição</th></tr></thead>
+        <tbody>
+          <tr><td>10 ou mais eventos</td><td>nenhum</td><td><code>COUNT(Matched Events) &gt;= 10</code></td></tr>
+          <tr><td>Um IP falando com 100 ou mais destinos distintos (varredura)</td><td>Source IP</td><td><code>COUNT(DISTINCT Destination IP) &gt;= 100</code></td></tr>
+          <tr><td>CPU média acima de 95% em 3 amostras</td><td>Host IP</td><td><code>COUNT &gt;= 3 AND AVG(CPU Util) &gt; 95</code></td></tr>
+          <tr><td>Uma estação tentando 5 ou mais contas no mesmo servidor</td><td>Source IP, Destination IP</td><td><code>COUNT(DISTINCT User) &gt;= 5</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>Para relacionar subpatterns, use <code>AND</code>, <code>OR</code>, <code>FOLLOWED_BY</code> (P1 seguido de P2 no tempo), <code>AND_NOT</code> (P1 sem P2, em qualquer ordem) e <code>NOT_FOLLOWED_BY</code> (P1 sem P2 depois). Com restrições entre subpatterns, como <code>P1.Source IP = P2.Source IP</code>, você faz algo parecido com um JOIN.</p>
+      <div class="note info"><b>Exemplo clássico</b><p>P1: 5 ou mais falhas de login agrupadas por Source IP e Destination IP. <strong>NOT_FOLLOWED_BY</strong> P2: um login com sucesso, com a restrição P1.Source IP = P2.Source IP. O resultado são tentativas de força bruta que não tiveram sucesso.</p></div>
+      <h4>Step 3 · Define Action</h4>
+      <ul>
+        <li>Severity, Category, Subcategory, técnicas MITRE (a tática é preenchida sozinha) e Tags (novas na 7.4.0).</li>
+        <li><strong>Incident Attributes</strong>: normalmente os mesmos atributos do Group By. É obrigatório definir pelo menos um. Desde a 7.4.0, atributos reservados como Event Type, Reporting IP e os campos de Incident não podem ser usados aqui.</li>
+        <li><strong>Incident Title</strong> com variáveis, como <code>$user criou $fileName em $hostName</code>.</li>
+        <li><strong>Exception</strong> (atributo e/ou período), <strong>Clear Condition</strong> (por exemplo, "a regra original não disparou por 10 minutos") e <strong>Watch List</strong>, que precisa ter o mesmo tipo do atributo.</li>
+        <li>Notification (frequência), Impacts e Update Status on Summary Dashboard.</li>
+      </ul>
+      <div class="note v75 v751"><b>Mudou na 7.5 · regras</b><ul>
+        <li>A regra tem um campo novo, <strong>Prompt</strong>, com as instruções que a investigação agêntica do FortiAI segue quando um incidente dessa regra acontece. O prompt pode ser gerado pela própria análise agêntica.</li>
+        <li>Na 7.5.1, a criação de regras e relatórios ficou mais enxuta. Em Service Provider, a visão de ativação mostra quando uma regra está ativa só em parte das organizações.</li>
+        <li>Botões viraram ícones: <strong>+</strong> para nova regra, e ícones para Edit, Clone e Test.</li>
+        <li>Importar Sigma por URL de IP privado (RFC 1918) agora é bloqueado, a menos que o IP seja liberado no <code>allowed_trusted_url</code> (veja o módulo 11).</li>
+      </ul></div>
+      <h3>Testar e ativar</h3>
+      <ol>
+        <li>Toda regra nova nasce <strong>inativa</strong>. Para testar uma regra existente, desative-a primeiro, inclusive no escopo de ativação por organização.</li>
+        <li>O teste só funciona na organização <strong>Super/Global</strong>. Selecione a regra › <em>Test</em> › informe um Reporting IP (que pertença ao grupo, se a regra exigir) › cole logs brutos sintéticos, com pausas entre eles › <em>Test Rule</em>.</li>
+        <li>Se passar, marque <em>Active</em>. Se o seu papel exige aprovação, a ativação vira um pedido em TASKS.</li>
+      </ol>
+      <h3>Outras fontes de regras</h3>
+      <ul>
+        <li><strong>Importar Sigma</strong>: <span class="path">RESOURCES › Rules › More › Import Sigma Rule</span>, por URL do repositório SigmaHQ, por arquivo ou colando o YAML. Funciona melhor com regras de Windows. Revise sempre o Step 2 › Filter depois de importar.</li>
+        <li><strong>Exportar e importar XML</strong> para levar regras entre ambientes.</li>
+        <li><strong>Watch Lists</strong> (<span class="path">RESOURCES › Watch Lists</span>): listas que as próprias regras preenchem, como Host Scanners, Frequent Account Lockouts e Malware Likely. As entradas expiram por tempo, e uma lista pode ser usada como condição em outra regra, formando regras aninhadas.</li>
+        <li><strong>Lookup Tables</strong>: tabelas de referência (CSV, API ou relatório) usadas com <code>LookupTableHas</code> e <code>LookupTableGet</code>.</li>
+        <li>Atenção ao objeto <strong>My Home</strong> em <span class="path">RESOURCES › Country Groups</span>. Vem como Estados Unidos e é usado por várias regras de "país incomum". Ajuste para o Brasil, se for o seu caso.</li>
+      </ul>
+      <div class="lab" data-lab-group="m8">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m8a"><span class="txt">Abra uma regra de sistema de força bruta ou varredura e identifique os subpatterns, o Group By, a condição e o operador entre os subpatterns.</span></label>
+        <label><input type="checkbox" data-lab="m8b"><span class="txt">A partir da busca do exercício 5a, use Actions › Create Rule. Ajuste o limiar, a severidade e o título com <code>$user</code>.<em>A regra nasce inativa: o exercício não altera a detecção.</em></span></label>
+        <label><input type="checkbox" data-lab="m8c"><span class="txt">Teste a regra em Super/Global com eventos sintéticos suficientes para disparar.</span></label>
+        <label><input type="checkbox" data-lab="m8d"><span class="txt">Confira se o <em>My Home</em> está configurado com o país correto.</span></label>
+      </div>
+      <div class="quiz" data-quiz="m8"></div>
+    </section>
+
+    <!-- 09 -->
+    <section class="mod" id="automacao">
+      <div class="head"><div class="modnum">Módulo 09 <span class="role">Ambos</span></div><h2>Automação, notificação e casos</h2></div>
+      <p class="goal">Objetivo: fazer o incidente certo chegar à pessoa certa, com a ação certa, sem configurar regra por regra.</p>
+      <h3>Automation Policy</h3>
+      <p>Em vez de configurar uma notificação em cada regra, o FortiSIEM usa políticas em <span class="path">ADMIN › Settings › General › Automation Policy</span>.</p>
+      <ul>
+        <li><strong>Filtros:</strong> severidade (uma ou mais), regras, intervalo de horário, Affected Items (grupos do CMDB, IPs ou faixas, com opção de exclusão) e, em Service Provider, as organizações afetadas.</li>
+        <li><strong>Ações:</strong> enviar e-mail, SMS ou webhook (endereços ou usuários do CMDB, com template); rodar remediação ou script; rodar playbook; chamar uma integração (por exemplo, FortiGuard IOC Lookup); <strong>criar caso</strong>; SNMP trap; XML por HTTP(S); ticket no Remedy; e "Invoke FortiAI and update Comments".</li>
+        <li><strong>Configurações:</strong> não notificar quando o incidente for limpo automaticamente, manualmente ou pelo sistema.</li>
+        <li>Depois de criar, <strong>marque a política como Enabled</strong>. Esse passo é fácil de esquecer.</li>
+      </ul>
+      <div class="note tip"><b>Pré-requisito</b><p>Configure o servidor de e-mail em <span class="path">ADMIN › Settings › System › Email</span> (use <em>Test Email</em>). Para personalizar a mensagem, use <em>Incident Email Template</em>; a Remediation Note da regra pode entrar no template. Seja específico nos filtros para não inundar caixas de entrada.</p></div>
+      <div class="note v75 v751"><b>Mudou na 7.5 · notificações</b><ul>
+        <li><strong>Webhook genérico para notificar incidentes:</strong> antes, só havia integração pronta com o Microsoft Teams. Agora há passo a passo para Slack, Telegram, WhatsApp, Teams e aplicações próprias. Configure o webhook em <span class="path">ADMIN › Settings › Analytics › Incident Notification</span> e use-o na ação Send Email/SMS/Webhook da Automation Policy.</li>
+        <li>Para notificar usuários do CMDB, clique dentro do campo <em>To:</em> e use <em>Select User</em>.</li>
+        <li>Na 7.5.1, URLs com IP privado (RFC 1918) nas notificações HTTP e de webhook são bloqueadas, a menos que o IP esteja liberado no <code>allowed_trusted_url</code>.</li>
+      </ul></div>
+      <h3>Remediação</h3>
+      <ul>
+        <li>Há scripts prontos, como bloquear um IP no FortiGate, Check Point, ASA ou Palo Alto, desabilitar um usuário no AD e colocar em quarentena no FortiGate. Também dá para criar os seus.</li>
+        <li><strong>Pontual:</strong> incidente › Actions › <em>Remediate Incident</em>, escolhendo o script, o <em>Run On</em> (Supervisor ou Collector) e o <em>Enforce On</em>. O Enforce On aceita só dispositivos individuais, não grupos, e eles precisam ter credencial funcionando.</li>
+        <li><strong>Automática:</strong> pela ação <em>Run Remediation/Script</em> da Automation Policy.</li>
+        <li>Se o seu papel não pode remediar, a tela abre um pedido de aprovação, enviado por e-mail e acompanhado em TASKS.</li>
+      </ul>
+      <h3>Playbooks (Automation Service, 7.4.0)</h3>
+      <p>Playbooks criados e executados dentro do próprio FortiSIEM. Antes, isso só era possível com um FortiSOAR separado. Exige licença adicional, provisionamento e os papéis Automation Read, Modify e Execute. Eles rodam por Automation Agents, que vêm configurados no Supervisor e são instalados manualmente nos Collectors. Há coleções prontas de investigação, remediação e enriquecimento.</p>
+      <div class="note warn"><b>Limitações</b><p>O Automation Service não funciona com FIPS habilitado nem com o recurso de HA entre data centers.<span class="v751"> Além disso, a 7.5.1 não pode ser instalada com FIPS habilitado nem em ambiente IPv6.</span></p></div>
+      <h3>Casos (Case Management)</h3>
+      <ol>
+        <li>Configure o servidor de e-mail.</li>
+        <li>Crie <strong>times</strong> em <span class="path">CMDB › Users › FortiSIEM Analysts</span>, por região e fuso, por especialidade ou por severidade. Cada time precisa de um <strong>Team Lead</strong> e de uma fila. Cada analista precisa de jornada e folgas cadastradas, que são usadas na atribuição automática.</li>
+        <li>Crie uma <strong>Case Management Policy</strong> em <span class="path">ADMIN › Settings › General › Case Management</span>. Ela define SLAs, escalonamento e quem recebe as notificações.</li>
+        <li>Crie o caso manualmente, a partir de um incidente ou de um evento, ou automaticamente, pela ação "Create Case" de uma Automation Policy, com uma sequência de times (FIRST, depois THEN…).</li>
+      </ol>
+      <p>Dentro do caso há visões Explore, MITRE ATT&amp;CK e Investigate, além de notas, evidências e histórico de ações. Os dashboards Case Health, Case KPI e Case Handling acompanham a operação.<span class="v751"> Na 7.5, também há <strong>análise agêntica de casos</strong> pelo FortiAI. Para criar um time em FortiSIEM Analysts, use <em>New Group</em>.<span class="chg">Mudou na 7.5</span></span></p>
+      <div class="v751">
+        <h3>API Token e serviço MCP <span class="chg">Novo na 7.5</span></h3>
+        <ul>
+          <li><strong>API Token (7.5.0):</strong> autenticação OAuth para a API REST pública, mais segura do que usuário e senha, que ainda funcionam por compatibilidade mas podem ser descontinuados. Crie o token em <span class="path">ADMIN › Settings › System › API Token</span>. O token herda o alcance de quem o criou: um token do Full Admin de Org1 acessa só os logs de Org1.</li>
+          <li><strong>Client Credentials (7.5.1):</strong> o grant Refresh Token foi trocado pelo Client Credentials. O chamador obtém e renova o token só com Client ID e Client Secret, pelo endpoint <code>/phoenix/rest/pub/security/oauth/token</code>.</li>
+          <li><strong>Serviço MCP (7.5.1, só ClickHouse):</strong> permite que agentes de IA próprios acessem o CMDB (dispositivos, usuários, incidentes) e o banco de eventos em <code>https://{Supervisor}/phoenix/mcp</code>, porta 443, usando um API Token. Algumas das ferramentas: <code>get_incident_by_id</code>, <code>get_trigger_events_by_incident_id</code>, <code>get_related_incidents_by_id</code>, <code>query_fsm_clickhouse</code>, <code>update_incident_resolution_by_id</code> e <code>clear_incident_by_id</code>. O acesso às tabelas é somente leitura e algumas funções SQL são bloqueadas.</li>
+        </ul>
+        <div class="note warn"><b>Atenção</b><p>Algumas ferramentas MCP <strong>alteram incidentes</strong>: comentam, limpam e mudam a severidade ou a resolução. Dê a cada agente um token com o menor alcance possível.</p></div>
+      </div>
+      <div class="lab" data-lab-group="m9">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m9a"><span class="txt">Liste as Automation Policies existentes e responda: quais incidentes geram e-mail hoje, e para quem?</span></label>
+        <label><input type="checkbox" data-lab="m9b"><span class="txt">Crie uma política de teste: severidade HIGH, uma única regra, ação "Send Email" para você. Ative, observe e depois desative.<em>Altera o ambiente: combine com o responsável.</em></span></label>
+        <label><input type="checkbox" data-lab="m9c"><span class="txt">Veja os scripts disponíveis na ação Run Remediation/Script e escolha um que faria sentido no seu ambiente.</span></label>
+      </div>
+      <div class="quiz" data-quiz="m9"></div>
+    </section>
+
+    <!-- 10 -->
+    <section class="mod" id="dashboards">
+      <div class="head"><div class="modnum">Módulo 10 <span class="role a">Analista</span></div><h2>Dashboards e relatórios</h2></div>
+      <p class="goal">Objetivo: montar a sua visão diária e automatizar os relatórios recorrentes.</p>
+      <h3>Tipos de dashboard</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Tipo</th><th>O que mostra</th></tr></thead>
+        <tbody>
+          <tr><td>Global FortiSIEM (7.4.0)</td><td>Página inicial com risco geral, dispositivos e usuários mais arriscados, status de incidentes e casos, e uma aba de fontes de dados (dispositivos, agentes, integrações, armazenamento).</td></tr>
+          <tr><td>Widget</td><td>Gráficos "Top N", um por relatório. Qualquer relatório de eventos ou de CMDB pode virar widget. Calculado em streaming, por isso carrega rápido. Desde a 7.4.0, o layout é livre e redimensionável, e um botão muda o período de todos os widgets.</td></tr>
+          <tr><td>Summary</td><td>Uma planilha com uma linha por dispositivo e uma coluna por métrica, com cores vermelho, amarelo e verde. Usa um banco em memória.</td></tr>
+          <tr><td>Business Service</td><td>Saúde dos serviços de negócio, com detalhamento até dispositivos e incidentes.</td></tr>
+          <tr><td>Identity &amp; Location</td><td>Mapeamento de IP para usuário e local. Precisa de logs de DHCP, VPN, Wi-Fi e logon no AD.</td></tr>
+          <tr><td>Interface Usage e PCI Logging</td><td>Uso de interfaces de roteadores e firewalls (útil em SD-WAN) e quais dispositivos de PCI estão enviando logs.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Para criar: DASHBOARD › menu de pastas › <em>New</em> (pasta) › <em>+</em> (dashboard e tipo) › <em>+</em> para adicionar widgets. Pastas podem ser compartilhadas, clonadas e exibidas em slideshow.</p>
+      <h3>Relatórios</h3>
+      <ul>
+        <li>Os relatórios prontos ficam em <span class="path">RESOURCES › Reports</span>. Selecione um e clique em <em>Run</em>, ou crie com <em>New</em>. O caminho mais prático é montar a busca no Analytics e usar <em>Save as Report</em>.</li>
+        <li><strong>Agendar:</strong> selecione o relatório › <em>More › Schedule</em>. Os formatos incluem PDF e CSV, enviados por e-mail. Também é possível agendar <strong>Report Bundles</strong> e usar fluxo com aprovação.</li>
+        <li><strong>Templates de design</strong> definem capa, sumário e seções do PDF.</li>
+        <li><strong>Compliance:</strong> há relatórios prontos para PCI, SOX, HIPAA, ISO 27001, NIST 800-53/171, GLBA, FISMA, NERC e outros. Para usar, coloque os dispositivos no grupo de compliance correspondente e rode o relatório.</li>
+        <li>A <strong>pré-computação</strong> acelera relatórios repetidos em janelas longas. Funciona no EventDB e no Elasticsearch, com consultas agregadas (COUNT, SUM, AVG, MAX, MIN), e é configurada por um Full Admin da Super/Global.</li>
+      </ul>
+      <div class="note v75 v751"><b>Mudou na 7.5 · relatórios e dashboards</b><ul>
+        <li>Para agendar, use o ícone <strong>Schedule</strong> do relatório, no lugar de More › Schedule.</li>
+        <li>Todos os resultados salvos em PDF, de buscas e de relatórios agendados, ficam em <span class="path">RESOURCES › Saved Report Results</span>.</li>
+        <li><strong>ReportAI</strong> (<span class="path">RESOURCES › ReportAI</span>): mais de 100 perguntas prontas para o FortiAI, separadas em pastas como CMDB, Data Collection, Incident, Performance, Threat Hunting, User Activity e Vulnerability. As perguntas de sistema não podem ser editadas, mas podem ser clonadas.</li>
+        <li>Dashboards novos na 7.5.1: Corelight, Corelight Zeek e Corelight Suricata. O dashboard do CrowdStrike foi atualizado.</li>
+        <li>Problema conhecido: no Business Service Dashboard, dispositivos descobertos só por log podem aparecer sem nome. A solução de contorno é reiniciar o processo Query Master no Supervisor.</li>
+      </ul></div>
+      <div class="lab" data-lab-group="m10">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m10a"><span class="txt">Crie uma pasta pessoal com um Widget Dashboard e adicione três widgets: o relatório que você salvou no módulo 05, Top Event Types e um de incidentes.</span></label>
+        <label><input type="checkbox" data-lab="m10b"><span class="txt">Agende o seu relatório para toda segunda-feira às 8h, em PDF, para o seu e-mail.</span></label>
+        <label><input type="checkbox" data-lab="m10c"><span class="txt">Procure em RESOURCES › Reports um relatório de compliance relevante para a sua empresa e leia o Report Summary dele.</span></label>
+      </div>
+      <div class="quiz" data-quiz="m10"></div>
+    </section>
+
+    <!-- 11 -->
+    <section class="mod" id="admin">
+      <div class="head"><div class="modnum">Módulo 11 <span class="role">Admin</span></div><h2>Administração e saúde do sistema</h2></div>
+      <p class="goal">Objetivo: saber se o FortiSIEM está saudável e onde mexer no tratamento de eventos.</p>
+      <h3>Rotina de verificação</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Verificar</th><th>Onde</th><th>O que é normal</th></tr></thead>
+        <tbody>
+          <tr><td>Nós Supervisor e Worker</td><td><span class="path">ADMIN › Health › Cloud Health</span></td><td>Health Normal, load average abaixo do número de cores, CPU longe de 99%, pouco swap. Clique no nó para ver os processos: devem estar Up, com uptime alto.</td></tr>
+          <tr><td>Collectors</td><td><span class="path">ADMIN › Health › Collector Health</span></td><td>Todos ativos e com versão atualizada.</td></tr>
+          <tr><td>Agentes e replicação</td><td><span class="path">ADMIN › Health › Agent Health</span> / <span class="path">Replication Health</span></td><td>Agentes reportando; replicação sem erros.</td></tr>
+          <tr><td>Licença</td><td><span class="path">ADMIN › License › Usage</span></td><td>EPS e dispositivos dentro do contratado.</td></tr>
+          <tr><td>Erros do sistema</td><td>Ícone Jobs/Errors › Error, ou o relatório <em>Top FortiSIEM Operational Errors</em></td><td>Investigar qualquer erro recorrente.</td></tr>
+          <tr><td>Monitoramento atrasado</td><td>CMDB, coluna Monitor Status</td><td>Se aparecer Warning ou Critical, veja a aba Monitor do dispositivo.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Se a coleta por polling atrasar, verifique os recursos do dispositivo e a rede (SNMP e WMI não toleram latência de WAN acima de cerca de 10 ms), aumente os intervalos em <span class="path">Monitor Performance › More › Edit Intervals</span> ou leve Collectors para perto dos ativos. Se aumentar o intervalo de polling, revise as regras que contam amostras numa janela de tempo.</p>
+
+      <h3>Tratamento de eventos</h3>
+      <p class="v751">Na 7.5, esta área se chama <strong>Event Pipeline</strong> e reúne Multiline Syslog, Event Org Mapping, Event Tagging, Forwarding e Dropping.<span class="chg">Mudou na 7.5</span></p>
+      <h4>Event Dropping (<span class="path">ADMIN › Settings › Event Handling › Dropping</span>)</h4>
+      <ul>
+        <li><strong>Drop event</strong>: o evento é descartado na primeira entrada (no Collector, se houver) e <strong>não conta no EPS</strong>.</li>
+        <li><strong>Store event</strong>: o evento é gravado e conta no EPS. Dá para escolher <em>Do not trigger rules</em> (fica disponível para relatórios) ou <em>Drop attributes</em>.</li>
+        <li>Os critérios são dispositivo, Event Type, IP de origem ou destino e regex. Todas as regras de descarte valem, e a ordem entre elas não importa. Para ver o efeito, use o relatório <em>System Event Processing Statistics</em>.</li>
+      </ul>
+      <h4>Outros ajustes</h4>
+      <ul>
+        <li><strong>Forwarding</strong>: reencaminha syslog, NetFlow ou Kafka para outros destinos. Aceita UDP, TCP ou TCP over SSL, em formato original ou CEF.</li>
+        <li><strong>Event Org Mapping</strong>: atribui eventos a organizações por um atributo, como a VDOM do FortiGate.</li>
+        <li><strong>Multiline Syslog</strong>: junta logs quebrados em várias linhas, com regex de início e fim.</li>
+        <li class="v751"><strong>Event Tagging</strong> (<span class="path">ADMIN › Settings › Event Pipeline › Event Tagging</span>): acrescenta atributos que não vêm no log, ou sobrescreve os que vieram. Pode ser <em>por política</em> ("se Source IP estiver entre 10.1.1.0 e 10.1.1.255, então Department = Engenharia") ou <em>por arquivo</em> (um CSV com IP e departamento, por exemplo). As políticas são aplicadas nos Collectors, na ordem de cima para baixo, e os atributos criados podem ser usados em regras e relatórios como qualquer outro.<span class="chg">Novo na 7.5</span></li>
+      </ul>
+
+      <h3>Parsers</h3>
+      <p>Os parsers são arquivos XML com três partes: <code>eventFormatRecognizer</code>, <code>patternDefinitions</code> e <code>parsingInstructions</code>. São avaliados <strong>de cima para baixo</strong> em <span class="path">ADMIN › Device Support › Parsers</span>. O primeiro cujo recognizer casa com o log é usado para tudo que vem daquele IP. Se nenhum casar, o evento vira <code>Unknown_Event_Type</code>.</p>
+      <p><strong>Para alterar um parser de sistema:</strong> Clone › editar › <em>Validate</em> (sintaxe) › <em>Test</em> (com logs de exemplo) › desabilitar o original e habilitar o seu › <em>Apply</em>, que distribui para todos os nós sem downtime. Para um parser novo, posicione-o na ordem certa: parsers com palavras-chave distintivas ficam mais acima.</p>
+
+      <h3>Retenção (ClickHouse)</h3>
+      <ul>
+        <li><strong>Por espaço:</strong> quando a camada Hot fica com menos de 10% livre, os eventos mais antigos vão para a Warm até liberar 20%. O mesmo vale de Warm para Cold e de Cold para purga. Se a camada seguinte não existir, os eventos são purgados.</li>
+        <li><strong>Por tempo:</strong> políticas em <span class="path">ADMIN › Settings › Database › Retention Policy</span>, por organização, dispositivo ou Event Type. Se faltar disco, a regra de espaço prevalece.</li>
+        <li><strong>Archive:</strong> em NFS, é uma cópia em tempo real no formato EventDB, com retenção própria. Em AWS S3 ou GCS, a capacidade é tratada como ilimitada.</li>
+      </ul>
+
+      <h3>Linha de comando (SSH no nó)</h3>
+      <div class="codewrap"><button class="copy" type="button">Copiar</button><pre><code>phstatus            # status de todos os processos do FortiSIEM
+phstatus -a         # detalhado: EPS e I/O local (como root)
+phtools --stop all  # para todos os processos (use com cuidado)
+phtools --start all
+top                 # CPU e memória por processo
+iostat -x 2         # I/O do disco local
+tail -300f /opt/phoenix/log/phoenix.log   # log dos módulos C++</code></pre></div>
+      <h3>Outros pontos de administração</h3>
+      <ul>
+        <li><strong>Usuários:</strong> crie no CMDB, depois Edit › System Admin, definindo autenticação Local ou External e o papel. Papéis ficam em <span class="path">ADMIN › Settings › Role › Role Management</span>. A autenticação externa (LDAP/LDAPS, RADIUS, SAML, 2FA com Duo) fica em <span class="path">ADMIN › Settings › General › External Authentication</span>.</li>
+        <li><strong>Content Update:</strong> atualizações de regras, relatórios e parsers, com histórico e instalação.<span class="v751"> Desde a 7.5.0, o download depende do certificado que vem na licença nova.</span></li>
+        <li><strong>Espaço do CMDB:</strong> os parâmetros <code>month_retain_limit</code> (6 meses de incidentes por padrão) e os limiares de disco ficam no <code>phoenix_config.txt</code>.</li>
+        <li><strong>Portas:</strong> veja a cola rápida. A Fortinet recomenda não bloquear com firewall a comunicação entre os nós do FortiSIEM.</li>
+      </ul>
+      <div class="note v75 v751"><b>Mudou na 7.5 · administração</b><ul>
+        <li><strong>URLs com IP privado são bloqueadas</strong> (7.5.1) em notificações HTTP e webhook, importação de Lookup Table e de Sigma por URL, atualização de malware por API e no endereço do FortiSIEM Manager. Para liberar, acrescente os IPs na seção GLOBAL do <code>/opt/phoenix/config/phoenix_config.txt</code>: <code>allowed_trusted_url=&lt;ip_1&gt;,&lt;ip_2&gt;</code>. IPs públicos não precisam disso.</li>
+        <li>A lista de processos em Cloud Health ganhou novos itens, como <code>phMCPServer</code> (serviço MCP), <code>phGenerativeAI</code> (FortiAI), <code>clickHouseKeeper</code> e <code>clickHouseServer</code>. Na 7.5.1, o uso restante de requisições e tokens do OpenAI também aparece em Cloud Health.</li>
+        <li><strong>Upgrade de Collectors:</strong> atualize primeiro um único Collector. Isso cria o cache de pacotes no Supervisor; depois atualize os demais em lote. Sem esse passo, o upgrade em lote pode falhar.</li>
+        <li><strong>Appliances de hardware:</strong> a Fortinet recomenda rodar <code>fstrim</code> periodicamente, com <code>systemctl enable fstrim.timer</code>. Depois de restaurar um backup de hardware, algumas tabelas do ClickHouse podem ficar em modo somente leitura e precisam ser recuperadas.</li>
+        <li><strong>Problema conhecido:</strong> em alguns cenários, jobs de Pull Events e de Monitor Performance executados pelo Supervisor não podem ser desabilitados pela visão Super/Global. A coleta funciona normalmente. A solução de contorno é apagar a credencial ou, em multi-tenant, trocar para a organização Super/Local.</li>
+        <li><strong>Problema conhecido:</strong> um monitor customizado adicionado a um dispositivo já descoberto pode não começar a rodar. A solução é desabilitar e reabilitar o monitoramento do dispositivo, ou removê-lo do CMDB e descobri-lo de novo.</li>
+      </ul></div>
+      <div class="lab" data-lab-group="m11">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m11a"><span class="txt">Em Cloud Health, abra cada nó e anote EPS, load average e se algum processo não está Up.</span></label>
+        <label><input type="checkbox" data-lab="m11b"><span class="txt">Liste as regras de Event Dropping existentes e responda, para cada uma: o evento é descartado ou gravado?</span></label>
+        <label><input type="checkbox" data-lab="m11c"><span class="txt">Se tiver acesso SSH, rode <code>phstatus</code> no Supervisor e compare com o que aparece em Cloud Health.<em>Só leitura.</em></span></label>
+        <label><input type="checkbox" data-lab="m11d"><span class="txt">Verifique as políticas de retenção e calcule quantos dias de eventos o seu armazenamento comporta hoje.</span></label>
+      </div>
+      <div class="quiz" data-quiz="m11"></div>
+    </section>
+
+    <!-- 12 -->
+    <section class="mod" id="novidades">
+      <div class="head"><div class="modnum">Módulo 12 <span class="role">Ambos</span></div><h2><span class="v742">Novidades da 7.4.x</span><span class="v751">Novidades da 7.5.x</span> e notas de implementação</h2></div>
+      <p class="goal">Objetivo: conhecer o que mudou na sua versão e as armadilhas documentadas.</p>
+      <div class="v751">
+      <h3>O que chegou na 7.5.0</h3>
+      <ul>
+        <li><strong>Nova interface:</strong> navegação em barra lateral, uso amplo de ícones e posições padronizadas para Search, Add, Edit e Delete.</li>
+        <li><strong>Federated Search:</strong> procura observáveis em AWS Security Lake, S3, FortiEDR, PostgreSQL, MySQL e Snowflake. Só no ClickHouse.</li>
+        <li><strong>Event Tagging:</strong> atributos acrescentados por política ou por arquivo, aplicados nos Collectors.</li>
+        <li><strong>ClickHouse Storage Regions:</strong> separação do armazenamento por região.</li>
+        <li><strong>FortiAI agêntico:</strong> chat conversacional que usa MCP e WebSocket, além de investigação agêntica de incidentes e de casos guiada por prompts.</li>
+        <li><strong>API Token (OAuth)</strong> para a API REST pública.</li>
+        <li><strong>Agente Windows headless</strong> e <strong>osquery no Linux</strong>.</li>
+        <li><strong>Webhook</strong> para notificar incidentes no Slack, Teams, Telegram, WhatsApp e outros.</li>
+        <li><strong>Saved Report Results</strong>, que reúne os resultados salvos, e templates prontos de agentes.</li>
+        <li><strong>Plataforma:</strong> Rocky Linux 9.7, GlassFish 7, Hibernate 6.6, JDK 21 e PostgreSQL 16.11. Os nós se autenticam por certificado de cliente.</li>
+        <li><strong>Suporte novo:</strong> Cloudflare WAF, Kubernetes Audit, FortiSRA, Zscaler ZPA e Atlassian Bitbucket.</li>
+        <li><strong>Descontinuado:</strong> o Disaster Recovery, substituído pela HA entre data centers.</li>
+      </ul>
+      <h3>O que chegou na 7.5.1</h3>
+      <ul>
+        <li><strong>Serviço MCP</strong> para agentes de IA próprios, com 16 ferramentas (incidentes, contexto, IOCs e consultas ao ClickHouse e ao PostgreSQL). Só no ClickHouse.</li>
+        <li><strong>API Token com Client Credentials</strong>, no lugar do grant Refresh Token.</li>
+        <li><strong>FortiAI:</strong> busca semântica nos prompts e no histórico, com economia de cerca de 45% de tokens nos exemplos da Fortinet, e restrições de segurança mais rígidas.</li>
+        <li><strong>Interface:</strong> filtros sob demanda na busca, criação mais enxuta de regras e relatórios e ativação parcial de regras visível em Service Provider.</li>
+        <li><strong>Linux Collector</strong> em AlmaLinux 8, 9 e 10 e em Amazon Linux 2023.</li>
+        <li><strong>Suporte novo:</strong> Corelight (com dashboards), Google Threat Intelligence e Sectona PAM.</li>
+        <li><strong>APIs:</strong> novas <code>/pub/v2/query/*</code>, <code>/organization/list</code> e <code>/pub/device/delete</code>. Várias APIs antigas foram descontinuadas ou removidas (veja a aba Diferenças).</li>
+        <li>Correções dos CVEs do Linux Copy-Fail e Dirty-Frag e patches do Rocky Linux 9.7 até 29/04/2026. O procedimento de atualização do SO para o Dirty-Frag precisa ser executado duas vezes seguidas.</li>
+        <li>Redis 8.6.2.</li>
+      </ul>
+      <h3>Notas de implementação para lembrar</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Nota</th><th>Impacto no dia a dia</th></tr></thead>
+        <tbody>
+          <tr><td>Licença com certificado</td><td>Depois de atualizar de uma versão anterior à 7.5.0, baixe a licença nova no FortiCare (não a Legacy) e envie em Admin › License › Upload License.</td></tr>
+          <tr><td>Memória do Supervisor</td><td>O upgrade para a 7.5.1 exige 32 GB de RAM no Supervisor e pelo menos 10 GB para a JVM.</td></tr>
+          <tr><td>FIPS e IPv6</td><td>A 7.5.1 não pode ser instalada com FIPS habilitado nem em ambiente IPv6.</td></tr>
+          <tr><td>Automation Service</td><td>Não funciona com FIPS nem com HA entre data centers.</td></tr>
+          <tr><td>Upgrade de Collectors</td><td>Atualize um Collector primeiro e depois os demais em lote.</td></tr>
+          <tr><td>Azure</td><td>Vindo de uma versão anterior à 7.5.0, cada nó reinicia duas vezes durante o upgrade. Acompanhe o progresso em <code>/usr/local/upgrade/logs/ansible.log</code>.</td></tr>
+          <tr><td>URLs com IP privado</td><td>Bloqueadas, a menos que liberadas em <code>allowed_trusted_url</code>.</td></tr>
+          <tr><td>FortiAI e papéis</td><td>As respostas respeitam só a organização do usuário, e não os filtros de dados do papel.</td></tr>
+          <tr><td>Windows OMI</td><td>Não aceita mais NTLM: use Kerberos.</td></tr>
+          <tr><td>Linux Collector</td><td>Exige os pacotes <code>patchelf</code> e <code>acl</code> antes do upgrade. No Ubuntu 24, o AppArmor continua precisando de ajuste.</td></tr>
+          <tr><td>Elasticsearch em instalação nova</td><td>Se os eventos não aparecerem, rode Test e Deploy de novo em Admin › Setup › Storage › Online.</td></tr>
+          <tr><td>Nessus 6</td><td>O suporte foi descontinuado.</td></tr>
+          <tr><td>Notas que continuam da 7.4</td><td>Alias de SQL em regras só com letras e números; pesquisa e filtros não funcionam juntos; <code>phRecvTime</code> não pode ser definido em parser; atributos reservados não podem ser Incident Attributes.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="lab" data-lab-group="m12n">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m12n-a"><span class="txt">Confirme a versão de cada nó na coluna Version de Cloud Health.</span></label>
+        <label><input type="checkbox" data-lab="m12n-b"><span class="txt">Confira se a licença instalada já é a nova, com certificado (Admin › License).</span></label>
+        <label><input type="checkbox" data-lab="m12n-c"><span class="txt">Crie um API Token de teste com o menor alcance possível, anote o Client ID e depois revogue o token.<em>Altera o ambiente: faça em laboratório.</em></span></label>
+        <label><input type="checkbox" data-lab="m12n-d"><span class="txt">Abra o FortiAI Chat, rode uma pergunta pronta do ReportAI e compare a resposta com uma busca feita por você no Analytics.</span></label>
+      </div>
+      </div>
+      <div class="v742">
+      <h3>O que chegou na 7.4.0</h3>
+      <ul>
+        <li>Novo framework de <strong>Widget Dashboard</strong> (layout livre) e o <strong>dashboard Global do FortiSIEM</strong>.</li>
+        <li><strong>Automation Service</strong>: playbooks nativos, com licença à parte.</li>
+        <li><strong>Regras com Advanced Search</strong> (Scheduled via SQL), com quatro regras prontas de "spike" (picos de eventos, eventos desconhecidos e tráfego negado).</li>
+        <li><strong>Tags</strong> de incidente e regra, que dão para pesquisar em regras, incidentes e casos.</li>
+        <li><strong>FortiAI</strong>: gera SQL a partir de linguagem natural, categoriza incidentes, analisa resultados de consultas e passa a aceitar Azure OpenAI.</li>
+        <li>Incidentes: Overview redesenhado, coluna <em>Related Incidents</em> com linha do tempo, logs JSON e XML formatados e mapa para mudança súbita de localização.</li>
+        <li>Upgrade automatizado do cluster inteiro (Supervisor e Workers) com <code>fsm_cluster_upgrade.py</code>.</li>
+        <li>Autenticação RADIUS na GUI, VirusTotal API v3, operadores STARTS_WITH e portas TCP 7900-7950 e 27900-27950 restritas a Supervisor e Workers.</li>
+        <li>APIs novas: Case API, reputação de entidade (IP, domínio, URL, hash) e eventos gatilho de forma assíncrona.</li>
+      </ul>
+      <p><strong>7.4.1</strong> trouxe <strong>Alta Disponibilidade entre data centers</strong>.</p>
+      <h3>O que a 7.4.2 corrige</h3>
+      <ul>
+        <li>Correções de vulnerabilidades do Linux, Copy-Fail (CVE-2026-31431) e Dirty-Frag (CVE-2026-43284), disponíveis no repositório de SO do FortiSIEM para versões 6.4.1 ou superiores. No caso do Dirty-Frag, o procedimento de atualização do SO precisa ser executado <strong>duas vezes seguidas</strong>.</li>
+        <li>Patches do Rocky Linux 8.10 até 18/09/2025.</li>
+        <li>Mais robustez no upgrade do cluster (retry nos comandos SSH do <code>fsm_cluster_upgrade.py</code>).</li>
+        <li><strong>Importante:</strong> quem está na 7.3.5 ou na 7.2.7 precisa ir para a <strong>7.4.2 ou superior</strong>. A 7.4.1 não tinha uma correção de segurança dessas versões, e o upgrade falha.</li>
+      </ul>
+      <h3>Notas de implementação para lembrar</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Nota</th><th>Impacto no dia a dia</th></tr></thead>
+        <tbody>
+          <tr><td>Alias com <code>AS</code> em regras de Advanced Search</td><td>Precisa começar com letra e ter só caracteres alfanuméricos.</td></tr>
+          <tr><td>Pesquisa nas listas de Regras, Relatórios e CMDB</td><td>A caixa de pesquisa e os filtros não funcionam juntos: ao pesquisar, os filtros são ignorados.</td></tr>
+          <tr><td><code>phRecvTime</code></td><td>Não pode ser definido em parsers customizados, porque funções centrais dependem dele.</td></tr>
+          <tr><td>Automation Service</td><td>Não funciona com FIPS nem com HA entre data centers.</td></tr>
+          <tr><td>Atributos reservados</td><td>Não podem ser Incident Attributes em regras (lista no módulo 08). Reescreva regras antigas que os usem.</td></tr>
+          <tr><td>Office 365 / Entra ID</td><td>Ao subir para a 7.4.2, atualize a entrada de identidade no <code>identityDef.xml</code> e reinicie IdentityWorker e IdentityMaster.</td></tr>
+          <tr><td>Linux Agent no Ubuntu 24</td><td>O AppArmor pode bloquear o monitoramento de arquivos customizados. Libere os caminhos no perfil do rsyslogd.</td></tr>
+          <tr><td>ClickHouse vindo de versões anteriores à 7.1.1</td><td>Rode o script de reconstrução dos índices de IP, se ainda não rodou.</td></tr>
+          <tr><td>HA + DR com o DR promovido</td><td>O upgrade automatizado não roda no Supervisor de DR: faça failback ou atualize nó a nó.</td></tr>
+          <tr><td>Upgrade a partir da 6.1.0</td><td>Exige 32 GB de memória no Supervisor e pelo menos 10 GB para a JVM.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="lab" data-lab-group="m12">
+        <div class="t"><span>Exercício no ambiente</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="m12a"><span class="txt">Confirme a versão de cada nó na coluna Version de Cloud Health.</span></label>
+        <label><input type="checkbox" data-lab="m12b"><span class="txt">Veja se existem regras do usuário que usam atributos reservados como Incident Attributes.</span></label>
+        <label><input type="checkbox" data-lab="m12c"><span class="txt">Pergunte ao time responsável se a atualização de SO para Copy-Fail e Dirty-Frag já foi aplicada.</span></label>
+      </div>
+      </div>
+      <div class="quiz" data-quiz="m12"></div>
+    </section>
+
+    <!-- Diferenças -->
+    <section class="mod" id="diferencas">
+      <div class="head"><div class="modnum">Comparação</div><h2>Diferenças entre a 7.4.2 e a 7.5.1</h2></div>
+      <p class="goal">O que muda ao sair da 7.4.2 para a 7.5.1, incluindo o que veio na 7.5.0. A comparação foi feita lendo os dois User Guides, os dois External Systems Configuration Guides e as duas Release Notes.</p>
+
+      <h3>Interface e navegação</h3>
+      <div class="tbl"><table class="diffgrid">
+        <thead><tr><th>Tema</th><th>7.4.2</th><th>7.5.1</th></tr></thead>
+        <tbody>
+          <tr><td>Navegação</td><td>Abas no topo: DASHBOARD, ANALYTICS, INCIDENTS, CASES, CMDB, RESOURCES, ADMIN</td><td>Barra lateral à esquerda, com os mesmos itens em Title Case e submenus que abrem ao passar o mouse</td></tr>
+          <tr><td>Botões</td><td>Texto: New, Edit, Delete, More, Actions</td><td>Ícones: +, lápis, lixeira, menu Actions; também Schedule, Clone, Apply, Export e Save as Report</td></tr>
+          <tr><td>Relatórios prontos no Analytics</td><td>Menu de pastas à esquerda</td><td>Botão Load Report</td></tr>
+          <tr><td>Resultados salvos</td><td>Dentro do Analytics e da Advanced Search</td><td>Reunidos em Resources › Saved Report Results</td></tr>
+          <tr><td>Perfil do usuário</td><td>Ícone User Profile</td><td>Ícone do usuário › User Profile</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Caminhos de menu que mudaram de nome</h3>
+      <div class="tbl"><table class="diffgrid">
+        <thead><tr><th>Função</th><th>7.4.2</th><th>7.5.1</th></tr></thead>
+        <tbody>
+          <tr><td>Descarte, encaminhamento, multiline e mapeamento de organização</td><td><code>Admin › Settings › Event Handling</code></td><td><code>Admin › Settings › Event Pipeline</code> (e ganhou Event Tagging)</td></tr>
+          <tr><td>Agentes Windows</td><td><code>Admin › Setup › Windows Agent</code></td><td><code>Admin › Setup › Windows Collector</code></td></tr>
+          <tr><td>Agentes Linux</td><td><code>Admin › Setup › Linux Agent</code></td><td><code>Admin › Setup › Linux Collector</code></td></tr>
+          <tr><td>Grupos dinâmicos do CMDB</td><td><code>Admin › Settings › Discovery › CMDB Group</code></td><td><code>… › CMDB Groups</code></td></tr>
+          <tr><td>Limiares globais</td><td><code>Admin › Device Support › Custom Property</code></td><td><code>… › Custom Properties</code></td></tr>
+          <tr><td>Intervalos e erros de polling</td><td><code>Monitor Performance › More › Edit Intervals / Errors</code></td><td><code>Monitor Performance › Actions › Edit Intervals / Errors</code></td></tr>
+          <tr><td>Novos itens de menu</td><td>—</td><td><code>Analytics › Federated Search</code>, <code>Admin › Settings › System › API Token</code>, <code>Resources › ReportAI</code>, <code>Resources › External Datasets</code>, <code>Resources › Saved Report Results</code></td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Recursos</h3>
+      <div class="tbl"><table class="diffgrid">
+        <thead><tr><th>Área</th><th>7.4.2</th><th>7.5.1</th></tr></thead>
+        <tbody>
+          <tr><td>FortiAI</td><td>Gera SQL, categoriza incidentes, resume resultados e analisa logs e incidentes</td><td>Tudo isso, mais chat agêntico conversacional (MCP e WebSocket), investigação agêntica de incidentes e casos com prompts, ReportAI e otimização de tokens. Liberação por papel ("FortiAI: Run") e GPT-4.1 no Azure OpenAI</td></tr>
+          <tr><td>IA externa</td><td>—</td><td>Serviço MCP em <code>/phoenix/mcp</code> com 16 ferramentas</td></tr>
+          <tr><td>Busca</td><td>Search, Advanced Search (SQL) e busca aninhada</td><td>Tudo isso, mais Federated Search em bases externas e filtros sob demanda</td></tr>
+          <tr><td>Enriquecimento de eventos</td><td>Geolocalização automática de IP</td><td>Mais Event Tagging por política ou por arquivo</td></tr>
+          <tr><td>Armazenamento</td><td>Todos os Upload Workers gravam em todos os nós de dados do ClickHouse</td><td>ClickHouse Storage Regions, para separar o armazenamento</td></tr>
+          <tr><td>Alta disponibilidade</td><td>HA entre data centers (desde a 7.4.1) e DR</td><td>HA entre data centers, com latência abaixo de 30 ms. O DR foi descontinuado</td></tr>
+          <tr><td>Agentes</td><td>Windows e Linux Agent gerenciados pelo Supervisor</td><td>Windows e Linux Collector, com templates prontos e atribuição por ranking; agente Windows headless; osquery no Linux; AlmaLinux e Amazon Linux 2023</td></tr>
+          <tr><td>Notificação</td><td>E-mail, SMS, SNMP, HTTP e webhook do Teams</td><td>Webhook genérico (Slack, Telegram, WhatsApp, Teams e personalizado)</td></tr>
+          <tr><td>API REST</td><td>Usuário e senha</td><td>API Token OAuth com Client Credentials; usuário e senha ainda funcionam</td></tr>
+          <tr><td>Licença</td><td>Arquivo de licença</td><td>Licença com certificado, que precisa ser trocada logo após o upgrade</td></tr>
+          <tr><td>Windows OMI</td><td>NTLM ou Kerberos</td><td>Só Kerberos</td></tr>
+          <tr><td>Sistema operacional</td><td>Rocky Linux 8.10</td><td>Rocky Linux 9.7, PostgreSQL 16.11, JDK 21, GlassFish 7 e Redis 8.6.2</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>APIs REST na 7.5.1</h3>
+      <ul>
+        <li><strong>Novas:</strong> <code>/phoenix/rest/pub/security/oauth/token</code>, <code>/pub/v2/query/eventQuery</code>, <code>/pub/v2/query/progress</code>, <code>/pub/v2/query/events/results</code>, <code>/organization/list</code> e <code>/pub/device/delete</code>.</li>
+        <li><strong>Descontinuadas</strong> (ainda funcionam, mas podem sair): <code>/query/eventQuery</code>, <code>/query/progress</code>, <code>/query/events</code>, <code>/agentStatus/all</code>, <code>/pub/incident/triggeringEvents</code>, <code>/cmdbDeviceInfo/devices</code> e <code>/config/Domain</code>.</li>
+        <li><strong>Removidas:</strong> <code>/device/list</code> e variantes (substituídas por <code>/pub/device</code>), <code>/device/discovery/add</code>, <code>/device/update</code>, <code>/system/*worker</code> e <code>/cmdbDeviceInfo/devicesByPagination</code>.</li>
+      </ul>
+      <div class="note warn"><b>Atenção</b><p>Se você tem scripts que chamam a API REST, revise-os antes do upgrade. As chamadas de consulta de eventos, de listagem de dispositivos e de gestão de Workers mudaram.</p></div>
+
+      <h3>Integrações (External Systems Configuration Guide)</h3>
+      <ul>
+        <li><strong>Aparecem no guia da 7.5.1:</strong> Corelight, Sectona PAM, Kubernetes, Thinkst Canary, WALLIX Bastion, Huawei VRP, F5 Advanced Firewall Manager, Microsoft Azure Monitor e um capítulo próprio para External Threat Feeds (embutidos e personalizados).</li>
+        <li><strong>Deixaram de aparecer no sumário do guia:</strong> Fortinet FortiCASB, Fortinet FortiInsight, Lastline, ThreatConnect e McAfee Foundstone. As integrações Microsoft Azure Audit e Defender for Endpoint foram reorganizadas. Antes do upgrade, confirme se alguma delas está em uso.</li>
+        <li>As instruções do FortiGate (API REST + Syslog) continuam as mesmas.</li>
+      </ul>
+
+      <h3>Checklist de upgrade 7.4.2 → 7.5.1</h3>
+      <div class="lab" data-lab-group="dif" data-both="1">
+        <div class="t"><span>Antes, durante e depois</span><span class="lc"></span></div>
+        <label><input type="checkbox" data-lab="dif-a"><span class="txt">O Supervisor tem 32 GB de RAM e a JVM tem pelo menos 10 GB.</span></label>
+        <label><input type="checkbox" data-lab="dif-b"><span class="txt">O ambiente não usa FIPS nem IPv6.</span></label>
+        <label><input type="checkbox" data-lab="dif-c"><span class="txt">Se houver DR, existe um plano para removê-lo e migrar para HA entre data centers.</span></label>
+        <label><input type="checkbox" data-lab="dif-d"><span class="txt">Os scripts que usam a API REST foram revisados (APIs removidas e descontinuadas).</span></label>
+        <label><input type="checkbox" data-lab="dif-e"><span class="txt">Coleta Windows por OMI configurada com Kerberos, e não NTLM.</span></label>
+        <label><input type="checkbox" data-lab="dif-f"><span class="txt">Hosts com Linux Agent têm os pacotes <code>patchelf</code> e <code>acl</code> instalados.</span></label>
+        <label><input type="checkbox" data-lab="dif-g"><span class="txt">Integrações que usam URL com IP privado (webhook, lookup, Sigma, FortiSIEM Manager) liberadas em <code>allowed_trusted_url</code>.</span></label>
+        <label><input type="checkbox" data-lab="dif-h"><span class="txt">Logo após o upgrade: licença nova, com certificado, enviada em Admin › License › Upload License.</span></label>
+        <label><input type="checkbox" data-lab="dif-i"><span class="txt">Collectors atualizados primeiro um, depois os demais em lote.</span></label>
+        <label><input type="checkbox" data-lab="dif-j"><span class="txt">Equipe avisada sobre a nova navegação lateral e os nomes novos (Event Pipeline, Windows/Linux Collector).</span></label>
+      </div>
+      <p class="caption">Este checklist resume as notas de implementação das Release Notes da 7.5.0 e da 7.5.1. Siga sempre o Upgrade Guide oficial da sua arquitetura.</p>
+      <div class="quiz" data-quiz="dif"></div>
+    </section>
+
+    <!-- Cola -->
+    <section class="mod" id="cola">
+      <div class="head"><div class="modnum">Referência</div><h2>Cola rápida</h2></div>
+      <h3>Onde fica cada coisa</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Quero…</th><th>Caminho</th></tr></thead>
+        <tbody>
+          <tr><td>Cadastrar credencial e associar a IPs</td><td><span class="path">ADMIN › Setup › Credentials</span></td></tr>
+          <tr><td>Descobrir dispositivos ou agendar discovery</td><td><span class="path">ADMIN › Setup › Discovery</span></td></tr>
+          <tr><td>Ver coleta de eventos por API, WMI ou SDK</td><td><span class="path">ADMIN › Setup › Pull Events</span></td></tr>
+          <tr><td>Ver jobs de desempenho e seus erros</td><td><span class="path">ADMIN › Setup › Monitor Performance</span></td></tr>
+          <tr><td>Configurar agentes</td><td><span class="path">ADMIN › Setup › Windows Agent / Linux Agent</span></td></tr>
+          <tr><td>Agendar manutenção</td><td><span class="path">ADMIN › Setup › Maintenance</span></td></tr>
+          <tr><td>Parsers, Event Types, Custom Property</td><td><span class="path">ADMIN › Device Support</span></td></tr>
+          <tr><td>Saúde dos nós, Collectors e agentes</td><td><span class="path">ADMIN › Health</span></td></tr>
+          <tr><td>Licença, nós e uso de EPS</td><td><span class="path">ADMIN › License</span></td></tr>
+          <tr><td>Servidor de e-mail e template</td><td><span class="path">ADMIN › Settings › System › Email</span></td></tr>
+          <tr><td>Destino de upload dos Collectors</td><td><span class="path">ADMIN › Settings › System › Cluster Config</span></td></tr>
+          <tr><td>Automation Policy e Case Management</td><td><span class="path">ADMIN › Settings › General</span></td></tr>
+          <tr><td>Grupos dinâmicos do CMDB e localização</td><td><span class="path">ADMIN › Settings › Discovery</span></td></tr>
+          <tr><td>Descarte, encaminhamento e multiline</td><td><span class="path">ADMIN › Settings › Event Handling</span></td></tr>
+          <tr><td>Retenção e integridade de logs</td><td><span class="path">ADMIN › Settings › Database</span></td></tr>
+          <tr><td>Papéis</td><td><span class="path">ADMIN › Settings › Role › Role Management</span></td></tr>
+          <tr><td>Tags de regra e chave do FortiAI</td><td><span class="path">ADMIN › Settings › Analytics</span></td></tr>
+          <tr><td>Regras, relatórios, watch lists, lookup tables</td><td><span class="path">RESOURCES</span></td></tr>
+          <tr><td>País "My Home"</td><td><span class="path">RESOURCES › Country Groups › My Home</span></td></tr>
+          <tr><td>Investigar um incidente em grafo</td><td><span class="path">ANALYTICS › Investigation</span></td></tr>
+          <tr class="v751"><td>Buscar observáveis em bases externas <span class="chg">Novo na 7.5</span></td><td><span class="path">Analytics › Federated Search</span></td></tr>
+          <tr class="v751"><td>Criar API Token (REST e MCP) <span class="chg">Novo na 7.5</span></td><td><span class="path">Admin › Settings › System › API Token</span></td></tr>
+          <tr class="v751"><td>Acrescentar atributos aos eventos <span class="chg">Novo na 7.5</span></td><td><span class="path">Admin › Settings › Event Pipeline › Event Tagging</span></td></tr>
+          <tr class="v751"><td>Resultados salvos e perguntas prontas do FortiAI <span class="chg">Novo na 7.5</span></td><td><span class="path">Resources › Saved Report Results</span> / <span class="path">Resources › ReportAI</span></td></tr>
+          <tr class="v751"><td>Liberar o FortiAI para um papel <span class="chg">Novo na 7.5</span></td><td><span class="path">Admin › Settings › Role › Role Management</span> › FortiAI: Run</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Portas que mais aparecem</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Porta</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>TCP 443</td><td>GUI e API REST; Collectors, Workers e agentes falando com o Supervisor; FortiGuard; FortiSIEM Manager<span class="v751">; serviço MCP em <code>/phoenix/mcp</code></span></td></tr>
+          <tr><td>UDP/TCP 514, TCP 1470</td><td>Syslog</td></tr>
+          <tr><td>TCP 6514</td><td>Syslog sobre TLS</td></tr>
+          <tr><td>UDP 2055 / UDP 6343</td><td>NetFlow / sFlow</td></tr>
+          <tr><td>UDP 161 / UDP 162</td><td>SNMP (monitoramento) / SNMP trap</td></tr>
+          <tr><td>TCP 135 / TCP 5985-5986</td><td>WMI / OMI (Windows sem agente)</td></tr>
+          <tr><td>TCP 22</td><td>SSH (administração e discovery)</td></tr>
+          <tr><td>TCP 389 / 636 / 3268-3269</td><td>LDAP / LDAPS / Global Catalog</td></tr>
+          <tr><td>TCP 5432</td><td>PostgreSQL (interno)</td></tr>
+          <tr><td>TCP 7900-7950, 27900-27950</td><td>Comunicação interna entre Supervisor e Workers (restrita desde a 7.4.0)</td></tr>
+        </tbody>
+      </table></div>
+      <p class="caption">A lista completa, por tipo de nó, está no capítulo "FortiSIEM Port Usage" do External Systems Configuration Guide.</p>
+      <h3>Atributos que você vai digitar toda hora</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Na tela</th><th>No SQL</th><th>O que é</th></tr></thead>
+        <tbody>
+          <tr><td>Event Receive Time</td><td><code>phRecvTime</code></td><td>Quando o FortiSIEM recebeu o evento</td></tr>
+          <tr><td>Reporting Device / Reporting IP</td><td><code>reptDevName</code> / <code>reptDevIpAddr</code></td><td>Quem enviou o log</td></tr>
+          <tr><td>Event Type</td><td><code>eventType</code></td><td>Classificação do evento (ex.: <code>Win-Security-4625</code>)</td></tr>
+          <tr><td>Source IP / Destination IP</td><td><code>srcIpAddr</code> / <code>destIpAddr</code></td><td>Origem e destino da conexão</td></tr>
+          <tr><td>Destination Port</td><td><code>destIpPort</code></td><td>Porta de destino</td></tr>
+          <tr><td>User</td><td><code>user</code></td><td>Usuário do evento</td></tr>
+          <tr><td>Raw Event Log</td><td>(log bruto)</td><td>O texto original; é onde a busca por palavra-chave procura</td></tr>
+          <tr><td>Event Parse Status</td><td><code>eventParsedOk</code></td><td>1 quando o parse funcionou</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- Glossário -->
+    <section class="mod" id="glossario">
+      <div class="head"><div class="modnum">Referência</div><h2>Glossário</h2></div>
+      <div class="gtools">
+        <input type="search" id="gq" placeholder="Filtrar termos…" aria-label="Filtrar glossário">
+        <label for="greview"><input type="checkbox" id="greview"> Modo revisão (esconder definições)</label>
+      </div>
+      <div id="gwrap"><dl class="gloss" id="gloss"></dl><div class="empty" id="gempty" hidden>Nenhum termo encontrado.</div></div>
+    </section>
+
+    <footer>
+      <p>Guia de estudo feito a partir da documentação oficial das versões 7.4.2 e 7.5.1: User Guide, External Systems Configuration Guide e Release Notes de cada uma. Os caminhos de menu e os limites citados vêm desses documentos. Os roteiros marcados como prática recomendada são sugestões de trabalho. Na dúvida, consulte o User Guide da sua versão.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORE = 'trilha-fortisiem-742';
+  var root = document.documentElement;
+  var db = {ver:'742', '742':{labs:{}, quiz:{}}, '751':{labs:{}, quiz:{}}};
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) {
+      var p = JSON.parse(raw);
+      if (p['742'] || p['751']) {
+        db.ver = p.ver === '751' ? '751' : '742';
+        ['742','751'].forEach(function(v){ if (p[v]) db[v] = {labs:p[v].labs || {}, quiz:p[v].quiz || {}}; });
+        if (p.shared) db.shared = {labs:p.shared.labs || {}};
+      } else {
+        db['742'] = {labs:p.labs || {}, quiz:p.quiz || {}};
+      }
+    }
+  } catch(e) {}
+  var state = db[db.ver];
+  function save(){ try { localStorage.setItem(STORE, JSON.stringify(db)); } catch(e) {} }
+
+  /* ---------- Nomes de menu por versão ---------- */
+  var RENAMES = [
+    [/Windows Agent \/ Linux Agent/g, 'Windows Collector / Linux Collector'],
+    [/Rules › More › Import Sigma Rule/g, 'Rules › Import › Import SIGMA Rule'],
+    [/Event Handling/g, 'Event Pipeline'],
+    [/Setup › Windows Agent/g, 'Setup › Windows Collector'],
+    [/Setup › Linux Agent/g, 'Setup › Linux Collector'],
+    [/Windows Agent \/ Linux Agent/g, 'Windows Collector / Linux Collector'],
+    [/Discovery › CMDB Group(?!s)/g, 'Discovery › CMDB Groups'],
+    [/Custom Property/g, 'Custom Properties'],
+    [/Monitor Performance › More ›/g, 'Monitor Performance › Actions ›']
+  ];
+  var TABS = {ADMIN:'Admin', RESOURCES:'Resources', ANALYTICS:'Analytics', INCIDENTS:'Incidents', DASHBOARD:'Dashboard', CASES:'Cases', TASKS:'Tasks'};
+  function renameOnly(s){ RENAMES.forEach(function(r){ s = s.replace(r[0], r[1]); }); return s; }
+  function to751(s){ return renameOnly(s).replace(/\b(ADMIN|RESOURCES|ANALYTICS|INCIDENTS|DASHBOARD|CASES|TASKS)\b(?= ›)/g, function(m){ return TABS[m]; }); }
+  var paths = Array.prototype.slice.call(document.querySelectorAll('.path'));
+  paths.forEach(function(el){
+    el.setAttribute('data-orig', el.textContent);
+    if (renameOnly(el.textContent) !== el.textContent) {
+      var b = document.createElement('span'); b.className = 'chg v751'; b.textContent = 'Mudou na 7.5';
+      el.parentNode.insertBefore(b, el.nextSibling);
+    }
+  });
+  function applyPaths(){ paths.forEach(function(el){ var o = el.getAttribute('data-orig'); el.textContent = db.ver === '751' ? to751(o) : o; }); }
+
+  /* ---------- Quizzes ---------- */
+  var Q = {
+    m1: [
+      {q:'Quem mantém o estado global das regras e cria o incidente?', o:['O Collector mais próximo do dispositivo','O Worker que recebeu o evento','O Supervisor','O banco ClickHouse'], a:2, e:'Os Workers avaliam as regras sobre os eventos que veem e mandam resultados parciais. O <b>Supervisor</b> junta tudo e cria o incidente.'},
+      {q:'Como o FortiSIEM calcula o EPS?', o:['Pico de eventos em 1 segundo','Total de eventos em 3 minutos dividido por 180','Média diária de eventos dividida por 86.400','Eventos armazenados por hora'], a:1, e:'O EPS é medido em janelas de <b>3 minutos</b>: o total recebido dividido por 180.'},
+      {q:'Um dispositivo descoberto além do limite da licença fica como…', o:['Pending','Unmanaged: não recebe logs nem é monitorado','Managed, com alerta de licença','Excluído do CMDB'], a:1, e:'Ele fica no CMDB como <b>Unmanaged</b>. Dá para trocá-lo por um Managed ou comprar mais licença.'},
+      {q:'Qual organização enxerga todas as outras numa instalação Service Provider?', o:['Super/Local','Super/Global','A organização do Collector','Nenhuma, por isolamento'], a:1, e:'A <b>Super/Global</b> é uma organização virtual que vê todas as demais. A Super/Local representa a rede do próprio provedor.'},
+      {q:'Qual banco de eventos a Fortinet recomenda para a maioria das implantações?', o:['EventDB local','Elasticsearch','ClickHouse','PostgreSQL'], a:2, e:'O guia de instalação recomenda o <b>ClickHouse</b>. O PostgreSQL guarda o CMDB e o estado da aplicação, não os eventos.'}
+    ],
+    m2: [
+      {q:'Onde você escolhe qual tela abre logo após o login?', o:['ADMIN › Settings › System › UI','User Profile › UI Settings','DASHBOARD › Folders','CMDB › Users'], a:1, e:'Em <b>User Profile › UI Settings</b> você define a tela inicial, o idioma, o tema e o formato de data.'},
+      {q:'Uma consulta pesada de outro usuário está deixando tudo lento. Onde pará-la?', o:['ADMIN › Health › Cloud Health','User Activity › Query Status › Stop Query','TASKS › Requests','Não é possível parar a consulta de outro usuário'], a:1, e:'O ícone <b>User Activity</b>, na aba Query Status, permite parar consultas e mostra como elas se distribuem pelos nós.'},
+      {q:'Em qual aba ficam as regras, os relatórios e as watch lists?', o:['ANALYTICS','CMDB','RESOURCES','ADMIN'], a:2, e:'O conteúdo de detecção e de relatórios fica em <b>RESOURCES</b>.'}
+    ],
+    m3: [
+      {q:'Qual é a ordem correta para descobrir um dispositivo novo?', o:['Discovery › credencial › associar IP','Credencial › associar ao IP › Test Connectivity › Discovery','Associar IP › Discovery › credencial','Instalar agente › Discovery'], a:1, e:'Primeiro a credencial (Step 1), depois a associação com IP (Step 2), o teste e por fim o discovery em ADMIN › Setup › Discovery.'},
+      {q:'Qual a diferença do Smart Scan para o Range Scan?', o:['O Smart Scan só faz ping','O Smart Scan parte de um Root IP e segue os vizinhos que cada dispositivo conhece','O Smart Scan só funciona na nuvem','Não há diferença'], a:1, e:'O <b>Smart Scan</b> descobre o Root IP e vai seguindo os dispositivos que cada um conhece. O Range Scan percorre as faixas informadas.'},
+      {q:'O FortiGate já manda logs ao FortiAnalyzer. O que fazer para levar esses logs ao FortiSIEM?', o:['Mandar do FortiGate e do FortiAnalyzer, para ter redundância','Escolher uma só origem (o FortiGate ou o encaminhamento do FortiAnalyzer)','Usar apenas SNMP','Mandar só do FortiAnalyzer em formato CSV'], a:1, e:'Enviar das duas origens <b>duplica os eventos</b>. Use uma ou outra.'},
+      {q:'Qual destino de upload o guia recomenda para os Collectors num ambiente com Workers?', o:['Só o Supervisor','Uma lista de Workers','O Elasticsearch diretamente','O FortiSIEM Manager'], a:1, e:'Os Collectors balanceiam a carga entre os <b>Workers</b> listados, distribuindo também as regras e relatórios inline. Usar o Supervisor só é indicado em instalações pequenas.'},
+      {q:'Qual destes só o Windows Agent coleta (o modo OMI/WMI não)?', o:['Logs Security','Logs System','Sysmon','Uptime'], a:2, e:'<b>Sysmon</b>, IIS, logs genéricos, FIM completo e saída de PowerShell exigem o agente.'}
+    ],
+    m4: [
+      {q:'Qual a principal vantagem de usar grupos do CMDB em regras?', o:['Deixam a regra mais rápida de digitar','Dispensam listas de IPs e continuam valendo quando dispositivos entram ou saem','São obrigatórios em regras Streaming','Reduzem o EPS'], a:1, e:'Com grupos, a regra não precisa ser reescrita conforme o inventário muda.'},
+      {q:'Como colocar automaticamente todos os FortiGates de uma faixa de IP num grupo seu?', o:['Editando cada dispositivo','ADMIN › Settings › Discovery › CMDB Group, e depois Apply','RESOURCES › Watch Lists','Só pela API'], a:1, e:'As regras de <b>CMDB Group</b> aceitam fabricante, modelo, nome e faixa de IP. O discovery passa a respeitá-las.'},
+      {q:'Para que serve principalmente um Business Service?', o:['Faturamento por cliente','Triagem: os incidentes passam a mostrar quais serviços de negócio afetam','Backup do CMDB','Limitar o EPS'], a:1, e:'Todo incidente é marcado com os Business Services impactados, e há um dashboard próprio para isso.'}
+    ],
+    m5: [
+      {q:'Uma busca em Real-time permite Group By?', o:['Sim, sem limites','Sim, só com COUNT','Não','Só no ClickHouse'], a:2, e:'A busca em tempo real mostra os eventos conforme chegam e <b>não permite agregação</b>.'},
+      {q:'Você digitou a palavra-chave "(TCP OR UDP) AND 514". O que o FortiSIEM procura?', o:['Source IP = 514','Raw Event Log CONTAINS "(TCP OR UDP) AND 514"','Event Type = TCP','Destination Port = 514'], a:1, e:'A busca por palavra-chave procura no <b>log bruto</b>.'},
+      {q:'Por que REGEXP não funciona em Source IP?', o:['Porque IP é armazenado como número inteiro','Porque REGEXP é exclusivo do SQL','Porque só funciona em Real-time','Porque exige licença'], a:0, e:'No FortiSIEM, IP é um atributo inteiro. Para ele, use BETWEEN, IN ou grupos de rede.'},
+      {q:'Na busca, a Display Condition equivale a qual cláusula SQL?', o:['WHERE','ORDER BY','HAVING','JOIN'], a:2, e:'É o corte aplicado sobre agregados, como <b>HAVING</b> COUNT(Matched Events) &gt; 20.'},
+      {q:'O que é obrigatório para usar Actions › Create Rule a partir de uma busca?', o:['Ter Group By por Source IP','Pelo menos um filtro com Event Type','Rodar em Real-time','Ser Full Admin'], a:1, e:'A regra precisa de um filtro com <b>Event Type</b> para ser avaliada de forma eficiente em streaming. Ela nasce inativa, na pasta Ungrouped.'}
+    ],
+    m6: [
+      {q:'Em qual tabela ficam os eventos na Advanced Search?', o:['events','fsiem.events','phoenix.event_log','clickhouse.raw'], a:1, e:'Todos os eventos estão em <b>fsiem.events</b>.'},
+      {q:'A consulta falhou com "Missing columns: destProto". O que fazer?', o:['Reiniciar o ClickHouse','Selecionar destProto em Attributes used','Trocar por um alias','Remover o LIMIT'], a:1, e:'Atributos que não aparecem no Database Schema precisam ser escolhidos em <b>Attributes used</b>.'},
+      {q:'Qual destas é uma boa prática de desempenho?', o:['Evitar WHERE para ver tudo','Filtrar por phRecvTime e testar com LIMIT','Usar SELECT * sempre','Ordenar antes de filtrar'], a:1, e:'Limite sempre o tempo (ex.: phRecvTime &gt; now() - 3600) e teste com <b>LIMIT</b>.'},
+      {q:'Os resultados da Advanced Search são anonimizados ao usar FortiAI › Summarize Results?', o:['Sim, sempre','Só os IPs','Não','Só quando há FIPS'], a:2, e:'O guia avisa que esses dados <b>não são anonimizados</b>. Cuidado com informações sensíveis.'}
+    ],
+    m7: [
+      {q:'Um incidente de Performance continuava ativo à meia-noite. Qual status ele ganha?', o:['Auto Cleared','System Cleared','Externally Cleared','Continua Active'], a:1, e:'Todo incidente que <b>não é de segurança</b> é limpo pelo sistema à meia-noite (hora local).'},
+      {q:'Para marcar a resolução como False Positive, você precisa…', o:['Apagar o incidente','Limpar (Clear) o incidente','Desativar a regra','Abrir um caso'], a:1, e:'False Positive exige que o incidente seja <b>limpo</b>, com motivo.'},
+      {q:'Onde ver os eventos que realmente dispararam o incidente?', o:['Rule Summary','Triggering Events','Context','Action History'], a:1, e:'Em <b>Triggering Events</b> estão os eventos, com o log bruto e os campos interpretados.'},
+      {q:'A regra "Excessive End User DNS Queries" dispara sempre para os seus servidores DNS legítimos. Qual o melhor ajuste?', o:['Event Dropping de todo o tráfego DNS','Editar a regra (salvar como User Rule) para excluir o grupo de servidores DNS','Desativar a regra para todas as organizações','Mudar a severidade para LOW'], a:1, e:'Quando uma <b>classe de ativos</b> não deve disparar a regra, edite-a (por exemplo, "Source IP NOT IN servidores DNS"). Descartar o DNS inteiro faria você perder visibilidade.'},
+      {q:'Qual visão agrupa incidentes por similaridade de significado e mostra um risco por grupo?', o:['Explorer','List by Rule','List by Category (FortiAI)','Risk'], a:2, e:'A <b>List by Category (FortiAI)</b>, nova na 7.4.0, transforma milhares de incidentes em dezenas de grupos.'}
+    ],
+    m8: [
+      {q:'Qual operador expressa "5 falhas de login NÃO seguidas de um sucesso do mesmo IP"?', o:['AND_NOT','NOT_FOLLOWED_BY','OR','FOLLOWED_BY'], a:1, e:'<b>NOT_FOLLOWED_BY</b>: P1 acontece e P2 não acontece depois, com a restrição P1.Source IP = P2.Source IP.'},
+      {q:'Como alterar uma regra de sistema?', o:['Editar e salvar direto','Salvar como User Rule, desativar a de sistema e ativar a nova','Exportar, editar o XML e reimportar por cima','Não é possível'], a:1, e:'Regras de sistema não são sobrescritas: você trabalha numa <b>cópia de usuário</b>.'},
+      {q:'O que é preciso para testar uma regra Streaming?', o:['Ativá-la antes','Desativá-la e testar na organização Super/Global','Estar numa organização local','Ter licença de Automation'], a:1, e:'Regras ativas não podem ser testadas, e o teste só funciona em <b>Super/Global</b>.'},
+      {q:'Qual destes é um limite das regras Scheduled via SQL?', o:['Só funcionam no EventDB','No máximo 100 incidentes por execução e limpeza só por tempo','Não geram incidente','Precisam de Collector'], a:1, e:'Também não mostram os eventos gatilho e só aceitam exceção pelo atributo-chave.'},
+      {q:'Qual destes NÃO pode ser usado como Incident Attribute desde a 7.4.0?', o:['Source IP','User','Reporting IP','Destination Port'], a:2, e:'Atributos reservados como Event Type, <b>Reporting IP</b>, Reporting Device e os campos de Incident são preenchidos pelo próprio FortiSIEM.'}
+    ],
+    m9: [
+      {q:'Onde se configura o envio automático de e-mail quando um incidente acontece?', o:['Na própria regra, campo Notification','ADMIN › Settings › General › Automation Policy','INCIDENTS › Actions › Notify via Email','CMDB › Users'], a:1, e:'As <b>Automation Policies</b> definem filtros e ações. O Notify via Email do incidente é pontual e manual. Lembre-se de habilitar a política.'},
+      {q:'Na remediação, o campo Enforce On aceita…', o:['Grupos do CMDB','Apenas dispositivos individuais','Faixas de IP','Organizações'], a:1, e:'Só <b>dispositivos individuais</b>, que precisam de credencial válida. O Run On define se o script roda no Supervisor ou num Collector.'},
+      {q:'Qual destes NÃO é pré-requisito para criar casos automaticamente?', o:['Servidor de e-mail configurado','Times em FortiSIEM Analysts','Case Management Policy','Licença do FortiSOAR'], a:3, e:'O fluxo é: e-mail, times de analistas, Case Management Policy e uma Automation Policy com a ação Create Case. O FortiSOAR não é necessário.'},
+      {q:'O Automation Service (playbooks nativos) funciona com FIPS habilitado?', o:['Sim','Não','Só no Collector','Só com Azure OpenAI'], a:1, e:'As Release Notes avisam que ele <b>não funciona com FIPS</b>, nem com HA entre data centers.'}
+    ],
+    m10: [
+      {q:'Qual o jeito mais prático de criar um relatório novo?', o:['Escrever o XML do zero','Montar a busca no Analytics e usar Actions › Save as Report','Clonar um dashboard','Pedir ao FortiSIEM Manager'], a:1, e:'Com <b>Save Definition</b>, a busca vira relatório em RESOURCES › Reports, pronto para ser agendado ou virar widget.'},
+      {q:'Por que os Widget Dashboards carregam rápido?', o:['Usam cache do navegador','São calculados em streaming, sem consultar o banco toda vez','Mostram só 10 linhas','Rodam no Collector'], a:1, e:'Os relatórios dos widgets são calculados em <b>streaming</b>.'},
+      {q:'Para rodar um relatório de compliance PCI, o que é preciso fazer antes?', o:['Comprar um módulo PCI','Colocar os dispositivos no grupo de compliance correspondente','Ativar todas as regras','Usar só o Elasticsearch'], a:1, e:'Basta adicionar os dispositivos ao <b>grupo de compliance</b> e rodar o relatório.'}
+    ],
+    m11: [
+      {q:'Um evento com a ação "Drop event" conta no EPS licenciado?', o:['Sim','Não','Só se for gravado','Só no Collector'], a:1, e:'Com <b>Drop</b>, o evento é descartado na entrada e não conta. Com "Store event", conta.'},
+      {q:'Nenhum parser reconheceu o log. Qual será o Event Type?', o:['Generic_Event','Unknown_Event_Type','PH_PARSE_FAIL','Fica vazio'], a:1, e:'Os parsers são avaliados de cima para baixo. Sem nenhuma correspondência, o evento vira <b>Unknown_Event_Type</b>.'},
+      {q:'Qual a sequência certa para modificar um parser de sistema?', o:['Editar › Save','Clone › editar › Validate › Test › habilitar o novo e desabilitar o antigo › Apply','Delete › New','Export › editar › Import'], a:1, e:'O <b>Apply</b> distribui a mudança para todos os nós sem downtime.'},
+      {q:'No ClickHouse, a camada Hot ficou com menos de 10% livre e existe uma camada Warm. O que acontece?', o:['Os eventos novos são descartados','Os eventos mais antigos vão para a Warm até liberar 20%','Tudo vai para o Archive','O sistema para de gravar'], a:1, e:'Essa é a retenção por espaço: os eventos <b>mais antigos</b> descem de camada. Sem camada seguinte, são purgados.'},
+      {q:'Qual comando mostra o status dos processos do FortiSIEM, com EPS e I/O?', o:['systemctl status fsiem','phstatus -a','phtools --stats','fsm_cluster_upgrade.py'], a:1, e:'O <b>phstatus</b> mostra o status, e com <b>-a</b> (como root) mostra também EPS e I/O.'}
+    ],
+    m12: [
+      {q:'Seu ambiente está na 7.3.5. Para qual versão você pode atualizar?', o:['7.4.0','7.4.1','7.4.2 ou superior','Qualquer 7.4.x'], a:2, e:'A 7.4.1 não tinha uma correção de segurança da 7.3.5 e da 7.2.7, e o upgrade falha. Vá para a <b>7.4.2 ou superior</b>.'},
+      {q:'Numa regra baseada em Advanced Search, qual alias é válido?', o:['AS `Total Eventos`','AS total_eventos','AS TotalEventos','AS 1total'], a:2, e:'O alias deve <b>começar com letra</b> e ter só caracteres alfanuméricos.'},
+      {q:'Qual atributo não pode ser definido em um parser customizado?', o:['srcIpAddr','user','phRecvTime','eventType'], a:2, e:'O <b>phRecvTime</b> registra quando o evento chegou, e funções centrais dependem dele.'},
+      {q:'Na tela de Regras, você aplicou filtros e depois digitou na caixa de pesquisa. O que acontece?', o:['A pesquisa respeita os filtros','Os filtros são ignorados','A pesquisa é bloqueada','Os filtros viram exceções'], a:1, e:'Nas telas de Regras, Relatórios e CMDB, pesquisa e filtros <b>não funcionam juntos</b>.'}
+    ]
+  };
+
+  Q.dif = [
+    {q:'Na 7.5.1, onde ficam as regras de descarte de eventos?', o:['Admin › Settings › Event Handling › Dropping','Admin › Settings › Event Pipeline › Dropping','Resources › Event Dropping','Admin › Setup › Pull Events'], a:1, e:'O menu <b>Event Handling</b> passou a se chamar <b>Event Pipeline</b> e ganhou o Event Tagging.'},
+    {q:'O que aconteceu com o Disaster Recovery (DR) a partir da 7.5.0?', o:['Ganhou failover automático','Foi descontinuado; a recomendação é usar a HA entre data centers','Passou a exigir licença à parte','Só funciona no ClickHouse'], a:1, e:'O DR foi <b>descontinuado</b>. Quem usa precisa remover o nó de DR e adotar a HA entre data centers (latência abaixo de 30 ms).'},
+    {q:'Logo depois de atualizar de 7.4.2 para 7.5.1, o que fazer com a licença?', o:['Nada','Baixar no FortiCare o arquivo de licença novo, com certificado (não o Legacy), e enviar em Admin › License › Upload License','Reinstalar o Supervisor','Pedir uma licença de EPS adicional'], a:1, e:'Desde a 7.5.0, a licença traz um <b>certificado</b>, usado no FortiGuard, nas atualizações de conteúdo e na adição de nós.'},
+    {q:'Para que serve a Federated Search?', o:['Pesquisar em várias instâncias de FortiSIEM','Procurar observáveis (IP, hash, URL…) em bases externas como S3, Security Lake, FortiEDR e Snowflake','Pesquisar no Elasticsearch','Substituir a Advanced Search'], a:1, e:'Ela consulta <b>bases externas</b> pelos observáveis mapeados e grava o resultado no ClickHouse.'},
+    {q:'Na 7.5, como deve ser a autenticação da coleta Windows por OMI?', o:['NTLM','Kerberos','Basic','Anônima'], a:1, e:'O <b>NTLM</b> não é mais aceito, porque a Microsoft o descontinuou. Use <b>Kerberos</b>.'},
+    {q:'Como um agente de IA externo se conecta ao serviço MCP da 7.5.1?', o:['Por SSH no Supervisor','Em https://{Supervisor}/phoenix/mcp, porta 443, com um API Token','Pela porta 5432 do PostgreSQL','Pelo FortiSIEM Manager'], a:1, e:'O <b>MCP</b> fica em /phoenix/mcp, funciona só em ClickHouse e usa um API Token criado na GUI.'}
+  ];
+
+  function to751deep(o){ return JSON.parse(JSON.stringify(o), function(k, v){ return typeof v === 'string' ? to751(v) : v; }); }
+  var Q751 = to751deep(Q);
+  Q751.dif = Q.dif;
+  Q751.m2 = Q751.m2.concat([
+    {q:'Na 7.5.1, como chegar à lista de incidentes por tempo?', o:['Clicando na aba INCIDENTS no topo','Passando o mouse sobre Incidents na barra lateral, depois List › List by Time','Em Analytics › Search','Em Resources › Rules'], a:1, e:'Na 7.5, a navegação fica numa <b>barra lateral</b>, e os submenus abrem quando você passa o mouse.'},
+    {q:'Por padrão, quem pode usar o FortiAI na 7.5.1?', o:['Qualquer usuário','Só usuários Admin, a não ser que o papel tenha "FortiAI: Run"','Só o usuário super','Ninguém, até instalar um plugin'], a:1, e:'Para liberar outros usuários, marque <b>FortiAI: Run</b> no papel, em Role Management.'}
+  ]);
+  Q751.m3 = Q751.m3.concat([
+    {q:'O agente Windows headless (7.5.0) consome qual licença?', o:['Licença de agente','Nenhuma','Licença de dispositivo, e os eventos contam no EPS ou GB/dia','Só a licença do Collector'], a:2, e:'Ele <b>não consome licença de agente</b>, mas consome licença de dispositivo, e os eventos contam no EPS ou GB/dia.'}
+  ]);
+  Q751.m11 = Q751.m11.concat([
+    {q:'Onde as políticas de Event Tagging são aplicadas?', o:['No PostgreSQL do Supervisor','Nos Collectors, durante o parse do evento','Só nos relatórios','No FortiAI'], a:1, e:'As definições são enviadas aos <b>Collectors</b>, que aplicam as tags ao fazer o parse. Os atributos criados podem ser usados em regras e relatórios.'},
+    {q:'Uma notificação webhook para http://10.0.0.5 parou de funcionar depois do upgrade para a 7.5.1. Por quê?', o:['O webhook foi removido','URLs com IP privado são bloqueadas, a menos que liberadas em allowed_trusted_url','Precisa ser HTTPS na porta 8443','O Collector precisa de licença'], a:1, e:'Por segurança, a 7.5.1 bloqueia IPs <b>RFC 1918</b> em URLs, a menos que estejam listados em <b>allowed_trusted_url</b> no phoenix_config.txt.'}
+  ]);
+  Q751.m12 = [
+    {q:'Que tipo de grant OAuth os API Tokens usam na 7.5.1?', o:['Refresh Token','Client Credentials','Password','Authorization Code'], a:1, e:'A 7.5.1 trocou o Refresh Token pelo <b>Client Credentials</b>: basta Client ID e Client Secret.'},
+    {q:'Em qual tipo de implantação o serviço MCP está disponível?', o:['Em todas','Só ClickHouse','Só EventDB','Só Elasticsearch'], a:1, e:'O MCP, assim como a Federated Search, exige <b>ClickHouse</b>.'},
+    {q:'A 7.5.1 pode ser instalada com FIPS habilitado?', o:['Sim','Não, e também não em ambiente IPv6','Só em appliances de hardware','Só com o Automation Service'], a:1, e:'As Release Notes avisam que a 7.5.1 <b>não pode ser instalada com FIPS nem em IPv6</b>.'},
+    {q:'Qual é o procedimento recomendado para atualizar vários Collectors?', o:['Todos de uma vez','Um Collector primeiro e depois os demais em lote','Reinstalar todos','Atualizar pelo FortiSIEM Manager'], a:1, e:'O primeiro upgrade cria o <b>cache de pacotes</b> no Supervisor. Sem isso, o upgrade em lote pode falhar.'},
+    {q:'Um Network Admin pergunta algo ao FortiAI na 7.5.1. A resposta respeita…', o:['Os filtros de dados do papel','Só a organização do usuário; os filtros de dados do papel são ignorados','Nada; ele vê todas as organizações','Só os dados de rede'], a:1, e:'O FortiAI considera apenas a <b>organização</b> do usuário. Isso vale também para o serviço MCP.'}
+  ];
+  function curQ(){ return db.ver === '751' ? Q751 : Q; }
+  var quizTotal = 0;
+
+  function esc(s){ return String(s).replace(/&(?![a-z#0-9]+;)/gi,'&amp;').replace(/</g,'&lt;'); }
+
+  function renderQuizzes(){
+  var QQ = curQ(); quizTotal = 0;
+  document.querySelectorAll('[data-quiz]').forEach(function(box){
+    var key = box.getAttribute('data-quiz'); var items = QQ[key] || [];
+    quizTotal += items.length;
+    box.innerHTML = '';
+    var head = document.createElement('div'); head.className = 't';
+    head.innerHTML = '<span>' + (key === 'dif' ? 'Quiz das diferenças' : 'Quiz do módulo') + '</span><span class="qc"></span>';
+    box.appendChild(head);
+    items.forEach(function(it, i){
+      var id = key + '-' + i;
+      var div = document.createElement('div'); div.className = 'q';
+      var html = '<fieldset><legend>' + (i+1) + '. ' + esc(it.q) + '</legend>';
+      it.o.forEach(function(opt, j){
+        html += '<label for="' + id + '-' + j + '"><input type="radio" name="' + id + '" id="' + id + '-' + j + '" value="' + j + '"><span>' + esc(opt) + '</span></label>';
+      });
+      html += '</fieldset><div class="exp" hidden></div>';
+      div.innerHTML = html;
+      box.appendChild(div);
+      function show(choice){
+        var labels = div.querySelectorAll('label');
+        labels.forEach(function(l, j){ l.classList.remove('right','wrong'); if (j === it.a) l.classList.add('right'); if (j === choice && choice !== it.a) l.classList.add('wrong'); });
+        var exp = div.querySelector('.exp');
+        exp.innerHTML = (choice === it.a ? '<b>Correto.</b> ' : '<b>Ainda não.</b> ') + it.e;
+        exp.hidden = false;
+      }
+      div.querySelectorAll('input').forEach(function(inp){
+        inp.addEventListener('change', function(){ var c = +inp.value; state.quiz[id] = c; save(); show(c); refresh(); });
+      });
+      if (state.quiz[id] !== undefined) { var c = state.quiz[id]; var r = div.querySelector('#' + id + '-' + c); if (r) { r.checked = true; show(c); } }
+    });
+  });
+  }
+
+  /* ---------- Labs ---------- */
+  if (!db.shared) db.shared = {labs:{}};
+  var labInputs = document.querySelectorAll('[data-lab]');
+  function labBucket(inp){ return inp.closest('[data-both]') ? db.shared : state; }
+  function relevant(inp){ if (inp.closest('.v751')) return db.ver === '751'; if (inp.closest('.v742')) return db.ver === '742'; return true; }
+  function syncLabs(){
+    labInputs.forEach(function(inp){ inp.checked = !!labBucket(inp).labs[inp.getAttribute('data-lab')]; inp.closest('label').classList.toggle('done', inp.checked); });
+  }
+  labInputs.forEach(function(inp){
+    var id = inp.getAttribute('data-lab');
+    inp.id = 'lab-' + id;
+    inp.addEventListener('change', function(){ labBucket(inp).labs[id] = inp.checked; inp.closest('label').classList.toggle('done', inp.checked); save(); refresh(); });
+  });
+
+  function refresh(){
+    var done = 0, total = 0; labInputs.forEach(function(i){ if (relevant(i)) { total++; if (i.checked) done++; } });
+    document.getElementById('labCount').textContent = done + '/' + total;
+    document.getElementById('labBar').style.width = (total ? done / total * 100 : 0) + '%';
+    var right = 0, QQ = curQ();
+    Object.keys(QQ).forEach(function(k){ QQ[k].forEach(function(it, i){ if (state.quiz[k + '-' + i] === it.a) right++; }); });
+    document.getElementById('quizCount').textContent = right + '/' + quizTotal;
+    document.getElementById('quizBar').style.width = (right / quizTotal * 100) + '%';
+    document.querySelectorAll('[data-lab-group]').forEach(function(g){
+      var ins = g.querySelectorAll('input'); var d = 0; ins.forEach(function(i){ if (i.checked) d++; });
+      g.querySelector('.lc').textContent = d + ' de ' + ins.length;
+    });
+    document.querySelectorAll('[data-quiz]').forEach(function(b){
+      var k = b.getAttribute('data-quiz'); var items = QQ[k] || []; var ans = 0, ok = 0;
+      items.forEach(function(it, i){ var v = state.quiz[k + '-' + i]; if (v !== undefined) { ans++; if (v === it.a) ok++; } });
+      b.querySelector('.qc').textContent = ans ? (ok + ' de ' + items.length + ' corretas') : (items.length + ' questões');
+    });
+  }
+
+  var resetBtn = document.getElementById('resetBtn'); var armed = false; var timer;
+  resetBtn.addEventListener('click', function(){
+    if (!armed) { armed = true; resetBtn.textContent = 'Clique de novo para confirmar'; timer = setTimeout(function(){ armed = false; resetBtn.textContent = resetLabel(); }, 4000); return; }
+    clearTimeout(timer); armed = false; resetBtn.textContent = resetLabel();
+    state = db[db.ver] = {labs:{}, quiz:{}}; save();
+    syncLabs(); renderQuizzes(); refresh();
+  });
+
+  /* ---------- Troca de versão ---------- */
+  var verBtns = document.querySelectorAll('[data-setver]');
+  function setVer(v){
+    db.ver = v === '751' ? '751' : '742'; state = db[db.ver];
+    root.setAttribute('data-ver', db.ver);
+    verBtns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-setver') === db.ver ? 'true' : 'false'); });
+    document.getElementById('brandVer').textContent = db.ver === '751' ? '7.5.1' : '7.4.2';
+    resetBtn.textContent = resetLabel();
+    applyPaths(); syncLabs(); renderQuizzes(); refresh();
+  }
+  verBtns.forEach(function(b){ b.addEventListener('click', function(){ setVer(b.getAttribute('data-setver')); save(); }); });
+  function resetLabel(){ return 'Zerar progresso da ' + (db.ver === '751' ? '7.5.1' : '7.4.2'); }
+  setVer(db.ver);
+
+  /* ---------- Copiar código ---------- */
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var code = btn.parentNode.querySelector('code'); var text = code.innerText;
+      function fallback(){ var r = document.createRange(); r.selectNodeContents(code); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selecionado'; setTimeout(function(){ btn.textContent = 'Copiar'; }, 1600); }
+      try {
+        navigator.clipboard.writeText(text).then(function(){ btn.textContent = 'Copiado'; setTimeout(function(){ btn.textContent = 'Copiar'; }, 1600); }, fallback);
+      } catch(e) { fallback(); }
+    });
+  });
+
+  /* ---------- Glossário ---------- */
+  var G = [
+    ['Supervisor','Nó central: GUI, App Server, CMDB (PostgreSQL) e estado global das regras. Cria os incidentes.'],
+    ['Worker','Nó que grava e indexa eventos, executa buscas distribuídas e avalia regras sobre os eventos que recebe.'],
+    ['Collector','Nó de coleta remota: recebe e busca logs, faz o parse, comprime e envia aos Workers por HTTPS. Também executa discovery e monitoramento.'],
+    ['FortiSIEM Manager','Produto à parte que monitora várias instâncias de FortiSIEM e centraliza incidentes, licença e saúde.'],
+    ['Windows / Linux Agent','Agentes leves instalados no host para coletar logs, FIM, registro, Sysmon e saída de PowerShell.'],
+    ['CMDB','Banco de inventário (dispositivos, aplicações, usuários, Business Services) preenchido pelo discovery.'],
+    ['Discovery','Varredura com credenciais que identifica o dispositivo em detalhe e ativa o monitoramento e a coleta de eventos.'],
+    ['Credential','Método de acesso (SNMP, SSH, WMI/OMI, API…) associado a IPs ou faixas em ADMIN › Setup › Credentials.'],
+    ['Pull Events','Jobs que puxam eventos de dispositivos e serviços (WMI, API REST, SDKs de nuvem).'],
+    ['Performance Monitor','Job de coleta de métricas (CPU, memória, interfaces…) ativado pelo discovery.'],
+    ['STM','Synthetic Transaction Monitor: teste periódico de um serviço (HTTP, e-mail etc.) para medir disponibilidade.'],
+    ['EPS','Eventos por segundo: total em 3 minutos dividido por 180. É uma das métricas da licença.'],
+    ['Managed / Unmanaged','Dispositivo dentro ou fora do limite da licença. Os Unmanaged não têm logs nem monitoramento.'],
+    ['Organization','Inquilino numa instalação Service Provider. Super/Global vê todas; Super/Local é a rede do provedor.'],
+    ['Parser','Arquivo XML que transforma o log bruto em atributos. Avaliado de cima para baixo.'],
+    ['Event Type','Classificação de um evento interpretado, como Win-Security-4625 ou FortiGate-traffic-denied.'],
+    ['Unknown_Event_Type','Event Type atribuído quando nenhum parser reconhece o log.'],
+    ['Event Attribute','Campo interpretado do evento: Source IP, User, Destination Port e outros.'],
+    ['Reporting Device / IP','O dispositivo que enviou o log ao FortiSIEM.'],
+    ['phRecvTime','Hora em que o FortiSIEM recebeu o evento. Não pode ser definido em parser customizado.'],
+    ['Raw Event Log','O texto original do evento, onde a busca por palavra-chave procura.'],
+    ['Real-time / Historical Search','Busca no fluxo que está chegando (sem agregação) ou no banco de eventos (com agregação).'],
+    ['Advanced Search','Consultas SQL SELECT sobre fsiem.events, disponível apenas no ClickHouse.'],
+    ['Nested Search','Busca que usa o resultado de outra consulta como valor de filtro (IN ou NOT IN).'],
+    ['Rule','Lógica de correlação com subpatterns, limiares e ações. Gera incidentes.'],
+    ['Subpattern','Bloco de uma regra com filtro, Group By e condição agregada. Vários podem ser ligados por AND, OR, FOLLOWED_BY e outros.'],
+    ['Evaluation Mode','Streaming (tempo real, em memória), Scheduled ou Scheduled via SQL (ClickHouse).'],
+    ['Clear Condition','Condição que muda um incidente de Active para Cleared automaticamente.'],
+    ['Incident','Resultado do disparo de uma regra, com severidade, origem, alvo, contagem e status.'],
+    ['Resolution','Classificação do incidente: Open, In Progress, True Positive ou False Positive.'],
+    ['Watch List','Lista dinâmica (IPs, hosts, usuários) preenchida por regras, com expiração por tempo.'],
+    ['Lookup Table','Tabela de referência usada em buscas e regras com LookupTableHas e LookupTableGet.'],
+    ['Business Service','Grupo de dispositivos e aplicações de um serviço de negócio, usado na triagem e em dashboards.'],
+    ['Automation Policy','Política que, conforme severidade, regra, horário e ativos, notifica, remedia, roda playbook ou cria caso.'],
+    ['Remediation','Script que age sobre um dispositivo, como bloquear um IP ou desabilitar um usuário. Pode ser pontual ou automático.'],
+    ['Playbook','Fluxo de automação. Nativo pelo Automation Service (7.4.0) ou via FortiSOAR.'],
+    ['Case','Caso de investigação com responsável, SLA, evidências e histórico.'],
+    ['Case Management Policy','Define SLAs, escalonamento e notificações dos casos.'],
+    ['FortiSIEM Analysts','Grupo do CMDB com os times de analistas que podem receber casos.'],
+    ['Event Dropping','Regra que descarta eventos (não contam no EPS) ou os grava sem disparar regras.'],
+    ['Event Forwarding','Reencaminha logs, NetFlow ou Kafka para outros destinos.'],
+    ['Retention Policy','Regras de quanto tempo os eventos ficam online e em archive.'],
+    ['Hot / Warm / Cold','Camadas de armazenamento do ClickHouse. Os eventos descem de camada conforme o espaço.'],
+    ['ClickHouse Keeper','Serviço de coordenação do cluster ClickHouse (substitui o ZooKeeper).'],
+    ['Maintenance Calendar','Janela em que regras de desempenho e disponibilidade não devem disparar para os dispositivos escolhidos.'],
+    ['Custom Property','Propriedade de dispositivo, como um limiar de CPU, global ou ajustável por dispositivo.'],
+    ['Risk Score','Pontuação de risco de dispositivos e usuários com base em incidentes, criticidade e vulnerabilidades.'],
+    ['Identity & Location','Histórico de IP para usuário e local, montado a partir de logs de AD, DHCP, VPN e Wi-Fi.'],
+    ['MITRE ATT&CK','Framework de táticas e técnicas. As regras e incidentes são classificados nele.'],
+    ['UEBA','Análise de comportamento de usuários e entidades. Alertas de IA do FortiInsight.'],
+    ['FortiAI','Assistente de IA do FortiSIEM: gera consultas, analisa logs, resultados e incidentes.'],
+    ['Sigma','Formato aberto de regras de detecção. Pode ser importado em RESOURCES › Rules.'],
+    ['Content Update','Pacote de atualização de regras, relatórios, parsers e dashboards.'],
+    ['phstatus','Comando que mostra o status dos processos do FortiSIEM no nó.'],
+    ['Host Collector','Nome dos agentes na documentação da 7.5.1: Windows Collector e Linux Collector.','751'],
+    ['Headless Windows Agent','Agente Windows configurado localmente, sem registro no Supervisor. Consome licença de dispositivo, não de agente.','751'],
+    ['Event Pipeline','Nome novo da área Event Handling: Multiline, Org Mapping, Event Tagging, Forwarding e Dropping.','751'],
+    ['Event Tagging','Acrescenta ou sobrescreve atributos de eventos, por política ou por arquivo, aplicado nos Collectors.','751'],
+    ['Federated Search','Busca de observáveis em bases externas (S3, Security Lake, FortiEDR, PostgreSQL, MySQL, Snowflake). Só ClickHouse.','751'],
+    ['External Datasets','Providers e tabelas externas cadastrados para a Federated Search.','751'],
+    ['ClickHouse Storage Region','Grupo de Upload Workers e shards que guarda os eventos de certos Collectors ou dispositivos, separado dos demais.','751'],
+    ['API Token','Credencial OAuth para a API REST pública e o MCP. Na 7.5.1 usa Client ID e Client Secret (Client Credentials).','751'],
+    ['MCP','Model Context Protocol: serviço em /phoenix/mcp que deixa agentes de IA consultarem o FortiSIEM. Só ClickHouse.','751'],
+    ['Agentic Analysis','Investigação feita pelo FortiAI a partir de prompts: plano, consultas e conclusão sobre verdadeiro ou falso positivo.','751'],
+    ['ReportAI','Biblioteca com mais de 100 perguntas prontas para o FortiAI, em Resources › ReportAI.','751'],
+    ['Saved Report Results','Local que reúne os resultados salvos de buscas, Advanced Search e relatórios agendados.','751'],
+    ['allowed_trusted_url','Parâmetro do phoenix_config.txt que libera IPs privados em URLs de integrações (7.5.1).','751']
+  ];
+  var dl = document.getElementById('gloss');
+  dl.innerHTML = G.map(function(g){ return '<div' + (g[2] ? ' class="v' + g[2] + '"' : '') + '><dt>' + esc(g[0]) + (g[2] ? ' <span class="chg">Novo na 7.5</span>' : '') + '</dt><dd tabindex="0">' + esc(g[1]) + '</dd></div>'; }).join('');
+  var gq = document.getElementById('gq'), gempty = document.getElementById('gempty');
+  function norm(s){ return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+  gq.addEventListener('input', function(){
+    var v = norm(gq.value.trim()); var shown = 0;
+    dl.querySelectorAll(':scope > div').forEach(function(row){ var ok = !v || norm(row.textContent).indexOf(v) > -1; row.hidden = !ok; if (ok) shown++; });
+    gempty.hidden = shown > 0;
+  });
+  var greview = document.getElementById('greview'), gwrap = document.getElementById('gwrap');
+  greview.addEventListener('change', function(){ gwrap.classList.toggle('review', greview.checked); dl.querySelectorAll('dd').forEach(function(d){ d.classList.remove('shown'); }); });
+  dl.addEventListener('click', function(e){ var d = e.target.closest('dd'); if (d && gwrap.classList.contains('review')) d.classList.toggle('shown'); });
+  dl.addEventListener('keydown', function(e){ if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('dd') && gwrap.classList.contains('review')) { e.preventDefault(); e.target.classList.toggle('shown'); } });
+
+  /* ---------- Navegação ---------- */
+  var toc = document.getElementById('toc');
+  function syncToc(){ if (window.matchMedia('(min-width: 901px)').matches) toc.open = true; }
+  syncToc(); window.addEventListener('resize', syncToc);
+  toc.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ if (!window.matchMedia('(min-width: 901px)').matches) toc.open = false; }); });
+  var links = {}; toc.querySelectorAll('a').forEach(function(a){ links[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting) { Object.keys(links).forEach(function(k){ links[k].classList.toggle('on', k === en.target.id); }); } });
+    }, {rootMargin:'-20% 0px -70% 0px'});
+    document.querySelectorAll('section.mod').forEach(function(s){ io.observe(s); });
+  }
+})();
+</script>
+
+</body>
+</html>
