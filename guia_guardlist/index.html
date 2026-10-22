@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guia de uso do GuardList</title>
+<meta name="description" content="Como usar o GuardList: painel, importação diária, listas dos clientes, análise de IP, gerar caso e atalhos.">
+<link rel="icon" type="image/png" href="logo.png">
+<style>
+  :root { --bg: #050d1f; --panel: #0a1a36; --line: #17305a; --text: #e8f0fb; --muted: #8fa5c7; --accent: #38bdf8; --accent-2: #2ea6ff; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 'Segoe UI', system-ui, -apple-system, sans-serif; }
+  a { color: var(--accent); }
+  .hero { padding: 64px 20px 40px; text-align: center; background: radial-gradient(900px 420px at 50% 0%, #0f2a5c, transparent 70%); }
+  .hero img { width: 84px; height: 84px; }
+  .hero h1 { margin: 14px 0 8px; font-size: clamp(30px, 5vw, 48px); letter-spacing: -0.02em; }
+  .hero p { margin: 0 auto; max-width: 720px; color: var(--muted); font-size: 18px; }
+  .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; max-width: 1180px; margin: 0 auto; padding: 0 20px 80px; }
+  nav { position: sticky; top: 20px; align-self: start; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+  nav strong { display: block; margin-bottom: 8px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  nav a { display: block; padding: 5px 0; color: var(--text); text-decoration: none; font-size: 14.5px; }
+  nav a:hover { color: var(--accent); }
+  main { min-width: 0; }
+  section { padding-top: 12px; margin-bottom: 44px; }
+  h2 { margin: 0 0 12px; font-size: 26px; letter-spacing: -0.01em; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+  figure { margin: 20px 0; }
+  figure img, figure video { display: block; width: 100%; border-radius: 12px; border: 1px solid var(--line); background: #000; }
+  figcaption { margin-top: 8px; color: var(--muted); font-size: 14px; font-style: italic; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; background: var(--panel); }
+  kbd { padding: 1px 7px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; background: var(--panel); font-family: Consolas, monospace; font-size: 13.5px; }
+  .note { padding: 12px 16px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 10px 10px 0; color: var(--muted); }
+  ul, ol { padding-left: 22px; }
+  li { margin: 4px 0; }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 24px; border-top: 1px solid var(--line); }
+  @media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } nav { position: static; } }
+</style>
+</head>
+<body>
+<header class="hero">
+  <img src="logo.png" alt="">
+  <h1>Guia de uso do GuardList</h1>
+  <p>O GuardList guarda a blocklist de firewall de cada cliente, recebe os bloqueios do dia, avisa o que já existe ou é arriscado bloquear e gera o texto do caso para o cliente.</p>
+</header>
+
+<div class="layout">
+<nav aria-label="Seções do guia">
+  <strong>Conteúdo</strong>
+  <a href="#video">O GuardList em 90 segundos</a>
+  <a href="#primeiros-passos">Primeiros passos</a>
+  <a href="#painel">Painel geral</a>
+  <a href="#importacao">Importação diária</a>
+  <a href="#listas">Listas dos clientes</a>
+  <a href="#analise">Análise de IP e dossiê</a>
+  <a href="#caso">Gerar caso</a>
+  <a href="#outras">Revisão, Histórico, Relatórios</a>
+  <a href="#ia">Assistente IA</a>
+  <a href="#gestao">Gestão</a>
+  <a href="#atalhos">Atalhos e botão direito</a>
+  <a href="#duvidas">Dúvidas comuns</a>
+</nav>
+
+<main>
+<p class="note">Todas as telas e o vídeo deste guia usam <strong>clientes fictícios</strong> (Aurora Energia, Vértice Saúde e outros); nenhum dado real aparece.</p>
+
+<section id="video">
+  <h2>O GuardList em 90 segundos</h2>
+  <figure>
+    <video controls preload="metadata" poster="02-painel.png">
+      <source src="guardlist-em-90-segundos.mp4" type="video/mp4">
+      Seu navegador não toca vídeo. <a href="guardlist-em-90-segundos.mp4">Baixe o vídeo</a>.
+    </video>
+    <figcaption>Painel geral → lista do cliente → botão direito → importação com reputação → Análise de IP e de rede → Gerar caso.</figcaption>
+  </figure>
+</section>
+
+<section id="primeiros-passos">
+  <h2>Primeiros passos</h2>
+  <p>Entre com o usuário e a senha que o administrador criou. No primeiro acesso o app pede para trocar a senha; depois de 5 senhas erradas a conta fica bloqueada por alguns minutos.</p>
+  <figure><img src="01-login.png" alt="Tela de login do GuardList" loading="lazy"><figcaption>Tela de login.</figcaption></figure>
+  <ul>
+    <li><strong>Menu à esquerda:</strong> Painel geral, depois três grupos: <strong>Bloqueios</strong> (Listas dos clientes, Importação, Revisão, Histórico), <strong>Análise</strong> (Análise de IP, Inteligência de IPs, Relatórios) e <strong>Gestão</strong> (Gerenciar clientes, Administração, Backup).</li>
+    <li><strong>Barra do topo:</strong> busca rápida de IP, CIDR ou domínio em todas as listas, e os botões <strong>Gerar caso</strong> e <strong>Assistente IA</strong>.</li>
+    <li><strong>Tema:</strong> o botão <strong>Modo claro / Modo escuro</strong> fica no fim do menu.</li>
+    <li><strong>Sua conta:</strong> clique no seu nome no topo do menu para trocar a senha e ver as sessões abertas.</li>
+  </ul>
+  <p>Há dois papéis: <strong>analista</strong> (trabalha nas listas) e <strong>administrador</strong> (também cuida de usuários, aprovações, backup e exclusão de clientes).</p>
+</section>
+
+<section id="painel">
+  <h2>Painel geral</h2>
+  <p>O Painel mostra, num olhar, quais clientes estão atrasados e quanto está bloqueado. Os clientes aparecem do mais urgente para o em dia.</p>
+  <figure><img src="02-painel.png" alt="Painel geral com os cards dos clientes" loading="lazy"><figcaption>Painel geral: contagem de IPs, prazos e os clientes do mais urgente para o em dia.</figcaption></figure>
+  <ul>
+    <li><strong>IPs bloqueados:</strong> soma dos IPs de todos os clientes, sem contar o que está dentro dos CIDRs, e a soma dos CIDRs. O mesmo IP em dois clientes conta duas vezes, como nos firewalls.</li>
+    <li><strong>Mostrar total com CIDRs:</strong> opcional. Conta cada CIDR pelo tamanho (um /24 vale 256). A escolha fica lembrada no navegador e vale também dentro de cada cliente.</li>
+    <li><strong>Fora do prazo:</strong> clientes com revisão atrasada. Clique no quadro para filtrar só eles.</li>
+    <li><strong>IPs correlacionados:</strong> indicadores presentes em 2 ou mais clientes. Clique para abrir a Inteligência de IPs.</li>
+    <li><strong>Filtros:</strong> Todos, Atrasados, Vencem logo e Em dia. Alterne entre <strong>Cards</strong> e <strong>Tabela</strong> no canto direito.</li>
+    <li><strong>Card do cliente:</strong> clique em qualquer parte para abrir a lista dele. Os ícones do card importam bloqueios, abrem a lista ou baixam o .txt.</li>
+    <li><strong>Botão direito no card:</strong> atalhos do cliente (abrir lista, importar, baixar .txt ou NANO).</li>
+  </ul>
+  <figure><img src="04-painel-claro.png" alt="Painel geral no modo claro" loading="lazy"><figcaption>O mesmo Painel no modo claro.</figcaption></figure>
+</section>
+
+<section id="importacao">
+  <h2>Importação diária</h2>
+  <p>A importação grava os bloqueios do dia na lista de um cliente, depois de mostrar o que é novo, o que já existe e o que é arriscado bloquear.</p>
+  <ol>
+    <li>Abra <strong>Bloqueios → Importação</strong> (ou o ícone de importar no card do cliente).</li>
+    <li>Escolha o cliente e preencha o <strong>ticket</strong> e o <strong>motivo</strong>.</li>
+    <li>Escolha o modo: <strong>Adicionar</strong> (o normal) ou <strong>Substituir a lista</strong> inteira.</li>
+    <li>Cole os indicadores, um por linha: IPv4, IPv6, CIDR ou domínio. Linhas com # são ignoradas.</li>
+    <li>Clique em <strong>Pré-visualizar</strong>. A reputação dos IPs novos é consultada sozinha (até 100 por vez).</li>
+    <li>Revise as abas (tabela abaixo) e use <strong>Copiar N novos</strong> ou <strong>Gerar caso</strong> se precisar.</li>
+    <li>Clique em <strong>Gravar</strong>. O app salva uma versão da lista antes e gera o relatório da importação.</li>
+  </ol>
+  <figure><img src="07-importacao-maliciosos.png" alt="Pré-visualização da importação na aba Maliciosos" loading="lazy"><figcaption>Pré-visualização: as abas separam o lote antes de gravar; aqui, os IPs de risco alto e médio.</figcaption></figure>
+  <table>
+    <thead><tr><th>Aba</th><th>O que mostra</th><th>É gravado?</th></tr></thead>
+    <tbody>
+      <tr><td>Novos</td><td>Itens que ainda não estão na lista</td><td>Sim</td></tr>
+      <tr><td>Maliciosos</td><td>Novos com risco alto ou médio, os piores primeiro</td><td>Sim</td></tr>
+      <tr><td>Scanners</td><td>Censys, Shodan, Shadowserver e lista branca do AbuseIPDB</td><td>Sim (tire-os se a equipe não bloqueia scanners)</td></tr>
+      <tr><td>Legítimos</td><td>Google, Cloudflare, Microsoft e outros serviços conhecidos</td><td>Não, com “Não gravar os legítimos” ligado</td></tr>
+      <tr><td>Repetidos no arquivo</td><td>O mesmo item colado mais de uma vez</td><td>Não</td></tr>
+      <tr><td>Já na lista</td><td>Já bloqueado neste cliente</td><td>Não</td></tr>
+      <tr><td>Cobertos por CIDR</td><td>IP que já está dentro de um CIDR da lista</td><td>Não</td></tr>
+      <tr><td>Exceções do cliente</td><td>Bate com uma exceção (gateway, parceiro, a própria empresa)</td><td>Nunca</td></tr>
+      <tr><td>Inválidos</td><td>Linha que não é IP, CIDR nem domínio</td><td>Não</td></tr>
+      <tr><td>Faixas privadas</td><td>RFC 1918, loopback e afins</td><td>Só se marcar “Incluir mesmo assim”</td></tr>
+    </tbody>
+  </table>
+  <p>Analistas precisam da aprovação de um administrador para <strong>substituir a lista</strong> ou gravar lotes grandes (acima de 500 itens). O lote fica em “Suas importações enviadas para aprovação” até ser decidido.</p>
+</section>
+
+<section id="listas">
+  <h2>Listas dos clientes</h2>
+  <p>Cada lista é isolada: busca, marcações e exportações valem só para o cliente escolhido no topo.</p>
+  <figure><img src="05-lista-cliente.png" alt="Lista de um cliente" loading="lazy"><figcaption>Lista do cliente com a contagem de IPs e CIDRs, exportações, versões e filtros.</figcaption></figure>
+  <ul>
+    <li><strong>Contagem:</strong> IPs e CIDRs do cliente, e o total com CIDRs se a opção estiver ligada.</li>
+    <li><strong>Buscar e filtrar:</strong> por IP, CIDR, domínio, ticket ou observação; por situação (ativos, removidos), tipo e data. <strong>Por IP</strong> ordena numericamente.</li>
+    <li><strong>Marcar por lista:</strong> cole vários IPs para encontrá-los e selecioná-los de uma vez.</li>
+    <li><strong>Exportar:</strong> <strong>Exportar NANO</strong> (separa IPs e CIDRs para o firewall), <strong>Copiar NANO</strong>, <strong>.txt</strong> e <strong>.csv</strong>.</li>
+    <li><strong>Versões:</strong> cada importação ou limpeza salva uma versão. Restaure para desfazer um erro, ou salve uma versão manual antes de algo arriscado.</li>
+    <li><strong>Validar lista:</strong> acha repetidos, IPs dentro de um CIDR da própria lista e conflitos com exceções, e retira tudo de uma vez (com versão salva antes).</li>
+    <li><strong>Exceções:</strong> IPs, redes ou domínios que nunca podem ser bloqueados neste cliente; a importação recusa o que bater com elas.</li>
+    <li><strong>Consultar AbuseIPDB:</strong> preenche domínio e denúncias dos IPs da página.</li>
+    <li><strong>Menu “…” de cada linha:</strong> analisar o IP, dossiê, onde mais está bloqueado, comentar, editar observação, bloquear em outros clientes, adicionar exceção, marcar como removido.</li>
+    <li><strong>Zerar lista:</strong> apaga todas as entradas do cliente; pede o nome do cliente para confirmar e salva uma versão antes.</li>
+  </ul>
+  <figure><img src="06-botao-direito.png" alt="Menu de ações de um IP" loading="lazy"><figcaption>O menu de cada IP (também no botão direito): analisar, dossiê, bloquear em outros clientes, exceção.</figcaption></figure>
+  <p>Remover um item não apaga o histórico: ele fica como “removido” e continua aparecendo nas buscas.</p>
+</section>
+
+<section id="analise">
+  <h2>Análise de IP e dossiê</h2>
+  <p>Para validar um IP, clique nele com o botão direito em qualquer tela e escolha <strong>Analisar IP</strong>: a análise abre numa aba nova e você não perde a página em que estava. Também dá para abrir <strong>Análise → Análise de IP</strong> e colar o IP.</p>
+  <figure><img src="09-analise-ip.png" alt="Análise de um IP" loading="lazy"><figcaption>Análise de IP: nota de abuso, dados do provedor, onde o IP está nas listas e os tipos de abuso denunciados.</figcaption></figure>
+  <ul>
+    <li><strong>IP:</strong> nota de abuso do AbuseIPDB, denúncias dos últimos 12 meses, país, provedor, ASN, domínio, hostnames, GreyNoise, OTX, Tor e lista branca; os tipos de abuso denunciados e as 50 denúncias mais recentes.</li>
+    <li><strong>Rede CIDR IPv4</strong> (ex.: 193.32.162.0/24): quais IPs da rede foram denunciados nos últimos 30 dias, os piores primeiro. O plano grátis do AbuseIPDB só aceita redes de até /24.</li>
+    <li><strong>No GuardList:</strong> em quais clientes o IP ou a rede está, se está dentro de um CIDR, se é exceção ou se foi removido.</li>
+    <li><strong>Ações:</strong> Ver no AbuseIPDB, Bloquear em clientes, Adicionar exceção, Gerar caso, Perguntar à IA, Copiar.</li>
+    <li><strong>Cota:</strong> a análise fica guardada por 1 hora; reabrir o mesmo IP não gasta consulta. <strong>Consultar de novo</strong> força uma consulta nova. O link da aba (com ?analisar=) pode ser enviado a um colega.</li>
+  </ul>
+  <figure><img src="11-analise-rede.png" alt="Análise de uma rede CIDR" loading="lazy"><figcaption>Análise de uma rede /24: maior nota, IPs denunciados nos últimos 30 dias e onde a rede está nas listas.</figcaption></figure>
+  <p>O <strong>dossiê</strong> (botão direito → Abrir dossiê do indicador) é a versão resumida, numa janela: presença nas listas, linha do tempo das inclusões e remoções, e os cartões do AbuseIPDB, GreyNoise e OTX. Só aparecem dados reais: fonte que não respondeu mostra “Sem dados”.</p>
+  <figure><img src="12-dossie.png" alt="Dossiê de um indicador" loading="lazy"><figcaption>Dossiê: presença nas listas e os cartões do AbuseIPDB, GreyNoise e OTX, só com dados reais.</figcaption></figure>
+  <table>
+    <thead><tr><th>Veredito</th><th>Quando aparece</th></tr></thead>
+    <tbody>
+      <tr><td>Alto risco</td><td>Nota ≥ 75%, 50 ou mais denúncias, ou GreyNoise “malicious”</td></tr>
+      <tr><td>Médio</td><td>Denúncias ou alertas do OTX abaixo disso; o motivo aparece embaixo do IP</td></tr>
+      <tr><td>Baixo risco</td><td>Sem denúncias relevantes</td></tr>
+      <tr><td>Scanner conhecido</td><td>Censys, Shodan e outros scanners de pesquisa, ou lista branca do AbuseIPDB</td></tr>
+      <tr><td>Legítimo</td><td>Serviços conhecidos (Google, Cloudflare, Microsoft…) com nota baixa</td></tr>
+      <tr><td>Sem dados</td><td>Nenhuma fonte respondeu</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="caso">
+  <h2>Gerar caso para o cliente</h2>
+  <p><strong>Gerar caso</strong> monta o texto que vai para o cliente, no modelo da equipe, e registra o caso para não informar o mesmo IP duas vezes.</p>
+  <figure><img src="13-gerar-caso.png" alt="Janela Gerar caso para o cliente" loading="lazy"><figcaption>Gerar caso: situação de cada IP, ticket obrigatório e o texto do caso à direita.</figcaption></figure>
+  <ol>
+    <li>Clique em <strong>Gerar caso</strong> no topo (ou no botão direito de um IP, ou na pré-visualização da importação).</li>
+    <li>Escolha o cliente e cole os IPs, ou use <strong>os incluídos hoje</strong>.</li>
+    <li>Informe o <strong>ticket</strong> (obrigatório) e o motivo; a IA pode escrever o motivo, se estiver ligada.</li>
+    <li>Confira a situação de cada IP: já na lista, fora dela, ou já informado em outro caso.</li>
+    <li>Se faltar algum IP na lista do cliente, use <strong>Adicionar N à lista do cliente</strong>.</li>
+    <li>Copie o texto. Se ainda houver IPs já informados antes, o app avisa; use <strong>Gerar mesmo assim</strong> só quando for de propósito.</li>
+  </ol>
+</section>
+
+<section id="outras">
+  <h2>Revisão, Histórico, Relatórios e Inteligência</h2>
+  <table>
+    <thead><tr><th>Tela</th><th>Para que serve</th></tr></thead>
+    <tbody>
+      <tr><td>Revisão de bloqueios</td><td>Bloqueios antigos que não reapareceram nas importações, sem revisão e sem denúncias recentes: mantenha o que ainda faz sentido e remova o resto</td></tr>
+      <tr><td>Histórico</td><td>Cada importação gravada, com o que entrou e o que foi descartado; o gráfico mostra os novos indicadores por dia e <strong>Ver</strong> abre o relatório da importação (CSV, PDF, copiar, gerar caso)</td></tr>
+      <tr><td>Relatórios</td><td>Resumo de um período (Hoje, Esta semana e outros) para a operação ou um cliente, com bloqueios por dia; sai em planilha CSV ou PDF com a marca, pronto para o cliente</td></tr>
+      <tr><td>Inteligência de IPs</td><td>Indicadores bloqueados em 2 ou mais clientes, a sobreposição entre clientes e a evolução das listas (países, provedores e reputação dos IPs)</td></tr>
+    </tbody>
+  </table>
+  <figure><img src="15-relatorios.png" alt="Relatórios com bloqueios por dia" loading="lazy"><figcaption>Relatórios: totais do período, bloqueios por dia e a tabela por cliente; sai em CSV ou PDF.</figcaption></figure>
+  <figure><img src="14-historico.png" alt="Histórico de importações" loading="lazy"><figcaption>Histórico: novos indicadores por dia e cada importação gravada.</figcaption></figure>
+  <figure><img src="16-inteligencia.png" alt="Inteligência de IPs" loading="lazy"><figcaption>Inteligência de IPs: indicadores bloqueados em vários clientes.</figcaption></figure>
+</section>
+
+<section id="ia">
+  <h2>Assistente IA</h2>
+  <p>O assistente responde perguntas sobre os dados do GuardList, como “quais clientes estão atrasados?” ou “quais IPs aparecem em mais clientes?”. Abra pelo botão <strong>Assistente IA</strong> no topo ou com <kbd>Ctrl</kbd> + <kbd>J</kbd>.</p>
+  <ul>
+    <li><strong>Perguntar à IA</strong> no botão direito de um IP traz resumo, reputação e recomendação daquele indicador.</li>
+    <li>O assistente roda num modelo configurado no servidor da empresa. Quando não há modelo configurado, os botões de IA não aparecem.</li>
+    <li>Confira o que a IA diz antes de agir: ela resume os dados do app e da reputação, mas pode errar.</li>
+  </ul>
+</section>
+
+<section id="gestao">
+  <h2>Gestão (administradores)</h2>
+  <ul>
+    <li><strong>Gerenciar clientes:</strong> criar, renomear, arquivar e excluir clientes, e escrever a observação (contato, janela de manutenção). Clique na capa do cliente para trocar a logo: busque no site do cliente ou envie um arquivo; a capa usa o fundo da própria logo.</li>
+    <li><strong>Administração:</strong> contas da equipe (criar, papel, redefinir senha, encerrar sessões), importações que aguardam aprovação, trilha de auditoria e saúde do sistema.</li>
+    <li><strong>Backup e ajustes:</strong> baixe um backup de vez em quando para ter uma cópia fora do servidor; o menu avisa há quantos dias foi o último. Ali também ficam os ajustes, como o prazo de revisão e o limite de aprovação.</li>
+  </ul>
+</section>
+
+<section id="atalhos">
+  <h2>Atalhos e botão direito</h2>
+  <p>As teclas de uma letra funcionam fora de campos de texto.</p>
+  <table>
+    <thead><tr><th>Atalho</th><th>Faz</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>K</kbd></td><td>Busca rápida em todas as listas</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>J</kbd></td><td>Abre o Assistente IA</td></tr>
+      <tr><td><kbd>D</kbd></td><td>Painel geral</td></tr>
+      <tr><td><kbd>I</kbd></td><td>Importação</td></tr>
+      <tr><td><kbd>L</kbd></td><td>Listas dos clientes</td></tr>
+      <tr><td><kbd>R</kbd></td><td>Revisão de bloqueios</td></tr>
+      <tr><td><kbd>H</kbd></td><td>Histórico</td></tr>
+      <tr><td><kbd>T</kbd></td><td>Inteligência de IPs</td></tr>
+      <tr><td><kbd>P</kbd></td><td>Relatórios</td></tr>
+      <tr><td><kbd>A</kbd></td><td>Administração (administradores)</td></tr>
+      <tr><td><kbd>N</kbd></td><td>Adicionar indicadores (na lista do cliente)</td></tr>
+      <tr><td><kbd>F</kbd></td><td>Buscar na lista do cliente</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Botão direito</strong> funciona em todo o app. Num IP: Analisar IP (aba nova), dossiê, onde está bloqueado, bloquear em clientes, gerar caso, adicionar exceção, consultar fora (VirusTotal, Talos e outros) e copiar. Num CIDR IPv4: <strong>Analisar rede</strong>. Num cliente: abrir lista, importar e baixar .txt. Em área vazia: o menu <strong>Ir para</strong> leva a qualquer página.</p>
+</section>
+
+<section id="duvidas">
+  <h2>Dúvidas comuns</h2>
+  <ul>
+    <li><strong>Um IP do Censys mostra 0% no AbuseIPDB. Está errado?</strong> Não. O AbuseIPDB põe scanners de pesquisa na lista branca, e IP em lista branca sempre tem nota 0%. O GuardList marca esses IPs como <strong>Scanner conhecido</strong>.</li>
+    <li><strong>Por que um IP com 0% aparece como Médio?</strong> Porque outra fonte, em geral o OTX, tem alertas sobre ele. O motivo aparece embaixo do IP na Análise.</li>
+    <li><strong>A análise de uma rede deu erro de tamanho.</strong> O plano grátis só consulta redes até /24. Divida a rede em /24 e consulte cada uma.</li>
+    <li><strong>Quanto da cota do AbuseIPDB cada coisa gasta?</strong> O plano grátis permite 1.000 consultas por dia. A importação consulta só os IPs novos e guarda o resultado por 72 horas; a Análise de IP guarda por 1 hora.</li>
+    <li><strong>Gravei algo errado. Como desfaço?</strong> Na lista do cliente, abra <strong>Versões</strong> e restaure a versão anterior à importação.</li>
+    <li><strong>Os números do total com CIDRs parecem enormes.</strong> Um único /16 vale 65.536 endereços. Por isso esse total é opcional e o número principal conta só os IPs.</li>
+    <li><strong>A logo ou o visual não mudou depois de uma atualização.</strong> Recarregue com <kbd>Ctrl</kbd> + <kbd>F5</kbd>: o navegador guarda imagens antigas.</li>
+  </ul>
+</section>
+</main>
+</div>
+<footer>GuardList · guia de uso · telas com clientes fictícios</footer>
+</body>
+</html>
